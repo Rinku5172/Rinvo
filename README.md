@@ -7,7 +7,7 @@
 ## 🚀 Live Demo
 
 **Frontend:** https://portfolio-5aafe.web.app
-**GitHub:** https://github.com/Rinkuyadav1600/Rinvo
+**GitHub:** https://github.com/Rinku5172/Rinvo
 
 ## 📋 Features
 
