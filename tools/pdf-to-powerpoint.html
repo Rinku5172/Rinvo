@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to PowerPoint - RINVO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-wrapper">
+                    <a href="../index.html" class="logo">RINVO</a>
+                    <p class="tagline">Power Your PDFs</p>
+                </div>
+                <nav class="nav-menu">
+                    <a href="../index.html#tools">MERGE PDF</a>
+                    <a href="../index.html#tools">SPLIT PDF</a>
+                    <a href="../index.html#tools">COMPRESS PDF</a>
+                    <a href="../index.html#tools">CONVERT PDF</a>
+                    <a href="../index.html#tools">ALL TOOLS</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn-login">Login</button>
+                    <button class="btn-signup">Sign up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div style="padding: 4rem 0; text-align: center;">
+        <div class="container" style="max-width: 800px;">
+            <h1
+                style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem;">
+                <i class="fas fa-file-powerpoint"></i> PDF to PowerPoint
+            </h1>
+            <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 3rem;">Convert PDF to editable PowerPoint
+                presentation</p>
+
+            <div style="background: white; border: 3px dashed #cbd5e1; border-radius: 20px; padding: 3rem 2rem; margin-bottom: 2rem; cursor: pointer;"
+                id="uploadBox">
+                <div style="font-size: 4rem; color: #667eea; margin-bottom: 1.5rem;">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <p style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Drop your PDF file here</p>
+                <p style="color: #64748b;">or click to browse</p>
+                <button type="button" onclick="document.getElementById('fileInput').click()"
+                    style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 1rem 2.5rem; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 1.5rem; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
+                    <i class="fas fa-folder-open"></i> Choose File
+                </button>
+                <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+            </div>
+
+            <div id="fileInfo"></div>
+
+            <button type="button" id="convertBtn" disabled
+                style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 1.2rem; border-radius: 12px; font-size: 1.2rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); opacity: 0.5;">
+                <i class="fas fa-magic"></i> Convert to PowerPoint
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInfo = document.getElementById('fileInfo');
+        const convertBtn = document.getElementById('convertBtn');
+        let selectedFile = null;
+
+        fileInput.addEventListener('change', (e) => {
+            selectedFile = e.target.files[0];
+            displayFile();
+        });
+
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.style.borderColor = '#667eea';
+        });
+
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+            selectedFile = files[0];
+            displayFile();
+        });
+
+        function displayFile() {
+            if (!selectedFile) {
+                fileInfo.innerHTML = '';
+                convertBtn.disabled = true;
+                convertBtn.style.opacity = '0.5';
+                return;
+            }
+
+            fileInfo.innerHTML = `
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-file-pdf" style="font-size: 1.5rem; color: #ef4444;"></i>
+                        <div>
+                            <div style="font-weight: 600;">${selectedFile.name}</div>
+                            <div style="color: #64748b; font-size: 0.9rem;">${(selectedFile.size / 1024).toFixed(2)} KB</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            convertBtn.disabled = false;
+            convertBtn.style.opacity = '1';
+        }
+
+        convertBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Converting...';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+
+                const response = await fetch('http://localhost:3000/api/pdf-to-ppt', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Conversion failed');
+                }
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'converted.pptx';
+                a.click();
+
+                alert('✅ Conversion complete!');
+                convertBtn.innerHTML = '<i class="fas fa-magic"></i> Convert to PowerPoint';
+                convertBtn.disabled = false;
+            } catch (error) {
+                alert('Error: ' + error.message + '\n\nMake sure backend server is running on port 3000');
+                convertBtn.innerHTML = '<i class="fas fa-magic"></i> Convert to PowerPoint';
+                convertBtn.disabled = false;
+            }
+        });
+
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

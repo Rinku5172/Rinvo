@@ -1,0 +1,44 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "redirects": [
+      {
+        "source": "/pdf-to-word.html",
+        "destination": "/tools/pdf-to-word",
+        "type": 301
+      },
+      {
+        "source": "/word-to-pdf.html",
+        "destination": "/tools/word-to-pdf",
+        "type": 301
+      },
+      {
+        "source": "/image-to-pdf.html",
+        "destination": "/tools/image-to-pdf",
+        "type": 301
+      },
+      {
+        "source": "/merge-pdf.html",
+        "destination": "/tools/merge-pdf",
+        "type": 301
+      },
+      {
+        "source": "/split-pdf.html",
+        "destination": "/tools/split-pdf",
+        "type": 301
+      },
+      {
+        "source": "/compress-pdf.html",
+        "destination": "/tools/compress-pdf",
+        "type": 301
+      }
+    ]
+  }
+}

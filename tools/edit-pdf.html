@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit PDF - RINVO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+</head>
+
+<body>
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-wrapper">
+                    <a href="../index.html" class="logo">RINVO</a>
+                    <p class="tagline">Power Your PDFs</p>
+                </div>
+                <nav class="nav-menu">
+                    <a href="../index.html#tools">MERGE PDF</a>
+                    <a href="../index.html#tools">SPLIT PDF</a>
+                    <a href="../index.html#tools">COMPRESS PDF</a>
+                    <a href="../index.html#tools">CONVERT PDF</a>
+                    <a href="../index.html#tools">ALL TOOLS</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn-login">Login</button>
+                    <button class="btn-signup">Sign up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div style="padding: 4rem 0; text-align: center;">
+        <div class="container" style="max-width: 800px;">
+            <h1
+                style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;">
+                <i class="fas fa-edit"></i> Edit PDF
+            </h1>
+            <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 3rem;">Add text and annotations to your PDF</p>
+
+            <div style="background: white; border: 3px dashed #cbd5e1; border-radius: 20px; padding: 3rem 2rem; margin-bottom: 2rem; cursor: pointer;"
+                id="uploadBox">
+                <div style="font-size: 4rem; color: #667eea; margin-bottom: 1.5rem;">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <p style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Drop your PDF file here</p>
+                <p style="color: #64748b;">or click to browse</p>
+                <button type="button" onclick="document.getElementById('fileInput').click()"
+                    style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 1rem 2.5rem; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 1.5rem; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
+                    <i class="fas fa-folder-open"></i> Choose File
+                </button>
+                <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+            </div>
+
+            <div id="fileInfo"></div>
+            <div id="editTools" style="display: none; margin: 2rem 0;">
+                <input type="text" id="textInput" placeholder="Enter text to add"
+                    style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; margin-bottom: 1rem;">
+                <button type="button" id="addTextBtn"
+                    style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; cursor: pointer; margin-right: 1rem;">
+                    <i class="fas fa-plus"></i> Add Text
+                </button>
+            </div>
+
+            <button type="button" id="saveBtn" disabled
+                style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 1.2rem; border-radius: 12px; font-size: 1.2rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); opacity: 0.5;">
+                <i class="fas fa-save"></i> Save Edited PDF
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInfo = document.getElementById('fileInfo');
+        const editTools = document.getElementById('editTools');
+        const textInput = document.getElementById('textInput');
+        const addTextBtn = document.getElementById('addTextBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        let pdfDoc = null;
+        let selectedFile = null;
+
+        fileInput.addEventListener('change', async (e) => {
+            selectedFile = e.target.files[0];
+            await loadPDF();
+        });
+
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.style.borderColor = '#667eea';
+        });
+
+        uploadBox.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+            selectedFile = files[0];
+            await loadPDF();
+        });
+
+        async function loadPDF() {
+            if (!selectedFile) return;
+
+            fileInfo.innerHTML = `
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-file-pdf" style="font-size: 1.5rem; color: #ef4444;"></i>
+                        <div>
+                            <div style="font-weight: 600;">${selectedFile.name}</div>
+                            <div style="color: #64748b; font-size: 0.9rem;">${(selectedFile.size / 1024).toFixed(2)} KB</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                pdfDoc = await PDFDocument.load(arrayBuffer);
+
+                editTools.style.display = 'block';
+                saveBtn.disabled = false;
+                saveBtn.style.opacity = '1';
+            } catch (error) {
+                alert('Error loading PDF: ' + error.message);
+            }
+        }
+
+        addTextBtn.addEventListener('click', async () => {
+            if (!pdfDoc || !textInput.value) return;
+
+            try {
+                const pages = pdfDoc.getPages();
+                const firstPage = pages[0];
+                const { width, height } = firstPage.getSize();
+
+                firstPage.drawText(textInput.value, {
+                    x: 50,
+                    y: height - 100,
+                    size: 20,
+                    color: { r: 0, g: 0, b: 0 }
+                });
+
+                alert('✅ Text added! Click "Save Edited PDF" to download.');
+                textInput.value = '';
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+
+        saveBtn.addEventListener('click', async () => {
+            if (!pdfDoc) return;
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'edited_' + selectedFile.name;
+                a.click();
+
+                alert('✅ PDF saved successfully!');
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Edited PDF';
+                saveBtn.disabled = false;
+            } catch (error) {
+                alert('Error: ' + error.message);
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Edited PDF';
+                saveBtn.disabled = false;
+            }
+        });
+
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

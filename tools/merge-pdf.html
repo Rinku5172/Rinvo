@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PDF - RINVO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+</head>
+
+<body>
+    <!-- Header (Same as index.html) -->
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-wrapper">
+                    <a href="../index.html" class="logo">RINVO</a>
+                    <p class="tagline">Power Your PDFs</p>
+                </div>
+                <nav class="nav-menu">
+                    <a href="../index.html#tools">MERGE PDF</a>
+                    <a href="../index.html#tools">SPLIT PDF</a>
+                    <a href="../index.html#tools">COMPRESS PDF</a>
+                    <a href="../index.html#tools">CONVERT PDF</a>
+                    <a href="../index.html#tools">ALL TOOLS</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn-login">Login</button>
+                    <button class="btn-signup">Sign up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <div style="padding: 4rem 0; text-align: center;">
+        <div class="container" style="max-width: 800px;">
+            <h1
+                style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;">
+                <i class="fas fa-object-group"></i> Merge PDF
+            </h1>
+            <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 3rem;">Combine PDFs in the order you want</p>
+
+            <div style="background: white; border: 3px dashed #cbd5e1; border-radius: 20px; padding: 3rem 2rem; margin-bottom: 2rem; cursor: pointer;"
+                id="uploadBox">
+                <div style="font-size: 4rem; color: #667eea; margin-bottom: 1.5rem;">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <p style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Drop your PDF files here</p>
+                <p style="color: #64748b;">or click to browse</p>
+                <button type="button" onclick="document.getElementById('fileInput').click()"
+                    style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 1rem 2.5rem; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 1.5rem; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
+                    <i class="fas fa-folder-open"></i> Choose Files
+                </button>
+                <input type="file" id="fileInput" accept=".pdf" multiple style="display: none;">
+            </div>
+
+            <div id="fileList"></div>
+
+            <button type="button" id="mergeBtn" disabled
+                style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 1.2rem; border-radius: 12px; font-size: 1.2rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); opacity: 0.5;">
+                <i class="fas fa-magic"></i> Merge PDFs
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadBox = document.getElementById('uploadBox');
+        const fileList = document.getElementById('fileList');
+        const mergeBtn = document.getElementById('mergeBtn');
+        let selectedFiles = [];
+
+        fileInput.addEventListener('change', (e) => {
+            selectedFiles = Array.from(e.target.files);
+            displayFiles();
+        });
+
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.style.borderColor = '#667eea';
+        });
+
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+            displayFiles();
+        });
+
+        function displayFiles() {
+            if (selectedFiles.length === 0) {
+                fileList.innerHTML = '';
+                mergeBtn.disabled = true;
+                mergeBtn.style.opacity = '0.5';
+                return;
+            }
+
+            fileList.innerHTML = selectedFiles.map((file, i) => `
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-file-pdf" style="font-size: 1.5rem; color: #ef4444;"></i>
+                        <div>
+                            <div style="font-weight: 600;">${file.name}</div>
+                            <div style="color: #64748b; font-size: 0.9rem;">${(file.size / 1024).toFixed(2)} KB</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            mergeBtn.disabled = selectedFiles.length < 2;
+            mergeBtn.style.opacity = selectedFiles.length < 2 ? '0.5' : '1';
+        }
+
+        mergeBtn.addEventListener('click', async () => {
+            if (selectedFiles.length < 2) return;
+
+            mergeBtn.disabled = true;
+            mergeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Merging...';
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+
+                for (const file of selectedFiles) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await PDFDocument.load(arrayBuffer);
+                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    copiedPages.forEach(page => mergedPdf.addPage(page));
+                }
+
+                const pdfBytes = await mergedPdf.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'merged.pdf';
+                a.click();
+
+                alert('✅ PDFs merged successfully!');
+                mergeBtn.innerHTML = '<i class="fas fa-magic"></i> Merge PDFs';
+                mergeBtn.disabled = false;
+            } catch (error) {
+                alert('Error: ' + error.message);
+                mergeBtn.innerHTML = '<i class="fas fa-magic"></i> Merge PDFs';
+                mergeBtn.disabled = false;
+            }
+        });
+
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

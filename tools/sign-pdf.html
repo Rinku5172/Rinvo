@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign PDF - RINVO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+</head>
+
+<body>
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-wrapper">
+                    <a href="../index.html" class="logo">RINVO</a>
+                    <p class="tagline">Power Your PDFs</p>
+                </div>
+                <nav class="nav-menu">
+                    <a href="../index.html#tools">MERGE PDF</a>
+                    <a href="../index.html#tools">SPLIT PDF</a>
+                    <a href="../index.html#tools">COMPRESS PDF</a>
+                    <a href="../index.html#tools">CONVERT PDF</a>
+                    <a href="../index.html#tools">ALL TOOLS</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn-login">Login</button>
+                    <button class="btn-signup">Sign up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div style="padding: 4rem 0; text-align: center;">
+        <div class="container" style="max-width: 800px;">
+            <h1
+                style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;">
+                <i class="fas fa-signature"></i> Sign PDF
+            </h1>
+            <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 3rem;">Add your signature to PDF documents</p>
+
+            <div style="background: white; border: 3px dashed #cbd5e1; border-radius: 20px; padding: 3rem 2rem; margin-bottom: 2rem; cursor: pointer;"
+                id="uploadBox">
+                <div style="font-size: 4rem; color: #667eea; margin-bottom: 1.5rem;">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <p style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Drop your PDF file here</p>
+                <p style="color: #64748b;">or click to browse</p>
+                <button type="button" onclick="document.getElementById('fileInput').click()"
+                    style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 1rem 2.5rem; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 1.5rem; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
+                    <i class="fas fa-folder-open"></i> Choose File
+                </button>
+                <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+            </div>
+
+            <div id="fileInfo"></div>
+            <div id="signatureTools" style="display: none; margin: 2rem 0;">
+                <p style="font-weight: 600; margin-bottom: 1rem;">Draw your signature:</p>
+                <canvas id="signatureCanvas" width="600" height="200"
+                    style="border: 2px solid #e2e8f0; border-radius: 12px; cursor: crosshair; background: white; max-width: 100%;"></canvas>
+                <div style="margin-top: 1rem;">
+                    <button type="button" id="clearBtn"
+                        style="background: #ef4444; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700; cursor: pointer; margin-right: 1rem;">
+                        <i class="fas fa-eraser"></i> Clear
+                    </button>
+                    <button type="button" id="addSignBtn"
+                        style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700; cursor: pointer;">
+                        <i class="fas fa-plus"></i> Add Signature
+                    </button>
+                </div>
+            </div>
+
+            <button type="button" id="saveBtn" disabled
+                style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 1.2rem; border-radius: 12px; font-size: 1.2rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); opacity: 0.5;">
+                <i class="fas fa-save"></i> Save Signed PDF
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInfo = document.getElementById('fileInfo');
+        const signatureTools = document.getElementById('signatureTools');
+        const canvas = document.getElementById('signatureCanvas');
+        const ctx = canvas.getContext('2d');
+        const clearBtn = document.getElementById('clearBtn');
+        const addSignBtn = document.getElementById('addSignBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        let pdfDoc = null;
+        let selectedFile = null;
+        let isDrawing = false;
+
+        // Canvas drawing
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        function startDrawing(e) {
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        clearBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        fileInput.addEventListener('change', async (e) => {
+            selectedFile = e.target.files[0];
+            await loadPDF();
+        });
+
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.style.borderColor = '#667eea';
+        });
+
+        uploadBox.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+            selectedFile = files[0];
+            await loadPDF();
+        });
+
+        async function loadPDF() {
+            if (!selectedFile) return;
+
+            fileInfo.innerHTML = `
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-file-pdf" style="font-size: 1.5rem; color: #ef4444;"></i>
+                        <div>
+                            <div style="font-weight: 600;">${selectedFile.name}</div>
+                            <div style="color: #64748b; font-size: 0.9rem;">${(selectedFile.size / 1024).toFixed(2)} KB</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                pdfDoc = await PDFDocument.load(arrayBuffer);
+
+                signatureTools.style.display = 'block';
+                saveBtn.disabled = false;
+                saveBtn.style.opacity = '1';
+            } catch (error) {
+                alert('Error loading PDF: ' + error.message);
+            }
+        }
+
+        addSignBtn.addEventListener('click', async () => {
+            if (!pdfDoc) return;
+
+            try {
+                const signatureImage = canvas.toDataURL('image/png');
+                const pngImageBytes = await fetch(signatureImage).then(res => res.arrayBuffer());
+                const pngImage = await pdfDoc.embedPng(pngImageBytes);
+
+                const pages = pdfDoc.getPages();
+                const firstPage = pages[0];
+                const { width, height } = firstPage.getSize();
+
+                firstPage.drawImage(pngImage, {
+                    x: width - 250,
+                    y: 50,
+                    width: 200,
+                    height: 66
+                });
+
+                alert('✅ Signature added! Click "Save Signed PDF" to download.');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+
+        saveBtn.addEventListener('click', async () => {
+            if (!pdfDoc) return;
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'signed_' + selectedFile.name;
+                a.click();
+
+                alert('✅ PDF signed successfully!');
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Signed PDF';
+                saveBtn.disabled = false;
+            } catch (error) {
+                alert('Error: ' + error.message);
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Signed PDF';
+                saveBtn.disabled = false;
+            }
+        });
+
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

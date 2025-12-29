@@ -1,0 +1,33 @@
+{
+  "name": "rinvo-pdf-tools",
+  "version": "1.0.0",
+  "description": "RINVO - Smart Online PDF Tools for converting, compressing, merging and managing PDFs securely",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "serve": "npx serve .",
+    "deploy": "firebase deploy"
+  },
+  "keywords": [
+    "pdf",
+    "converter",
+    "compressor",
+    "merge",
+    "pdf-tools",
+    "online-tools",
+    "firebase"
+  ],
+  "author": "RINVO",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/rinvo-pdf-tools.git"
+  }
+}

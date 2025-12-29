@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us – RINVO</title>
+    <meta name="description" content="Contact RINVO for support, feedback, or inquiries about our free online PDF tools. We're here to help!">
+    <meta name="keywords" content="contact rinvo, support, feedback, pdf tools help, online tool support, customer service">
+    <meta name="author" content="RINVO">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="distribution" content="global">
+    <meta name="geo.region" content="IN">
+    <meta name="language" content="en">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.rinvo.com/contact.html">
+    <meta property="og:title" content="Contact Us – RINVO">
+    <meta property="og:description" content="Contact RINVO for support, feedback, or inquiries about our free online PDF tools. We're here to help!">
+    <meta property="og:image" content="https://www.rinvo.com/assets/images/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.rinvo.com/contact.html">
+    <meta property="twitter:title" content="Contact Us – RINVO">
+    <meta property="twitter:description" content="Contact RINVO for support, feedback, or inquiries about our free online PDF tools. We're here to help!">
+    <meta property="twitter:image" content="https://www.rinvo.com/assets/images/twitter-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.rinvo.com/contact.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+    <!-- Firebase Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics-compat.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --primary-blue: #3b82f6;
+            --accent-gradient: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+        
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-bold gradient-text">RINVO</a>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                <a href="tools/index.html" class="text-gray-700 hover:text-blue-600 font-medium">Tools</a>
+                <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+                <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+            </nav>
+            
+            <button class="btn-primary">Get Started</button>
+            
+            <button class="md:hidden text-gray-700">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Advertisement Placeholder -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="bg-gray-200 border-2 border-dashed rounded-xl p-8 text-center text-gray-500">
+            [ Advertisement ]
+        </div>
+    </div>
+
+    <!-- Contact Page Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Contact Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Contact Us</h1>
+                <p class="text-lg text-gray-700">We'd love to hear from you! Get in touch with any questions or feedback.</p>
+            </div>
+
+            <!-- Contact Content -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Contact Information -->
+                    <div>
+                        <h2 class="text-2xl font-bold mb-6">Get in Touch</h2>
+                        <p class="text-gray-700 mb-6">
+                            Have questions about our PDF tools? Need help with a specific feature? 
+                            Or just want to share your feedback? We're here to help!
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-envelope text-blue-500 text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h3 class="font-semibold">Email</h3>
+                                    <p class="text-gray-600">support@rinvo.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fas fa-globe text-blue-500 text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h3 class="font-semibold">Website</h3>
+                                    <p class="text-gray-600">www.rinvo.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-blue-500 text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h3 class="font-semibold">Location</h3>
+                                    <p class="text-gray-600">Global Service<br>Available 24/7</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold mb-4 mt-8">Frequently Asked Questions</h3>
+                        <div class="space-y-3">
+                            <details class="border-b border-gray-200 pb-3">
+                                <summary class="cursor-pointer font-medium text-gray-700">Is RINVO really free to use?</summary>
+                                <p class="mt-2 text-gray-600">Yes, all our PDF tools are completely free to use with no hidden fees or subscriptions required.</p>
+                            </details>
+                            
+                            <details class="border-b border-gray-200 pb-3">
+                                <summary class="cursor-pointer font-medium text-gray-700">Are my files secure?</summary>
+                                <p class="mt-2 text-gray-600">Absolutely. Your files are processed securely and automatically deleted from our servers within minutes.</p>
+                            </details>
+                            
+                            <details class="border-b border-gray-200 pb-3">
+                                <summary class="cursor-pointer font-medium text-gray-700">Do I need to create an account?</summary>
+                                <p class="mt-2 text-gray-600">No, you can use all our tools without creating an account or registering.</p>
+                            </details>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form -->
+                    <div>
+                        <h2 class="text-2xl font-bold mb-6">Send Us a Message</h2>
+                        <form id="contact-form">
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Full Name</label>
+                                <input type="text" id="name" name="name" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500" placeholder="Enter your name" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
+                                <input type="email" id="email" name="email" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500" placeholder="Enter your email" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="subject" class="block text-gray-700 font-medium mb-2">Subject</label>
+                                <input type="text" id="subject" name="subject" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500" placeholder="Subject of your message" required>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                                <textarea id="message" name="message" rows="5" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500" placeholder="Your message here..." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary w-full py-3 font-medium">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advertisement Placeholder -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="bg-gray-200 border-2 border-dashed rounded-xl p-8 text-center text-gray-500">
+            [ Advertisement ]
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 gradient-text">RINVO</h3>
+                    <p class="text-gray-400">Smart Online PDF Tools for everyone</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="tools/pdf-to-word.html" class="hover:text-white">PDF to Word</a></li>
+                        <li><a href="tools/word-to-pdf.html" class="hover:text-white">Word to PDF</a></li>
+                        <li><a href="tools/compress-pdf.html" class="hover:text-white">Compress PDF</a></li>
+                        <li><a href="tools/merge-pdf.html" class="hover:text-white">Merge PDF</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="about.html" class="hover:text-white">About RINVO</a></li>
+                        <li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white">Terms & Conditions</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="cookies.html" class="hover:text-white">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 RINVO. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Initialize contact page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize basic functionality
+            initHeader();
+            
+            // Contact form submission
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const formData = new FormData(contactForm);
+                    const name = formData.get('name');
+                    const email = formData.get('email');
+                    const subject = formData.get('subject');
+                    const message = formData.get('message');
+                    
+                    // Validate form
+                    if (!validateContactForm({ name, email, subject, message })) {
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const submitBtn = contactForm.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span class="loading mr-2"></span> Sending...';
+                    submitBtn.disabled = true;
+                    
+                    // Simulate form submission (in real app, this would be an API call)
+                    setTimeout(() => {
+                        // Reset form
+                        contactForm.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        
+                        // Show success message
+                        showNotification('Message sent successfully! We will get back to you soon.', 'success');
+                    }, 2000);
+                });
+            }
+        });
+        
+        // Validate contact form
+        function validateContactForm(data) {
+            if (!data.name || data.name.trim().length < 2) {
+                showNotification('Please enter your name (at least 2 characters).', 'error');
+                return false;
+            }
+            
+            if (!data.email || !isValidEmail(data.email)) {
+                showNotification('Please enter a valid email address.', 'error');
+                return false;
+            }
+            
+            if (!data.subject || data.subject.trim().length < 5) {
+                showNotification('Please enter a subject (at least 5 characters).', 'error');
+                return false;
+            }
+            
+            if (!data.message || data.message.trim().length < 10) {
+                showNotification('Please enter a message (at least 10 characters).', 'error');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Validate email
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    </script>
+</body>
+</html>
