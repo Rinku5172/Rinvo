@@ -116,6 +116,11 @@ railway up
 # Set PDFCO_API_KEY in Railway dashboard
 ```
 
+### Notes
+
+- This project loads environment variables from a local `.env` file when present (using `dotenv`).
+- For local development, copy `.env.example` to `.env` and add your `PDFCO_API_KEY`.
+- Do NOT commit `.env` to public repositories if using a real API key.
 ### Render
 1. Connect GitHub repository
 2. Set environment variable: `PDFCO_API_KEY`

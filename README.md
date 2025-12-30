@@ -167,6 +167,39 @@ Rinvo/
 - **Hosting:** Enabled
 - **Analytics:** Enabled
 
+## CI / Deployment (GitHub + Firebase)
+
+1. Push this repo to GitHub (create repo and set `main` branch):
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/<your-username>/Rinvo.git
+git push -u origin main
+```
+
+2. Generate a CI token locally and add as GitHub secret named `FIREBASE_TOKEN`:
+
+```bash
+npx firebase-tools login:ci
+# copy the token and add it to GitHub -> Settings -> Secrets -> FIREBASE_TOKEN
+```
+
+3. On push to `main`, GitHub Actions will deploy the site to Firebase Hosting (project `portfolio-5aafe`).
+
+4. Manual deploy (local):
+
+```bash
+npm install -g firebase-tools
+firebase login
+firebase use --add
+firebase deploy --only hosting --project portfolio-5aafe
+```
+
+Security: never commit `.env` or service-account JSON files. Use GitHub Secrets for CI.
+
 ## 📱 Social Media
 
 - **Instagram:** [@rinku__y7275](https://www.instagram.com/rinku__y7275)

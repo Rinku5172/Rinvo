@@ -6,296 +6,173 @@ const fs = require('fs');
 const axios = require('axios');
 const FormData = require('form-data');
 
+// Load environment variables from .env (optional)
+require('dotenv').config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// PDF.co API Key - Get your free API key from https://pdf.co
-const PDFCO_API_KEY = process.env.PDFCO_API_KEY || 'yarmy653@gmail.com_hCxwjzQTIn6SzE7wWo7PIRciF7XmhFkazNdDFCAsTaigy1FpKmd8cxRcTIC0zy1j';
+// PDF.co API Key - set via environment variable or .env
+const PDFCO_API_KEY = process.env.PDFCO_API_KEY || '';
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Create uploads directory
+// Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir);
-}
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
-// Configure multer
+// Multer config
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadsDir);
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
+    destination: (req, file, cb) => cb(null, uploadsDir),
+    filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
 });
+const upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } }); // 50MB
 
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 50 * 1024 * 1024 } // 50MB
-});
-
-// Helper function to upload file to PDF.co
+// Upload file to PDF.co and return URL
 async function uploadToPDFCo(filePath) {
-    const formData = new FormData();
-    formData.append('file', fs.createReadStream(filePath));
+    const form = new FormData();
+    form.append('file', fs.createReadStream(filePath));
 
-    const response = await axios.post('https://api.pdf.co/v1/file/upload', formData, {
-        headers: {
-            ...formData.getHeaders(),
-            'x-api-key': PDFCO_API_KEY
-        }
+    const resp = await axios.post('https://api.pdf.co/v1/file/upload', form, {
+        headers: { ...form.getHeaders(), 'x-api-key': PDFCO_API_KEY }
     });
 
-    return response.data.url;
+    if (!resp.data || !resp.data.url) throw new Error('PDF.co upload failed');
+    return resp.data.url;
 }
 
-// Helper function to download file
-async function downloadFile(url, outputPath) {
-    const response = await axios.get(url, { responseType: 'stream' });
-    const writer = fs.createWriteStream(outputPath);
-    response.data.pipe(writer);
-
-    return new Promise((resolve, reject) => {
+// Download remote file to local path
+async function downloadFile(url, outPath) {
+    const resp = await axios.get(url, { responseType: 'stream' });
+    await new Promise((resolve, reject) => {
+        const writer = fs.createWriteStream(outPath);
+        resp.data.pipe(writer);
         writer.on('finish', resolve);
         writer.on('error', reject);
     });
 }
 
-// Cleanup helper
-const cleanupFile = (filePath) => {
-    setTimeout(() => {
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
-        }
-    }, 60000);
-};
+// Remove a file after short delay
+function cleanupFile(filePath, delayMs = 60_000) {
+    setTimeout(() => { if (fs.existsSync(filePath)) fs.unlinkSync(filePath); }, delayMs);
+}
 
-// ===== PDF TO WORD =====
+// Generic helper to convert via PDF.co
+async function convertViaPdfCo(convertEndpoint, uploadedUrl) {
+    const resp = await axios.post(convertEndpoint, { url: uploadedUrl, async: false }, { headers: { 'x-api-key': PDFCO_API_KEY } });
+    if (!resp.data || !resp.data.url) throw new Error('PDF.co conversion failed');
+    return resp.data.url;
+}
+
+// ===== Endpoints =====
 app.post('/api/pdf-to-word', upload.single('file'), async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded' });
-        }
-
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
         const pdfPath = req.file.path;
         const uploadedUrl = await uploadToPDFCo(pdfPath);
+        const resultUrl = await convertViaPdfCo('https://api.pdf.co/v1/pdf/convert/to/doc', uploadedUrl);
 
-        // Convert PDF to DOCX using PDF.co
-        const response = await axios.post('https://api.pdf.co/v1/pdf/convert/to/doc', {
-            url: uploadedUrl,
-            async: false
-        }, {
-            headers: { 'x-api-key': PDFCO_API_KEY }
-        });
-
-        const outputPath = path.join(uploadsDir, `converted-${Date.now()}.docx`);
-        await downloadFile(response.data.url, outputPath);
-
-        res.download(outputPath, 'converted.docx', (err) => {
-            cleanupFile(pdfPath);
-            cleanupFile(outputPath);
-        });
-
-    } catch (error) {
-        console.error('PDF to Word error:', error.message);
-        res.status(500).json({ error: 'Conversion failed: ' + error.message });
+        const outPath = path.join(uploadsDir, `converted-${Date.now()}.docx`);
+        await downloadFile(resultUrl, outPath);
+        res.download(outPath, 'converted.docx', (err) => { cleanupFile(pdfPath); cleanupFile(outPath); });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e.message });
     }
 });
 
-// ===== WORD TO PDF =====
 app.post('/api/word-to-pdf', upload.single('file'), async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded' });
-        }
-
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
         const wordPath = req.file.path;
         const uploadedUrl = await uploadToPDFCo(wordPath);
+        const resultUrl = await convertViaPdfCo('https://api.pdf.co/v1/pdf/convert/from/doc', uploadedUrl);
 
-        // Convert DOCX to PDF using PDF.co
-        const response = await axios.post('https://api.pdf.co/v1/pdf/convert/from/doc', {
-            url: uploadedUrl,
-            async: false
-        }, {
-            headers: { 'x-api-key': PDFCO_API_KEY }
-        });
-
-        const outputPath = path.join(uploadsDir, `converted-${Date.now()}.pdf`);
-        await downloadFile(response.data.url, outputPath);
-
-        res.download(outputPath, 'converted.pdf', (err) => {
-            cleanupFile(wordPath);
-            cleanupFile(outputPath);
-        });
-
-    } catch (error) {
-        console.error('Word to PDF error:', error.message);
-        res.status(500).json({ error: 'Conversion failed: ' + error.message });
+        const outPath = path.join(uploadsDir, `converted-${Date.now()}.pdf`);
+        await downloadFile(resultUrl, outPath);
+        res.download(outPath, 'converted.pdf', (err) => { cleanupFile(wordPath); cleanupFile(outPath); });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e.message });
     }
 });
 
-// ===== PDF TO EXCEL =====
 app.post('/api/pdf-to-excel', upload.single('file'), async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded' });
-        }
-
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
         const pdfPath = req.file.path;
         const uploadedUrl = await uploadToPDFCo(pdfPath);
+        const resultUrl = await convertViaPdfCo('https://api.pdf.co/v1/pdf/convert/to/xls', uploadedUrl);
 
-        // Convert PDF to Excel using PDF.co
-        const response = await axios.post('https://api.pdf.co/v1/pdf/convert/to/xls', {
-            url: uploadedUrl,
-            async: false
-        }, {
-            headers: { 'x-api-key': PDFCO_API_KEY }
-        });
-
-        const outputPath = path.join(uploadsDir, `converted-${Date.now()}.xlsx`);
-        await downloadFile(response.data.url, outputPath);
-
-        res.download(outputPath, 'converted.xlsx', (err) => {
-            cleanupFile(pdfPath);
-            cleanupFile(outputPath);
-        });
-
-    } catch (error) {
-        console.error('PDF to Excel error:', error.message);
-        res.status(500).json({ error: 'Conversion failed: ' + error.message });
+        const outPath = path.join(uploadsDir, `converted-${Date.now()}.xlsx`);
+        await downloadFile(resultUrl, outPath);
+        res.download(outPath, 'converted.xlsx', (err) => { cleanupFile(pdfPath); cleanupFile(outPath); });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e.message });
     }
 });
 
-// ===== EXCEL TO PDF =====
 app.post('/api/excel-to-pdf', upload.single('file'), async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded' });
-        }
-
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
         const excelPath = req.file.path;
         const uploadedUrl = await uploadToPDFCo(excelPath);
+        const resultUrl = await convertViaPdfCo('https://api.pdf.co/v1/pdf/convert/from/xls', uploadedUrl);
 
-        // Convert Excel to PDF using PDF.co
-        const response = await axios.post('https://api.pdf.co/v1/pdf/convert/from/xls', {
-            url: uploadedUrl,
-            async: false
-        }, {
-            headers: { 'x-api-key': PDFCO_API_KEY }
-        });
-
-        const outputPath = path.join(uploadsDir, `converted-${Date.now()}.pdf`);
-        await downloadFile(response.data.url, outputPath);
-
-        res.download(outputPath, 'converted.pdf', (err) => {
-            cleanupFile(excelPath);
-            cleanupFile(outputPath);
-        });
-
-    } catch (error) {
-        console.error('Excel to PDF error:', error.message);
-        res.status(500).json({ error: 'Conversion failed: ' + error.message });
+        const outPath = path.join(uploadsDir, `converted-${Date.now()}.pdf`);
+        await downloadFile(resultUrl, outPath);
+        res.download(outPath, 'converted.pdf', (err) => { cleanupFile(excelPath); cleanupFile(outPath); });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e.message });
     }
 });
 
-// ===== PDF TO POWERPOINT =====
 app.post('/api/pdf-to-ppt', upload.single('file'), async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded' });
-        }
-
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
         const pdfPath = req.file.path;
         const uploadedUrl = await uploadToPDFCo(pdfPath);
+        const resultUrl = await convertViaPdfCo('https://api.pdf.co/v1/pdf/convert/to/pptx', uploadedUrl);
 
-        // Convert PDF to PowerPoint using PDF.co
-        const response = await axios.post('https://api.pdf.co/v1/pdf/convert/to/pptx', {
-            url: uploadedUrl,
-            async: false
-        }, {
-            headers: { 'x-api-key': PDFCO_API_KEY }
-        });
-
-        const outputPath = path.join(uploadsDir, `converted-${Date.now()}.pptx`);
-        await downloadFile(response.data.url, outputPath);
-
-        res.download(outputPath, 'converted.pptx', (err) => {
-            cleanupFile(pdfPath);
-            cleanupFile(outputPath);
-        });
-
-    } catch (error) {
-        console.error('PDF to PPT error:', error.message);
-        res.status(500).json({ error: 'Conversion failed: ' + error.message });
+        const outPath = path.join(uploadsDir, `converted-${Date.now()}.pptx`);
+        await downloadFile(resultUrl, outPath);
+        res.download(outPath, 'converted.pptx', (err) => { cleanupFile(pdfPath); cleanupFile(outPath); });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e.message });
     }
 });
 
-// ===== POWERPOINT TO PDF =====
-app.post('/api/ppt-to-pdf', upload.single('file'), async (req, res) => {
-    try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file uploaded' });
-        }
-
-        const pptPath = req.file.path;
-        const uploadedUrl = await uploadToPDFCo(pptPath);
-
-        // Convert PowerPoint to PDF using PDF.co
-        const response = await axios.post('https://api.pdf.co/v1/pdf/convert/from/pptx', {
-            url: uploadedUrl,
-            async: false
-        }, {
-            headers: { 'x-api-key': PDFCO_API_KEY }
-        });
-
-        const outputPath = path.join(uploadsDir, `converted-${Date.now()}.pdf`);
-        await downloadFile(response.data.url, outputPath);
-
-        res.download(outputPath, 'converted.pdf', (err) => {
-            cleanupFile(pptPath);
-            cleanupFile(outputPath);
-        });
-
-    } catch (error) {
-        console.error('PPT to PDF error:', error.message);
-        res.status(500).json({ error: 'Conversion failed: ' + error.message });
-    }
-});
-
-// Health check
+// Health
 app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'OK',
-        message: 'RINVO Backend Server with PDF.co API',
-        apiKeyConfigured: PDFCO_API_KEY !== 'YOUR_API_KEY_HERE'
-    });
+    res.json({ status: 'OK', apiKeyConfigured: !!PDFCO_API_KEY });
 });
 
-// Start server
+// Start
 app.listen(PORT, () => {
-    console.log(`🚀 RINVO Backend Server running on port ${PORT}`);
-    console.log(`📁 Uploads directory: ${uploadsDir}`);
-    console.log(`🔑 PDF.co API Key: ${PDFCO_API_KEY === 'YOUR_API_KEY_HERE' ? '❌ NOT CONFIGURED' : '✅ Configured'}`);
-    console.log(`\n📖 Get your free PDF.co API key: https://pdf.co`);
+    console.log(`RINVO backend running on port ${PORT}`);
+    console.log(`Uploads: ${uploadsDir}`);
+    console.log(`PDF.co key configured: ${PDFCO_API_KEY ? 'yes' : 'no'}`);
 });
 
-// Cleanup old files on startup
-const cleanupOldFiles = () => {
+// Cleanup old files hourly
+function cleanupOldFiles() {
     const files = fs.readdirSync(uploadsDir);
     const now = Date.now();
     files.forEach(file => {
-        const filePath = path.join(uploadsDir, file);
-        const stats = fs.statSync(filePath);
-        const age = now - stats.mtimeMs;
-        if (age > 3600000) {
-            fs.unlinkSync(filePath);
-        }
+        const p = path.join(uploadsDir, file);
+        try {
+            const stats = fs.statSync(p);
+            if (now - stats.mtimeMs > 3600000) fs.unlinkSync(p);
+        } catch (e) {}
     });
-};
+}
 
 cleanupOldFiles();
 setInterval(cleanupOldFiles, 3600000);
+

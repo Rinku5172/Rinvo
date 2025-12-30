@@ -1027,3 +1027,23 @@ if (typeof module !== 'undefined' && module.exports) {
         initFormSubmissions
     };
 }
+
+// Helper to upload a file to backend and get resulting blob
+async function uploadFileToServer(endpoint, file) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    const resp = await fetch(endpoint, {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!resp.ok) {
+        const err = await resp.json().catch(() => ({ error: resp.statusText }));
+        throw new Error(err.error || err.message || 'Upload failed');
+    }
+
+    // Response is a file download stream; convert to blob
+    const blob = await resp.blob();
+    return blob;
+}
