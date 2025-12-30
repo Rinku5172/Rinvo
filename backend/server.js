@@ -148,6 +148,11 @@ app.post('/api/pdf-to-ppt', upload.single('file'), async (req, res) => {
     }
 });
 
+// Root route
+app.get('/', (req, res) => {
+    res.send('RINVO Backend is running on Railway!');
+});
+
 // Health
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', apiKeyConfigured: !!PDFCO_API_KEY });
