@@ -159,7 +159,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Start
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
     console.log(`RINVO backend running on port ${PORT}`);
     console.log(`Uploads: ${uploadsDir}`);
     console.log(`PDF.co key configured: ${PDFCO_API_KEY ? 'yes' : 'no'}`);
