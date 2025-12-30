@@ -121,7 +121,7 @@
                 const formData = new FormData();
                 formData.append('file', selectedFile);
 
-                const response = await fetch('http://localhost:3000/api/excel-to-pdf', {
+                const response = await fetch('https://rinvo-production.up.railway.app/api/excel-to-pdf', {
                     method: 'POST',
                     body: formData
                 });
