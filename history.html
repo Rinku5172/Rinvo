@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History & Recent Files - RocketPDF</title>
+    <meta name="description" content="View your recent PDF conversions and downloads with RocketPDF.">
+    <link rel="canonical" href="https://RocketPDF.web.app/history.html">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .history-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .history-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-wrapper">
+                    <a href="index.html" class="logo" aria-label="RocketPDF Home">RocketPDF</a>
+                    <p class="tagline" style="color: #475569;">Power Your PDFs</p>
+                </div>
+                <nav class="nav-menu" aria-label="Main Navigation">
+                    <a href="index.html#tools">TOOLS</a>
+                    <a href="about.html">ABOUT</a>
+                    <a href="tutorials.html">TUTORIALS</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="contact.html">CONTACT</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn-login" aria-label="Login">Login</button>
+                    <button class="btn-signup" aria-label="Sign up">Sign up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div style="padding: 4rem 0;">
+        <div class="container" style="max-width: 1000px;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1
+                    style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;">
+                    <i class="fas fa-history"></i> History & Recent Files
+                </h1>
+                <p style="color: #475569; font-size: 1.1rem;">Track your recent PDF conversions and downloads</p>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe);">
+                    <div class="stat-value" style="color: #3b82f6;" id="totalFiles">0</div>
+                    <div style="color: #475569; font-weight: 600;">Total Files</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7);">
+                    <div class="stat-value" style="color: #10b981;" id="totalSize">0 MB</div>
+                    <div style="color: #475569; font-weight: 600;">Total Size</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
+                    <div class="stat-value" style="color: #f59e0b;" id="mostUsed">-</div>
+                    <div style="color: #475569; font-weight: 600;">Most Used Tool</div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 2rem 0;">
+                <h2 style="color: #1e293b; margin: 0;">Recent Activity</h2>
+                <button onclick="clearHistory()"
+                    style="background: #ef4444; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    <i class="fas fa-trash"></i> Clear History
+                </button>
+            </div>
+
+            <!-- History List -->
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+    <script src="js/dark-mode.js"></script>
+    <script src="js/history-manager.js"></script>
+    <script>
+        function loadHistory() {
+            const history = historyManager.getHistory();
+            const stats = historyManager.getStats();
+            const historyList = document.getElementById('historyList');
+
+            // Update stats
+            document.getElementById('totalFiles').textContent = stats.totalFiles;
+            document.getElementById('totalSize').textContent = (stats.totalSize / (1024 * 1024)).toFixed(2) + ' MB';
+            document.getElementById('mostUsed').textContent = stats.mostUsedTool || '-';
+
+            if (history.length === 0) {
+                historyList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <h3 style="color: #1e293b; margin-bottom: 0.5rem;">No History Yet</h3>
+                        <p>Start using RocketPDF tools to see your recent activity here</p>
+                        <a href="index.html#tools" style="display: inline-block; margin-top: 1.5rem; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                            Browse Tools
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            historyList.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: #1e293b;">${item.fileName}</div>
+                            <div style="color: #64748b; font-size: 0.9rem;">
+                                ${item.toolName} • ${item.date} at ${item.time}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="removeHistoryItem(${item.id})" style="background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; color: #64748b;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all history?')) {
+                historyManager.clearHistory();
+                loadHistory();
+            }
+        }
+
+        function removeHistoryItem(id) {
+            historyManager.removeItem(id);
+            loadHistory();
+        }
+
+        // Load history on page load
+        loadHistory();
+
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

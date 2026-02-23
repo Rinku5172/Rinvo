@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>PDF Bookmarks Manager - RocketPDF | Add & Edit Bookmarks</title>
+    <meta name="description"
+        content="Add, edit, and manage bookmarks in your PDF documents. Create table of contents and navigation. Free and secure.">
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap&font-display=swap"
+        rel="stylesheet">
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    <!-- PDF Lib -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <!-- Download JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #f43f5e;
+            --primary-dark: #e11d48;
+            --primary-light: #fda4af;
+            --secondary: #64748b;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: linear-gradient(135deg, #fef3f4 0%, #fce7f3 50%, #f3e8ff 100%);
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(244, 63, 94, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(10%, 10%) rotate(180deg);
+            }
+        }
+
+        main {
+            flex: 1;
+            padding: 3rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            box-shadow: var(--shadow-xl);
+            padding: 3.5rem 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tool-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .tool-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ffe4e6 0%, #fce7f3 100%);
+            color: var(--primary);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 2rem;
+            box-shadow: var(--shadow-md);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #e11d48 0%, #be123c 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .desc {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* Upload Area */
+        .upload-box {
+            border: 3px dashed var(--border);
+            border-radius: 1.5rem;
+            padding: 5rem 3rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .upload-icon-small {
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-select {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(244, 63, 94, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-select:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(244, 63, 94, 0.4);
+        }
+
+        /* Workspace */
+        .workspace {
+            display: none;
+            margin-top: 2rem;
+            gap: 2rem;
+        }
+
+        .workspace.active {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+        }
+
+        /* Pages Preview */
+        .pages-preview {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .pages-preview h3 {
+            margin-bottom: 1rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .page-item {
+            position: relative;
+            cursor: pointer;
+            border: 3px solid transparent;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .page-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .page-item.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2);
+        }
+
+        .page-thumb {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Bookmark Panel */
+        .bookmark-panel {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .bookmark-panel h3 {
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bookmark-list {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 350px;
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            background: #f8fafc;
+        }
+
+        .bookmark-item {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .bookmark-item:hover {
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .bookmark-info {
+            flex: 1;
+        }
+
+        .bookmark-title {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .bookmark-page {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .bookmark-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn-edit {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .btn-edit:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .btn-delete:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Add Bookmark Form */
+        .add-bookmark-form {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 2px solid var(--border);
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.1);
+        }
+
+        .btn-add {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 0.875rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(244, 63, 94, 0.3);
+        }
+
+        .btn-add:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background: white;
+            color: var(--text);
+            border: 2px solid var(--border);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Feature Tags */
+        .feature-tags {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-tag i {
+            color: var(--primary);
+        }
+
+        /* Status Message */
+        .status-msg {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status-msg.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            display: block;
+        }
+
+        .status-msg.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .workspace.active {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tool-container {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer></script>
+</head>
+
+<body>
+    <div id="rocket-header"></div>
+
+    <main>
+        <div class="tool-container">
+            <div class="tool-icon">
+                <i class="fas fa-bookmark"></i>
+            </div>
+
+            <h1>PDF Bookmarks Manager</h1>
+            <p class="desc">Add, edit, and organize bookmarks in your PDF documents. Create a table of contents for easy
+                navigation.</p>
+
+            <div class="upload-box" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon-small">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3>Click to upload or drag and drop</h3>
+                <p style="color: #64748b; margin-top: 0.5rem;">Supported format: PDF</p>
+                <button class="btn-select">
+                    <i class="fas fa-upload"></i> Select PDF File
+                </button>
+                <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+            </div>
+
+            <div class="feature-tags">
+                <div class="feature-tag">
+                    <i class="fas fa-bookmark"></i>
+                    <span>Add Bookmarks</span>
+                </div>
+                <div class="feature-tag">
+                    <i class="fas fa-edit"></i>
+                    <span>Edit & Organize</span>
+                </div>
+                <div class="feature-tag">
+                    <i class="fas fa-list"></i>
+                    <span>Table of Contents</span>
+                </div>
+                <div class="feature-tag">
+                    <i class="fas fa-gift"></i>
+                    <span>100% Free</span>
+                </div>
+            </div>
+
+            <div class="workspace" id="workspace">
+                <div class="pages-preview">
+                    <h3><i class="fas fa-file-pdf"></i> PDF Pages</h3>
+                    <div class="pages-grid" id="pagesGrid"></div>
+                </div>
+
+                <div class="bookmark-panel">
+                    <h3><i class="fas fa-bookmark"></i> Bookmarks (<span id="bookmarkCount">0</span>)</h3>
+
+                    <div class="bookmark-list" id="bookmarkList">
+                        <div class="empty-state">
+                            <i class="fas fa-bookmark"></i>
+                            <p>No bookmarks yet. Add your first bookmark!</p>
+                        </div>
+                    </div>
+
+                    <div class="add-bookmark-form">
+                        <div class="form-group">
+                            <label class="form-label">Bookmark Title</label>
+                            <input type="text" id="bookmarkTitle" class="form-control"
+                                placeholder="e.g., Chapter 1: Introduction">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Target Page</label>
+                            <input type="number" id="bookmarkPage" class="form-control" min="1"
+                                placeholder="Page number">
+                        </div>
+                        <button class="btn-add" id="addBookmarkBtn">
+                            <i class="fas fa-plus"></i> Add Bookmark
+                        </button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-primary" id="saveBtn">
+                            <i class="fas fa-download"></i> Save PDF
+                        </button>
+                        <button class="btn-secondary" onclick="location.reload()">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+
+                    <div class="status-msg" id="statusMsg"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="rocket-footer"></div>
+
+    <script>
+        const { PDFDocument, PDFName, PDFDict, PDFRef, PDFString } = PDFLib;
+        let fileArrayBuffer = null;
+        let totalPages = 0;
+        let currentPage = 1;
+        let bookmarks = [];
+        let originalFileName = 'document';
+        let editingIndex = -1;
+
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const workspace = document.getElementById('workspace');
+        const pagesGrid = document.getElementById('pagesGrid');
+        const bookmarkList = document.getElementById('bookmarkList');
+        const bookmarkCount = document.getElementById('bookmarkCount');
+        const bookmarkTitle = document.getElementById('bookmarkTitle');
+        const bookmarkPage = document.getElementById('bookmarkPage');
+        const addBookmarkBtn = document.getElementById('addBookmarkBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        // Drag & Drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.background = 'rgba(244, 63, 94, 0.05)';
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)';
+            const files = e.dataTransfer.files;
+            if (files.length) handleFile(files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) handleFile(e.target.files[0]);
+        });
+
+        async function handleFile(file) {
+            if (file.type !== 'application/pdf') {
+                showStatus('Please upload a valid PDF file.', 'error');
+                return;
+            }
+
+            originalFileName = file.name.replace('.pdf', '');
+            dropZone.style.display = 'none';
+            workspace.classList.add('active');
+
+            try {
+                // Store raw buffer safely
+                fileArrayBuffer = await file.arrayBuffer();
+
+                // Load for validation and page count
+                const pdfDoc = await PDFDocument.load(fileArrayBuffer);
+                totalPages = pdfDoc.getPageCount();
+
+                // Set max page for input
+                bookmarkPage.max = totalPages;
+                bookmarkPage.value = 1;
+
+                // Render thumbnails
+                await renderThumbnails(fileArrayBuffer);
+
+                showStatus(`PDF loaded successfully! ${totalPages} pages found.`, 'success');
+                setTimeout(() => statusMsg.style.display = 'none', 3000);
+            } catch (error) {
+                console.error(error);
+                showStatus('Error loading PDF: ' + error.message, 'error');
+            }
+        }
+
+        async function renderThumbnails(arrayBuffer) {
+            pagesGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i></div>';
+
+            // Clone buffer for PDF.js to avoid detachment issues
+            const pdf = await pdfjsLib.getDocument(arrayBuffer.slice(0)).promise;
+            pagesGrid.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 0.25 });
+
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+                const imgData = canvas.toDataURL();
+                const item = document.createElement('div');
+                item.className = 'page-item';
+                if (i === 1) item.classList.add('active');
+                item.innerHTML = `
+                    <img src="${imgData}" class="page-thumb">
+                    <div class="page-number">Page ${i}</div>
+                `;
+                item.onclick = () => selectPage(item, i);
+                pagesGrid.appendChild(item);
+            }
+        }
+
+        function selectPage(element, pageNum) {
+            document.querySelectorAll('.page-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            currentPage = pageNum;
+            bookmarkPage.value = pageNum;
+        }
+
+        // Add Bookmark
+        addBookmarkBtn.addEventListener('click', () => {
+            const title = bookmarkTitle.value.trim();
+            const page = parseInt(bookmarkPage.value);
+
+            if (!title) {
+                showStatus('Please enter a bookmark title.', 'error');
+                return;
+            }
+
+            if (!page || page < 1 || page > totalPages) {
+                showStatus(`Please enter a valid page number (1-${totalPages}).`, 'error');
+                return;
+            }
+
+            if (editingIndex >= 0) {
+                // Update existing bookmark
+                bookmarks[editingIndex] = { title, page };
+                editingIndex = -1;
+                addBookmarkBtn.innerHTML = '<i class="fas fa-plus"></i> Add Bookmark';
+            } else {
+                // Add new bookmark
+                bookmarks.push({ title, page });
+            }
+
+            bookmarkTitle.value = '';
+            bookmarkPage.value = currentPage;
+            renderBookmarks();
+            showStatus('Bookmark added successfully!', 'success');
+            setTimeout(() => statusMsg.style.display = 'none', 2000);
+        });
+
+        function renderBookmarks() {
+            bookmarkCount.textContent = bookmarks.length;
+
+            if (bookmarks.length === 0) {
+                bookmarkList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bookmark"></i>
+                        <p>No bookmarks yet. Add your first bookmark!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort bookmarks by page number
+            bookmarks.sort((a, b) => a.page - b.page);
+
+            bookmarkList.innerHTML = bookmarks.map((bookmark, index) => `
+                <div class="bookmark-item">
+                    <div class="bookmark-info">
+                        <div class="bookmark-title">${bookmark.title}</div>
+                        <div class="bookmark-page">Page ${bookmark.page}</div>
+                    </div>
+                    <div class="bookmark-actions">
+                        <button class="btn-icon btn-edit" onclick="editBookmark(${index})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon btn-delete" onclick="deleteBookmark(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editBookmark(index) {
+            const bookmark = bookmarks[index];
+            bookmarkTitle.value = bookmark.title;
+            bookmarkPage.value = bookmark.page;
+            editingIndex = index;
+            addBookmarkBtn.innerHTML = '<i class="fas fa-save"></i> Update Bookmark';
+            bookmarkTitle.focus();
+        }
+
+        function deleteBookmark(index) {
+            if (confirm('Are you sure you want to delete this bookmark?')) {
+                bookmarks.splice(index, 1);
+                renderBookmarks();
+                showStatus('Bookmark deleted.', 'success');
+                setTimeout(() => statusMsg.style.display = 'none', 2000);
+            }
+        }
+
+        // Save PDF with Bookmarks (Outlines)
+        saveBtn.addEventListener('click', async () => {
+            if (bookmarks.length === 0) {
+                showStatus('Please add at least one bookmark before saving.', 'error');
+                return;
+            }
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<span class="spinner"></span> Processing...';
+            showStatus('Generating PDF with bookmarks...', 'success');
+
+            try {
+                // Reload fresh doc from stored buffer
+                const pdfDoc = await PDFDocument.load(fileArrayBuffer.slice(0));
+
+                // Low-level outline creation
+                // 1. Create Outline Dictionaries for each bookmark
+                const outlineRefs = [];
+                for (const bm of bookmarks) {
+                    const pageRef = pdfDoc.getPage(bm.page - 1).ref;
+
+                    const outlineDict = pdfDoc.context.obj({
+                        Title: PDFString.of(bm.title),
+                        Dest: [pageRef, PDFName.of('Fit')],
+                        Parent: null // set later
+                    });
+
+                    const outlineRef = pdfDoc.context.register(outlineDict);
+                    outlineRefs.push({ ref: outlineRef, dict: outlineDict });
+                }
+
+                if (outlineRefs.length > 0) {
+                    // 2. Link outlines together (doubly linked list)
+                    for (let i = 0; i < outlineRefs.length; i++) {
+                        const current = outlineRefs[i];
+                        const prev = i > 0 ? outlineRefs[i - 1] : null;
+                        const next = i < outlineRefs.length - 1 ? outlineRefs[i + 1] : null; // Fixed missing space
+
+                        if (prev) current.dict.set(PDFName.of('Prev'), prev.ref);
+                        if (next) current.dict.set(PDFName.of('Next'), next.ref);
+                    }
+
+                    // 3. Create Root Outline Dictionary (Catalog)
+                    const outlinesDict = pdfDoc.context.obj({
+                        Type: PDFName.of('Outlines'),
+                        First: outlineRefs[0].ref,
+                        Last: outlineRefs[outlineRefs.length - 1].ref,
+                        Count: outlineRefs.length
+                    });
+                    const outlinesRef = pdfDoc.context.register(outlinesDict);
+
+                    // 4. Update Parent refs for all items
+                    for (const item of outlineRefs) {
+                        item.dict.set(PDFName.of('Parent'), outlinesRef);
+                    }
+
+                    // 5. Attach to PDF Catalog
+                    pdfDoc.catalog.set(PDFName.of('Outlines'), outlinesRef);
+                }
+
+                const modifiedPdfBytes = await pdfDoc.save();
+                download(modifiedPdfBytes, `${originalFileName}_bookmarked.pdf`, 'application/pdf');
+
+                showStatus(`✓ PDF saved with ${bookmarks.length} bookmark${bookmarks.length > 1 ? 's' : ''}!`, 'success');
+                saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+
+                setTimeout(() => {
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = '<i class="fas fa-download"></i> Save PDF';
+                }, 3000);
+
+            } catch (error) {
+                console.error(error);
+                showStatus('Error saving PDF: ' + error.message, 'error');
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-download"></i> Save PDF';
+            }
+        });
+
+        function showStatus(message, type) {
+            statusMsg.textContent = message;
+            statusMsg.className = `status-msg ${type}`;
+            statusMsg.style.display = 'block';
+        }
+
+        // Auto-fill page number when clicking on a page
+        pagesGrid.addEventListener('click', (e) => {
+            if (e.target.closest('.page-item')) {
+                const pageItem = e.target.closest('.page-item');
+                const pageNum = Array.from(pagesGrid.children).indexOf(pageItem) + 1;
+                bookmarkPage.value = pageNum;
+            }
+        });
+    </script>
+</body>
+
+</html>

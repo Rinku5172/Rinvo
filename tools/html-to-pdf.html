@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>HTML to PDF Converter - RocketPDF | Webpage to PDF</title>
+    <meta name="description"
+        content="Convert webpage URLs or raw HTML code to PDF documents. Save web pages as PDF for reading offline. Free and secure.">
+    <meta name="keywords"
+        content="html to pdf, webpage to pdf, url to pdf, convert website to pdf, rocketpdf, free online pdf tools, pdf tools, online pdf converter, secure pdf tools, no watermarks, best pdf editor, fast pdf processing, privacy focused pdf">
+    <link rel="canonical" href="https://rocketpdf.web.app/tools/html-to-pdf.html">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "HTML to PDF - RocketPDF",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "description": "Convert webpage URLs or raw HTML code to PDF documents.",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.5",
+                "ratingCount": "650"
+            }
+        }
+    </script>
+
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap&font-display=swap">
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- Styles -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a67d8;
+            --primary-light: #c3dafe;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --border: #cbd5e1;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .dark-mode {
+            --dark: #f1f5f9;
+            --darker: #1e293b;
+            --light: #0f172a;
+            --gray: #94a3b8;
+            --gray-light: #475569;
+            --border: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+            color: var(--dark);
+            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .dark-mode {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f1f5f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .dark-mode .header {
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: '📝';
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .dark-mode .nav-link {
+            color: #e2e8f0;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .dark-mode .nav-link:hover {
+            background: rgba(98, 126, 234, 0.2);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .dark-mode .theme-toggle {
+            color: #e2e8f0;
+            border-color: #475569;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: rotate(30deg);
+        }
+
+        /* Tool Container */
+        .tool-container {
+            padding: 3rem 0 4rem;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .tool-title {
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .tool-description {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .dark-mode .tool-description {
+            color: #94a3b8;
+        }
+
+        /* Input Area */
+        .input-wrapper {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dark-mode .input-wrapper {
+            background: #1e293b;
+        }
+
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .dark-mode .input-title {
+            color: #f1f5f9;
+        }
+
+        .input-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab-button {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            background: transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .dark-mode .tab-button {
+            border-color: #475569;
+            color: #e2e8f0;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-button:hover:not(.active) {
+            border-color: var(--primary);
+        }
+
+        .input-area {
+            width: 100%;
+            height: 300px;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            resize: vertical;
+            background: white;
+            color: var(--dark);
+        }
+
+        .dark-mode .input-area {
+            background: #334155;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+
+        .input-area:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-sm);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .dark-mode .file-upload-area {
+            border-color: #475569;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--primary);
+        }
+
+        .file-upload-area.drag-over {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .dark-mode .file-upload-area.drag-over {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .dark-mode .settings-panel {
+            background: #1e293b;
+            border-color: #475569;
+        }
+
+        .settings-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .dark-mode .settings-title {
+            color: #f1f5f9;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .dark-mode .setting-label {
+            color: #e2e8f0;
+        }
+
+        .setting-control {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+            color: var(--dark);
+        }
+
+        .dark-mode .setting-control {
+            background: #334155;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+
+        .setting-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Action Button */
+        .action-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn-main {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: var(--transition);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-main:hover::before {
+            left: 100%;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-main:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-main:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Preview Section */
+        .preview-section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .preview-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .dark-mode .preview-container {
+            background: #1e293b;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .dark-mode .preview-title {
+            color: #f1f5f9;
+        }
+
+        .preview-content {
+            background: #f8fafc;
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .dark-mode .preview-content {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        /* Result Section */
+        .result-section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .result-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .dark-mode .result-container {
+            background: #1e293b;
+        }
+
+        .result-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .dark-mode .result-title {
+            color: #f1f5f9;
+        }
+
+        .result-description {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .dark-mode .result-description {
+            color: #94a3b8;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-download {
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-another {
+            background: transparent;
+            color: var(--dark);
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            border: 2px solid var(--border);
+        }
+
+        .dark-mode .btn-another {
+            color: #e2e8f0;
+            border-color: #475569;
+        }
+
+        .btn-another:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--darker);
+            color: #94a3b8;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.25rem;
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .nav-menu {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .tool-title {
+                font-size: 2.2rem;
+            }
+
+            .input-wrapper {
+                padding: 1.5rem;
+            }
+
+            .input-area {
+                height: 200px;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-download,
+            .btn-another {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .tool-title {
+                font-size: 1.8rem;
+            }
+
+            .input-wrapper {
+                padding: 1rem;
+            }
+
+            .btn-main {
+                padding: 0.9rem 1.5rem;
+                font-size: 1rem;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .result-container {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-light);
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer></script>
+</head>
+
+<main>
+    <div class="container tool-container">
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-badge">
+                <i class="fas fa-file-code"></i> ADVANCED CONVERSION
+            </div>
+            <h1 class="tool-title">Convert HTML to PDF</h1>
+            <p class="tool-description">
+                Transform your HTML documents into professional PDF files. Paste HTML code, upload HTML files, or
+                convert web pages to PDF with our advanced conversion technology. Perfect for developers and content
+                creators.
+            </p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-wrapper">
+            <div class="input-header">
+                <h3 class="input-title"><i class="fas fa-code"></i> HTML Input</h3>
+            </div>
+
+            <div class="input-tabs">
+                <button class="tab-button active" data-tab="code">HTML Code</button>
+                <button class="tab-button" data-tab="file">HTML File</button>
+            </div>
+
+            <textarea class="input-area" id="htmlInput" placeholder="Paste your HTML code here...">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Document&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        p { color: #666; line-height: 1.6; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Sample Document&lt;/h1&gt;
+    &lt;p&gt;This is a sample HTML document that will be converted to PDF.&lt;/p&gt;
+    &lt;p&gt;You can add any HTML content here with CSS styling.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+
+            <div class="file-upload-area" id="fileUploadArea">
+                <i class="fas fa-file-upload" style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary);"></i>
+                <h4>Click to upload HTML file</h4>
+                <p style="color: var(--gray); margin-top: 0.5rem;">or drag and drop your HTML file here</p>
+                <input type="file" id="fileInput" accept=".html,.htm" style="display: none;">
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settingsPanel">
+            <h3 class="settings-title"><i class="fas fa-sliders-h"></i> Conversion Settings</h3>
+            <div class="settings-grid">
+                <div class="setting-group">
+                    <label class="setting-label">Page Size</label>
+                    <select class="setting-control" id="pageSize">
+                        <option value="a4">A4 (210 x 297 mm)</option>
+                        <option value="letter">Letter (8.5 x 11 in)</option>
+                        <option value="legal">Legal (8.5 x 14 in)</option>
+                        <option value="a3">A3 (297 x 420 mm)</option>
+                        <option value="a5">A5 (148 x 210 mm)</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Orientation</label>
+                    <select class="setting-control" id="orientation">
+                        <option value="portrait">Portrait</option>
+                        <option value="landscape">Landscape</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Margin (mm)</label>
+                    <input type="number" class="setting-control" id="margin" value="10" min="0" max="50">
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1.5rem;">
+                <div class="setting-group" style="display: flex; align-items: center; gap: 0.75rem;">
+                    <input type="checkbox" id="includeBackground" class="setting-control"
+                        style="width: auto; height: auto;">
+                    <label for="includeBackground" class="setting-label" style="margin: 0; cursor: pointer;">Include
+                        Background Colors</label>
+                </div>
+                <div class="setting-group" style="display: flex; align-items: center; gap: 0.75rem;">
+                    <input type="checkbox" id="includeImages" class="setting-control" style="width: auto; height: auto;"
+                        checked>
+                    <label for="includeImages" class="setting-label" style="margin: 0; cursor: pointer;">Include
+                        Images</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="action-section">
+            <button class="btn-main" id="convertBtn">
+                <i class="fas fa-file-pdf"></i> Convert to PDF
+            </button>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="preview-section" id="previewSection">
+            <div class="preview-container">
+                <div class="preview-header">
+                    <h3 class="preview-title">HTML Preview</h3>
+                </div>
+                <div class="preview-content" id="htmlPreview">
+                    <p>HTML preview will appear here after conversion.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-section" id="resultSection">
+            <div class="result-container">
+                <div class="result-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3 class="result-title">Conversion Successful!</h3>
+                <p class="result-description" id="resultDescription">Your HTML has been converted to PDF successfully.
+                </p>
+                <div class="result-actions">
+                    <button class="btn-download" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <button class="btn-another" id="convertAnotherBtn">
+                        <i class="fas fa-sync"></i> Convert Another
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+</main>
+<div id="rocket-footer"></div>
+
+<script>
+    // DOM Elements
+    const DOM = {
+        htmlInput: document.getElementById('htmlInput'),
+        fileUploadArea: document.getElementById('fileUploadArea'),
+        fileInput: document.getElementById('fileInput'),
+        tabButtons: document.querySelectorAll('.tab-button'),
+        convertBtn: document.getElementById('convertBtn'),
+        downloadBtn: document.getElementById('downloadBtn'),
+        convertAnotherBtn: document.getElementById('convertAnotherBtn'),
+        previewSection: document.getElementById('previewSection'),
+        htmlPreview: document.getElementById('htmlPreview'),
+        resultSection: document.getElementById('resultSection'),
+        resultDescription: document.getElementById('resultDescription'),
+        themeToggle: document.getElementById('themeToggle'),
+
+        // Settings
+        pageSize: document.getElementById('pageSize'),
+        orientation: document.getElementById('orientation'),
+        margin: document.getElementById('margin'),
+        includeBackground: document.getElementById('includeBackground'),
+        includeImages: document.getElementById('includeImages')
+    };
+
+    // State variables
+    let currentHtml = '';
+    let pdfBlob = null;
+
+    // Initialize the tool
+    function initTool() {
+        setupEventListeners();
+        setupDarkMode();
+        setupTabs();
+    }
+
+    // Set up event listeners
+    function setupEventListeners() {
+        // Tab switching
+        DOM.tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                DOM.tabButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                if (btn.dataset.tab === 'file') {
+                    DOM.htmlInput.style.display = 'none';
+                    DOM.fileUploadArea.style.display = 'block';
+                } else {
+                    DOM.htmlInput.style.display = 'block';
+                    DOM.fileUploadArea.style.display = 'none';
+                }
+            });
+        });
+
+        // File upload area
+        DOM.fileUploadArea.addEventListener('click', () => DOM.fileInput.click());
+        DOM.fileInput.addEventListener('change', handleFileUpload);
+
+        // Drag and drop for file upload
+        DOM.fileUploadArea.addEventListener('dragover', handleDragOver);
+        DOM.fileUploadArea.addEventListener('dragleave', handleDragLeave);
+        DOM.fileUploadArea.addEventListener('drop', handleDrop);
+
+        // Convert button
+        DOM.convertBtn.addEventListener('click', convertHtmlToPdf);
+
+        // Download button
+        DOM.downloadBtn.addEventListener('click', downloadPdf);
+
+        // Convert another button
+        DOM.convertAnotherBtn.addEventListener('click', resetTool);
+    }
+
+    // Setup tabs
+    function setupTabs() {
+        // Initially hide file upload area since HTML code tab is active
+        DOM.fileUploadArea.style.display = 'none';
+    }
+
+    // Handle file upload
+    function handleFileUpload(e) {
+        const file = e.target.files[0];
+        if (file && (file.name.endsWith('.html') || file.name.endsWith('.htm'))) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                DOM.htmlInput.value = event.target.result;
+                currentHtml = event.target.result;
+            };
+            reader.readAsText(file);
+        } else {
+            alert('Please select a valid HTML file (.html or .htm)');
+        }
+    }
+
+    // Handle drag over
+    function handleDragOver(e) {
+        e.preventDefault();
+        DOM.fileUploadArea.classList.add('drag-over');
+    }
+
+    // Handle drag leave
+    function handleDragLeave(e) {
+        e.preventDefault();
+        DOM.fileUploadArea.classList.remove('drag-over');
+    }
+
+    // Handle file drop
+    function handleDrop(e) {
+        e.preventDefault();
+        DOM.fileUploadArea.classList.remove('drag-over');
+
+        const file = e.dataTransfer.files[0];
+        if (file && (file.name.endsWith('.html') || file.name.endsWith('.htm'))) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                DOM.htmlInput.value = event.target.result;
+                currentHtml = event.target.result;
+            };
+            reader.readAsText(file);
+        } else {
+            alert('Please drop a valid HTML file (.html or .htm)');
+        }
+    }
+
+    // Convert HTML to PDF
+    async function convertHtmlToPdf() {
+        const htmlContent = DOM.htmlInput.value.trim();
+        if (!htmlContent) {
+            alert('Please enter HTML content to convert.');
+            return;
+        }
+
+        currentHtml = htmlContent;
+
+        // Show processing state
+        DOM.convertBtn.innerHTML = '<span class="spinner"></span> Converting...';
+        DOM.convertBtn.disabled = true;
+
+        try {
+            // Create a temporary iframe to render the HTML
+            const iframe = document.createElement('iframe');
+            iframe.style.position = 'absolute';
+            iframe.style.left = '-9999px';
+            iframe.style.visibility = 'hidden';
+            iframe.style.width = '1px';
+            iframe.style.height = '1px';
+            document.body.appendChild(iframe);
+
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            doc.open();
+            doc.write(htmlContent);
+            doc.close();
+
+            // Wait for content to load
+            await new Promise(resolve => {
+                if (iframe.contentWindow.document.readyState === 'complete') {
+                    resolve();
+                } else {
+                    iframe.onload = resolve;
+                }
+            });
+
+            // Use html2canvas to capture the content
+            const canvas = await html2canvas(iframe.contentDocument.body, {
+                useCORS: true,
+                allowTaint: true,
+                scale: 2,
+                backgroundColor: DOM.includeBackground.checked ? null : '#FFFFFF'
+            });
+
+            // Clean up iframe
+            document.body.removeChild(iframe);
+
+            // Create PDF
+            const { jsPDF } = window.jspdf;
+            const imgData = canvas.toDataURL('image/jpeg', 0.9);
+
+            const pageWidth = canvas.width;
+            const pageHeight = canvas.height;
+
+            // Get page size in pixels (based on 72 DPI)
+            const pageSize = DOM.pageSize.value;
+            const orientation = DOM.orientation.value;
+
+            let pdfWidth, pdfHeight;
+
+            // Define page dimensions in points (72 points per inch)
+            if (pageSize === 'a4') {
+                if (orientation === 'portrait') {
+                    pdfWidth = 595.28; // A4 portrait width in points
+                    pdfHeight = 841.89; // A4 portrait height in points
+                } else {
+                    pdfWidth = 841.89; // A4 landscape width in points
+                    pdfHeight = 595.28; // A4 landscape height in points
+                }
+            } else if (pageSize === 'letter') {
+                if (orientation === 'portrait') {
+                    pdfWidth = 612; // Letter portrait width in points
+                    pdfHeight = 792; // Letter portrait height in points
+                } else {
+                    pdfWidth = 792; // Letter landscape width in points
+                    pdfHeight = 612; // Letter landscape height in points
+                }
+            } else if (pageSize === 'legal') {
+                if (orientation === 'portrait') {
+                    pdfWidth = 612; // Legal portrait width in points
+                    pdfHeight = 1008; // Legal portrait height in points
+                } else {
+                    pdfWidth = 1008; // Legal landscape width in points
+                    pdfHeight = 612; // Legal landscape height in points
+                }
+            } else if (pageSize === 'a3') {
+                if (orientation === 'portrait') {
+                    pdfWidth = 841.89; // A3 portrait width in points
+                    pdfHeight = 1190.55; // A3 portrait height in points
+                } else {
+                    pdfWidth = 1190.55; // A3 landscape width in points
+                    pdfHeight = 841.89; // A3 landscape height in points
+                }
+            } else if (pageSize === 'a5') {
+                if (orientation === 'portrait') {
+                    pdfWidth = 419.53; // A5 portrait width in points
+                    pdfHeight = 595.28; // A5 portrait height in points
+                } else {
+                    pdfWidth = 595.28; // A5 landscape width in points
+                    pdfHeight = 419.53; // A5 landscape height in points
+                }
+            }
+
+            // Adjust for margins
+            const margin = parseInt(DOM.margin.value) * 2.83465; // Convert mm to points
+
+            const pdf = new jsPDF(orientation, 'pt', [pdfWidth, pdfHeight]);
+
+            // Calculate the ratio to fit the image to the PDF page
+            const imgWidth = pageWidth;
+            const imgHeight = pageHeight;
+
+            const ratio = Math.min(
+                (pdfWidth - 2 * margin) / imgWidth,
+                (pdfHeight - 2 * margin) / imgHeight
+            );
+
+            const imgFinalWidth = imgWidth * ratio;
+            const imgFinalHeight = imgHeight * ratio;
+
+            // Add image to PDF with margins
+            pdf.addImage(imgData, 'JPEG', margin, margin, imgFinalWidth, imgFinalHeight);
+
+            // Save PDF as blob
+            pdfBlob = pdf.output('blob');
+
+            // Update UI
+            DOM.convertBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Convert to PDF';
+            DOM.convertBtn.disabled = false;
+
+            // Show result section
+            DOM.resultSection.style.display = 'block';
+            DOM.previewSection.style.display = 'block';
+
+            // Update preview
+            DOM.htmlPreview.innerHTML = `<iframe srcdoc="${encodeURIComponent(htmlContent)}" style="width: 100%; height: 300px; border: 1px solid #ddd; border-radius: 4px;"></iframe>`;
+
+            // Update result description
+            const charCount = htmlContent.length;
+            const wordCount = htmlContent.split(/\s+/).filter(word => word.length > 0).length;
+            DOM.resultDescription.innerHTML =
+                `Successfully converted HTML to PDF. The document contains approximately ${wordCount} words and ${charCount} characters.`;
+
+        } catch (error) {
+            console.error('Error converting HTML to PDF:', error);
+            alert('Error converting HTML to PDF: ' + error.message);
+
+            // Reset button
+            DOM.convertBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Convert to PDF';
+            DOM.convertBtn.disabled = false;
+        }
+    }
+
+    // Download PDF
+    function downloadPdf() {
+        if (!pdfBlob) {
+            alert('No PDF file to download. Please convert HTML to PDF first.');
+            return;
+        }
+
+        // Get original filename or use default
+        const fileName = 'converted-document.pdf';
+        saveAs(pdfBlob, fileName);
+    }
+
+    // Reset tool for new conversion
+    function resetTool() {
+        // Reset state
+        currentHtml = '';
+        pdfBlob = null;
+
+        // Reset UI
+        DOM.htmlInput.value = '';
+        DOM.resultSection.style.display = 'none';
+        DOM.previewSection.style.display = 'none';
+
+        // Reset to default HTML
+        DOM.htmlInput.value = `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Document</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        p { color: #666; line-height: 1.6; }
+    </style>
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer><\/script>
+<\/head>
+<\/body>
+    <h1>Sample Document</h1>
+    <p>This is a sample HTML document that will be converted to PDF.</p>
+    <p>You can add any HTML content here with CSS styling.</p>
+<\/body>
+<\/html>`;
+
+        // Reset settings to defaults
+        DOM.pageSize.value = 'a4';
+        DOM.orientation.value = 'portrait';
+        DOM.margin.value = '10';
+        DOM.includeBackground.checked = false;
+        DOM.includeImages.checked = true;
+    }
+
+
+    // Initialize the tool when page loads
+    document.addEventListener('DOMContentLoaded', initTool);
+</script>
+</body>
+
+</html>

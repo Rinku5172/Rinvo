@@ -1,6 +1,6 @@
-# RINVO Backend Server with PDF.co API
+# RocketPDF Backend Server with PDF.co API
 
-Backend server for RINVO PDF conversion tools using PDF.co API.
+Backend server for RocketPDF PDF conversion tools using PDF.co API.
 
 ## Features
 
@@ -103,7 +103,7 @@ GET /api/health
 
 ### Heroku
 ```bash
-heroku create rinvo-backend
+heroku create rocketpdf-backend
 heroku config:set PDFCO_API_KEY=your_api_key
 git push heroku main
 ```

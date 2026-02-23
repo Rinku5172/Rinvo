@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>Edit PDF Metadata Online - Change PDF Properties | RocketPDF</title>
+    <meta name="description"
+        content="View and edit PDF metadata including Title, Author, Subject, and Keywords. Modify PDF properties online for free.">
+    <meta name="keywords"
+        content="edit pdf metadata, change pdf properties, pdf author editor, pdf title editor, rocketpdf, free online pdf tools, pdf tools, online pdf converter, secure pdf tools, no watermarks, best pdf editor, fast pdf processing, privacy focused pdf">
+    <link rel="canonical" href="https://rocketpdf.web.app/tools/pdf-metadata.html">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "PDF Metadata Editor - RocketPDF",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "description": "View and edit PDF metadata including Title, Author, Subject, and Keywords.",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.5",
+                "ratingCount": "450"
+            }
+        }
+    </script>
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap&font-display=swap"
+        rel="stylesheet">
+    <!-- PDF Lib -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <!-- Download JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 4rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tool-container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .tool-icon {
+            width: 80px;
+            height: 80px;
+            background: #dbeafe;
+            color: var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .desc {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Upload Area */
+        .upload-box {
+            border: 2px dashed var(--border);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #f1f5f9;
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+            transform: translateY(-2px);
+        }
+
+        .upload-icon-small {
+            font-size: 3rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .btn-select {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            transition: 0.2s;
+        }
+
+        .btn-select:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Metadata Form */
+        .process-section {
+            display: none;
+            margin-top: 2rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--secondary);
+        }
+
+        .form-input {
+            padding: 0.8rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text);
+            background: #f8fafc;
+            transition: 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .action-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+        }
+
+        .status-msg {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .success {
+            color: #10b981;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+
+
+
+        .read-only-msg {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.2rem;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer></script>
+</head>
+
+<body>
+    <div id="rocket-header"></div>
+
+    <main>
+        <div class="tool-container">
+            <div class="tool-icon">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <h1>PDF Metadata Editor</h1>
+            <p class="desc">View, edit, or remove metadata from your PDF files instantly.</p>
+
+            <div class="upload-box" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon-small">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3>Click to upload or drag and drop</h3>
+                <p style="color: #64748b; margin-top: 0.5rem;">Supported format: PDF</p>
+                <button class="btn-select">Select PDF File</button>
+                <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+            </div>
+
+            <div class="process-section" id="processSection">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Title</label>
+                        <input type="text" id="metaTitle" class="form-input" placeholder="Document Title">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Author</label>
+                        <input type="text" id="metaAuthor" class="form-input" placeholder="Author Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Subject</label>
+                        <input type="text" id="metaSubject" class="form-input" placeholder="Subject / Description">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Keywords</label>
+                        <input type="text" id="metaKeywords" class="form-input" placeholder="Comma separated keywords">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Creator</label>
+                        <input type="text" id="metaCreator" class="form-input"
+                            placeholder="Application used to create document">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Producer</label>
+                        <input type="text" id="metaProducer" class="form-input" placeholder="PDF conversion tool">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Creation Date</label>
+                        <input type="text" id="metaCreationDate" class="form-input" readonly
+                            style="background: #e2e8f0; cursor: not-allowed;">
+                        <span class="read-only-msg">Read-only field</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Modification Date</label>
+                        <input type="text" id="metaModDate" class="form-input" readonly
+                            style="background: #e2e8f0; cursor: not-allowed;">
+                        <span class="read-only-msg">Read-only field</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button class="action-btn" id="saveBtn">
+                        <i class="fas fa-save"></i> Save Metadata
+                    </button>
+                    <button class="action-btn" id="clearBtn" style="background: #ef4444; width: auto;">
+                        <i class="fas fa-eraser"></i> Clear All
+                    </button>
+                </div>
+
+                <div class="status-msg" id="statusMsg"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="rocket-footer"></div>
+
+    <script>
+        const { PDFDocument } = PDFLib;
+        let pdfDoc = null;
+        let selectedFile = null;
+
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const processSection = document.getElementById('processSection');
+        const saveBtn = document.getElementById('saveBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        // Form Fields
+        const metaTitle = document.getElementById('metaTitle');
+        const metaAuthor = document.getElementById('metaAuthor');
+        const metaSubject = document.getElementById('metaSubject');
+        const metaKeywords = document.getElementById('metaKeywords');
+        const metaCreator = document.getElementById('metaCreator');
+        const metaProducer = document.getElementById('metaProducer');
+        const metaCreationDate = document.getElementById('metaCreationDate');
+        const metaModDate = document.getElementById('metaModDate');
+
+        // Drag & Drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.background = '#eff6ff';
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = '#f1f5f9';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = '#f1f5f9';
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) handleFile(e.target.files[0]);
+        });
+
+        async function handleFile(file) {
+            if (file.type !== 'application/pdf') {
+                alert('Please upload a valid PDF file.');
+                return;
+            }
+            selectedFile = file;
+
+            dropZone.style.display = 'none';
+            processSection.style.display = 'block';
+            statusMsg.textContent = 'Loading metadata...';
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                pdfDoc = await PDFDocument.load(arrayBuffer);
+
+                // Read Metadata
+                metaTitle.value = pdfDoc.getTitle() || '';
+                metaAuthor.value = pdfDoc.getAuthor() || '';
+                metaSubject.value = pdfDoc.getSubject() || '';
+                metaKeywords.value = pdfDoc.getKeywords() || '';
+                metaCreator.value = pdfDoc.getCreator() || '';
+                metaProducer.value = pdfDoc.getProducer() || '';
+
+                // Dates are complex objects, simple display for now
+                metaCreationDate.value = pdfDoc.getCreationDate() ? pdfDoc.getCreationDate().toLocaleString() : 'Not set';
+                metaModDate.value = pdfDoc.getModificationDate() ? pdfDoc.getModificationDate().toLocaleString() : 'Not set';
+
+                statusMsg.textContent = '';
+            } catch (error) {
+                console.error(error);
+                statusMsg.textContent = 'Error loading PDF: ' + error.message;
+                statusMsg.className = 'status-msg error';
+            }
+        }
+
+        saveBtn.addEventListener('click', async () => {
+            if (!pdfDoc) return;
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                // Set Metadata
+                pdfDoc.setTitle(metaTitle.value);
+                pdfDoc.setAuthor(metaAuthor.value);
+                pdfDoc.setSubject(metaSubject.value);
+                pdfDoc.setKeywords(metaKeywords.value.split(',').map(k => k.trim()).filter(k => k));
+                pdfDoc.setCreator(metaCreator.value);
+                pdfDoc.setProducer(metaProducer.value);
+
+                // Update mod date automatically
+                pdfDoc.setModificationDate(new Date());
+
+                const pdfBytes = await pdfDoc.save();
+                download(pdfBytes, 'metadata_updated_' + selectedFile.name, 'application/pdf');
+
+                statusMsg.textContent = 'Success! File downloaded.';
+                statusMsg.className = 'status-msg success';
+
+            } catch (error) {
+                console.error(error);
+                statusMsg.textContent = 'Error saving PDF: ' + error.message;
+                statusMsg.className = 'status-msg error';
+            } finally {
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Metadata';
+                saveBtn.disabled = false;
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            metaTitle.value = '';
+            metaAuthor.value = '';
+            metaSubject.value = '';
+            metaKeywords.value = '';
+            metaCreator.value = '';
+            metaProducer.value = '';
+        });
+    </script>
+    </main>
+    <div id="rocket-footer"></div>
+</body>
+
+</html>

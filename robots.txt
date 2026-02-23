@@ -1,6 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /privacy.html
-Disallow: /terms.html
-
-Sitemap: https://www.rinvo.com/sitemap.xml
+Sitemap: https://rocketpdf.web.app/sitemap.xml

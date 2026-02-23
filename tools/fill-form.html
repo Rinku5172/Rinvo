@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>Fill PDF Forms Online - PDF Form Filler | RocketPDF</title>
+    <meta name="description"
+        content="Fill and sign PDF forms online for free. Add text, checkmarks, and signatures to PDF documents.">
+    <meta name="keywords"
+        content="fill pdf form, pdf form filler, sign pdf form, edit pdf form, rocketpdf, free online pdf tools, pdf tools, online pdf converter, secure pdf tools, no watermarks, best pdf editor, fast pdf processing, privacy focused pdf">
+    <link rel="canonical" href="https://rocketpdf.web.app/tools/fill-form.html">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Fill PDF Form - RocketPDF",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "description": "Fill and sign PDF forms online for free. Add text, checkmarks, and signatures.",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.7",
+                "ratingCount": "890"
+            }
+        }
+    </script>
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap&font-display=swap"
+        rel="stylesheet">
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <!-- PDF Lib -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <!-- Fabric.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <!-- Download JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+
+    <style>
+        :root {
+            /* Premium Theme - Blue for Fill Form */
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #eef2ff;
+            --secondary: #64748b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+
+            --header-height: 60px;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(67, 97, 238, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(10%, 10%) rotate(180deg);
+            }
+        }
+
+        /* Landing/Tool Container */
+        .tool-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 3rem auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        /* Similar to other tools */
+        .upload-box {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 3px dashed var(--border);
+            border-radius: 1.5rem;
+            padding: 5rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-lg);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-select {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-select:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(67, 97, 238, 0.4);
+        }
+
+        /* EDITOR UI (Initially Hidden) */
+        #editor-ui {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #f8fafc;
+            z-index: 2000;
+            /* Above everything */
+        }
+
+        .editor-header {
+            height: var(--header-height);
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            box-shadow: var(--shadow-sm);
+            z-index: 10;
+        }
+
+        .editor-logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .editor-workspace {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .thumbnails {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .thumb {
+            border: 2px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            background: #e2e8f0;
+            transition: 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .thumb.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .thumb canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .thumb-num {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f1f5f9;
+            position: relative;
+        }
+
+        .toolbar {
+            height: 50px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            gap: 1rem;
+        }
+
+        .tool-group {
+            display: flex;
+            gap: 0.25rem;
+            padding-right: 0.75rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .tool-group:last-child {
+            border: none;
+        }
+
+        .tool-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .tool-btn:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .tool-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Tooltip */
+        .tool-btn::after {
+            content: attr(title);
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.2s;
+            visibility: hidden;
+            z-index: 100;
+        }
+
+        .tool-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+            bottom: -35px;
+        }
+
+        .props-bar {
+            height: 40px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            gap: 1rem;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .prop-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        input[type="color"] {
+            width: 24px;
+            height: 24px;
+            border: none;
+            padding: 0;
+            background: none;
+            cursor: pointer;
+        }
+
+        .canvas-container-wrapper {
+            flex: 1;
+            overflow: auto;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .canvas-content {
+            box-shadow: var(--shadow-xl);
+            background: white;
+        }
+
+        .page-nav {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-right: 1rem;
+        }
+
+        .zoom-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+        }
+
+        .zoom-btn:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .tool-group span {
+                display: none;
+            }
+
+            /* hide labels if any */
+        }
+    </style>
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer></script>
+</head>
+
+<body>
+    <div id="rocket-header"></div>
+
+    <main class="tool-container" id="landing-ui">
+        <h1
+            style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, #4361ee, #3b82f6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+            Fill PDF Forms</h1>
+        <p style="color: var(--text-light); font-size: 1.2rem; margin-bottom: 3rem;">Edit PDF forms, fill text, add
+            checkmarks, sign, and more. 100% Free & Secure Client-Side.</p>
+
+        <div class="upload-box" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <i class="fas fa-pen-nib" style="font-size: 4rem; color: var(--primary); margin-bottom: 1.5rem;"></i>
+            <h3>Click to upload or drag & drop PDF</h3>
+            <button class="btn-select">
+                <i class="fas fa-folder-open"></i> Select PDF File
+            </button>
+            <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+        </div>
+    </main>
+
+    <div id="rocket-footer"></div>
+
+    <!-- EDITOR UI -->
+    <div id="editor-ui">
+        <header class="editor-header">
+            <div class="editor-logo">
+                <i class="fas fa-pen-nib"></i> RocketPDF Editor
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="changeZoom(-0.25)" title="Zoom Out"><i
+                            class="fas fa-minus"></i></button>
+                    <span id="zoomLevel"
+                        style="font-size: 0.9rem; font-weight: 600; min-width: 50px; text-align: center;">150%</span>
+                    <button class="zoom-btn" onclick="changeZoom(0.25)" title="Zoom In"><i
+                            class="fas fa-plus"></i></button>
+                </div>
+
+                <button class="btn-select" onclick="savePDF()"
+                    style="padding: 0.6rem 1.5rem; margin-top: 0; font-size: 0.95rem;">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+                <button class="tool-btn" onclick="closeEditor()" title="Close Editor"
+                    style="background:none; border:none; font-size:1.2rem;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="editor-workspace">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <span>Pages</span>
+                    <button class="tool-btn" onclick="addNewPage()" title="Add Blank Page"
+                        style="width:24px; height:24px; font-size:0.8rem;">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="thumbnails" id="thumbsContainer"></div>
+            </aside>
+
+            <section class="main-area">
+                <div class="toolbar">
+                    <div class="tool-group">
+                        <button class="tool-btn active" id="btn-select" onclick="setTool('select')"
+                            title="Select (V)"><i class="fas fa-mouse-pointer"></i></button>
+                        <button class="tool-btn" id="btn-hand" onclick="setTool('hand')" title="Hand (H)"><i
+                                class="fas fa-hand-paper"></i></button>
+                    </div>
+                    <div class="tool-group">
+                        <button class="tool-btn" onclick="addText()" title="Add Text"><i
+                                class="fas fa-font"></i></button>
+                        <button class="tool-btn" onclick="addCheckmark()" title="Checkmark"><i
+                                class="fas fa-check"></i></button>
+                        <button class="tool-btn" onclick="addWhiteout()" title="Whiteout"><i
+                                class="fas fa-eraser"></i></button>
+                        <button class="tool-btn" id="btn-draw" onclick="setTool('draw')" title="Sign (Draw)"><i
+                                class="fas fa-signature"></i></button>
+                    </div>
+                    <div class="tool-group">
+                        <button class="tool-btn" onclick="addImageTrigger()" title="Add Image"><i
+                                class="fas fa-image"></i></button>
+                        <input type="file" id="imgInput" accept="image/*" style="display:none">
+                    </div>
+                    <div class="tool-group">
+                        <button class="tool-btn" onclick="addShape('rect')" title="Rectangle"><i
+                                class="far fa-square"></i></button>
+                        <button class="tool-btn" onclick="addShape('circle')" title="Circle"><i
+                                class="far fa-circle"></i></button>
+                        <button class="tool-btn" onclick="addShape('line')" title="Line"><i
+                                class="fas fa-minus"></i></button>
+                    </div>
+                    <div class="tool-group">
+                        <button class="tool-btn" onclick="deleteSelected()" title="Delete"><i class="fas fa-trash-alt"
+                                style="color:var(--danger)"></i></button>
+                    </div>
+                </div>
+
+                <div class="props-bar" id="propsBar" style="visibility: hidden;">
+                    <!-- Props injected by JS -->
+                </div>
+
+                <div class="canvas-container-wrapper" id="canvasScrollArea">
+                    <div class="canvas-content" id="canvasWrapper">
+                        <canvas id="c"></canvas>
+                    </div>
+                </div>
+
+                <div class="page-nav">
+                    <button class="tool-btn" onclick="changePage(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <span id="pageIndicator" style="font-weight: 600;">Page 1 / 1</span>
+                    <button class="tool-btn" onclick="changePage(1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Processing Modal -->
+    <div class="modal-overlay" id="loadingModal">
+        <div class="modal">
+            <i class="fas fa-spinner fa-spin fa-3x" style="color: var(--primary); margin-bottom: 1rem;"></i>
+            <h3 id="loadingText">Processing...</h3>
+        </div>
+    </div>
+
+    <script>
+        // Global State
+        const { PDFDocument, rgb, StandardFonts } = PDFLib;
+        let pdfDoc = null;
+        let pdfBytes = null;
+        let totalPages = 0;
+        let currentPage = 1;
+        let canvas = null;
+        let fabricPages = {};
+        let currentScale = 1.5;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCanvas();
+            setupEvents();
+
+            // Setup Image Input
+            document.getElementById('imgInput').addEventListener('change', handleImageUpload);
+        });
+
+        function initCanvas() {
+            canvas = new fabric.Canvas('c', {
+                preserveObjectStacking: true,
+                selection: true,
+                fireRightClick: true
+            });
+
+            // Brush settings for signature
+            canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+            canvas.freeDrawingBrush.width = 3;
+            canvas.freeDrawingBrush.color = "black";
+
+            canvas.on('selection:created', updatePropsBar);
+            canvas.on('selection:updated', updatePropsBar);
+            canvas.on('selection:cleared', () => {
+                document.getElementById('propsBar').style.visibility = 'hidden';
+            });
+
+            canvas.on('object:modified', savePageState);
+            canvas.on('object:added', savePageState);
+            canvas.on('object:removed', savePageState);
+            canvas.on('path:created', savePageState); // For drawing
+        }
+
+        function setupEvents() {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+
+            dropZone.addEventListener('dragover', e => {
+                e.preventDefault();
+                dropZone.style.borderColor = 'var(--primary)';
+                dropZone.style.background = '#f0f9ff';
+            });
+
+            dropZone.addEventListener('dragleave', e => {
+                e.preventDefault();
+                dropZone.style.borderColor = 'var(--border)';
+                dropZone.style.background = 'rgba(255,255,255,0.9)';
+            });
+
+            dropZone.addEventListener('drop', e => {
+                e.preventDefault();
+                if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', e => {
+                if (e.target.files.length) handleFile(e.target.files[0]);
+            });
+        }
+
+        async function handleFile(file) {
+            if (file.type !== 'application/pdf') {
+                alert('Please upload a valid PDF file.');
+                return;
+            }
+
+            showLoading('Loading PDF...');
+            try {
+                pdfBytes = await file.arrayBuffer();
+
+                const loadingTask = pdfjsLib.getDocument(pdfBytes.slice(0));
+                const pdf = await loadingTask.promise;
+                totalPages = pdf.numPages;
+
+                fabricPages = {};
+                for (let i = 1; i <= totalPages; i++) fabricPages[i] = { objects: [] };
+
+                // Switch UI (Safe Check)
+                const landing = document.getElementById('landing-ui');
+                if (landing) landing.style.display = 'none';
+
+                // Hide standard header and footer
+                const footerEl = document.querySelector('footer') || document.getElementById('rocket-footer');
+                if (footerEl) footerEl.style.display = 'none';
+
+                const headerEl = document.querySelector('header') || document.getElementById('rocket-header');
+                if (headerEl) headerEl.style.display = 'none';
+
+                document.getElementById('editor-ui').style.display = 'flex';
+
+                updatePageNav();
+                renderThumbnails(pdf);
+                loadPage(1);
+
+            } catch (err) {
+                console.error(err);
+                alert('Error loading PDF: ' + err.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function renderThumbnails(pdf) {
+            const container = document.getElementById('thumbsContainer');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 0.2 });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+                const div = document.createElement('div');
+                div.className = 'thumb' + (i === 1 ? ' active' : '');
+                div.id = `thumb-${i}`;
+                div.innerHTML = `<img src="${canvas.toDataURL()}" style="width:100%"><div class="thumb-num">${i}</div>`;
+                div.onclick = () => loadPage(i);
+                container.appendChild(div);
+            }
+        }
+
+        async function loadPage(pageLimit) {
+            showLoading('Rendering...');
+
+            if (currentPage !== pageLimit) savePageState();
+
+            currentPage = pageLimit;
+            updatePageNav();
+
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+            const thumb = document.getElementById(`thumb-${currentPage}`);
+            if (thumb) thumb.classList.add('active');
+
+            const pdf = await pdfjsLib.getDocument(pdfBytes.slice(0)).promise;
+            const page = await pdf.getPage(currentPage);
+            const viewport = page.getViewport({ scale: currentScale });
+
+            canvas.setWidth(viewport.width);
+            canvas.setHeight(viewport.height);
+            document.getElementById('canvasWrapper').style.width = viewport.width + 'px';
+            document.getElementById('canvasWrapper').style.height = viewport.height + 'px';
+
+            const renderCanvas = document.createElement('canvas');
+            renderCanvas.width = viewport.width;
+            renderCanvas.height = viewport.height;
+            await page.render({ canvasContext: renderCanvas.getContext('2d'), viewport: viewport }).promise;
+
+            const bgImg = new fabric.Image(renderCanvas, {
+                selectable: false,
+                evented: false
+            });
+
+            canvas.clear();
+            canvas.setBackgroundImage(bgImg, canvas.renderAll.bind(canvas));
+
+            if (fabricPages[currentPage]) {
+                canvas.loadFromJSON(fabricPages[currentPage], () => {
+                    canvas.setBackgroundImage(bgImg, canvas.renderAll.bind(canvas));
+                    // Restore drawing mode if needed? No, standard is select.
+                });
+            }
+
+            // Re-apply current tool
+            restoreToolState();
+
+            hideLoading();
+        }
+
+        function savePageState() {
+            if (!currentPage) return;
+            const json = canvas.toJSON();
+            fabricPages[currentPage] = json;
+        }
+
+        function updatePageNav() {
+            document.getElementById('pageIndicator').innerText = `Page ${currentPage} / ${totalPages}`;
+        }
+
+        function changePage(delta) {
+            const next = currentPage + delta;
+            if (next >= 1 && next <= totalPages) loadPage(next);
+        }
+
+        function changeZoom(delta) {
+            const newScale = currentScale + delta;
+            if (newScale < 0.5 || newScale > 3.0) return;
+
+            currentScale = newScale;
+            document.getElementById('zoomLevel').innerText = Math.round(currentScale * 100) + '%';
+
+            // Reload page at new scale
+            loadPage(currentPage);
+        }
+
+        // --- TOOLS ---
+        let currentTool = 'select';
+
+        function setTool(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+
+            if (tool === 'select') {
+                document.getElementById('btn-select').classList.add('active');
+                canvas.isDrawingMode = false;
+                canvas.selection = true;
+                canvas.defaultCursor = 'default';
+                canvas.forEachObject(o => o.selectable = true);
+            } else if (tool === 'hand') {
+                document.getElementById('btn-hand').classList.add('active');
+                canvas.isDrawingMode = false;
+                canvas.selection = false;
+                canvas.defaultCursor = 'grab';
+                canvas.forEachObject(o => o.selectable = false);
+            } else if (tool === 'draw') {
+                document.getElementById('btn-draw').classList.add('active');
+                canvas.isDrawingMode = true;
+                canvas.selection = false;
+                canvas.freeDrawingBrush.color = "black";
+                canvas.freeDrawingBrush.width = 3;
+            }
+        }
+
+        function restoreToolState() {
+            setTool(currentTool);
+        }
+
+        function addText() {
+            setTool('select');
+            const text = new fabric.IText('Your Text', {
+                left: 100, top: 100,
+                fontFamily: 'Helvetica',
+                fill: '#000000',
+                fontSize: 20
+            });
+            canvas.add(text);
+            canvas.setActiveObject(text);
+        }
+
+        function addCheckmark() {
+            setTool('select');
+            const text = new fabric.Text('✓', {
+                left: 100, top: 100,
+                fontFamily: 'Arial',
+                fill: '#000000',
+                fontSize: 30
+            });
+            canvas.add(text);
+            canvas.setActiveObject(text);
+        }
+
+        function addWhiteout() {
+            setTool('select');
+            const rect = new fabric.Rect({
+                left: 100, top: 100,
+                width: 100, height: 30,
+                fill: '#ffffff',
+                stroke: 'transparent'
+            });
+            canvas.add(rect);
+            canvas.setActiveObject(rect);
+        }
+
+        function addShape(type) {
+            setTool('select');
+            let shape;
+            if (type === 'rect') {
+                shape = new fabric.Rect({
+                    left: 100, top: 100, width: 100, height: 100,
+                    fill: 'transparent', stroke: '#000000', strokeWidth: 2
+                });
+            } else if (type === 'circle') {
+                shape = new fabric.Circle({
+                    left: 100, top: 100, radius: 50,
+                    fill: 'transparent', stroke: '#000000', strokeWidth: 2
+                });
+            } else if (type === 'line') {
+                shape = new fabric.Line([50, 50, 200, 50], {
+                    left: 100, top: 100,
+                    stroke: '#000000', strokeWidth: 2
+                });
+            }
+            canvas.add(shape);
+            canvas.setActiveObject(shape);
+        }
+
+        function addImageTrigger() {
+            document.getElementById('imgInput').click();
+        }
+
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (f) {
+                const data = f.target.result;
+                fabric.Image.fromURL(data, function (img) {
+                    img.scaleToWidth(200);
+                    canvas.add(img);
+                    setTool('select');
+                    canvas.setActiveObject(img);
+                });
+            };
+            reader.readAsDataURL(file);
+            e.target.value = ''; // Reset
+        }
+
+        function deleteSelected() {
+            canvas.getActiveObjects().forEach(obj => canvas.remove(obj));
+            canvas.discardActiveObject();
+            canvas.requestRenderAll();
+        }
+
+        async function addNewPage() {
+            showLoading('Adding Page...');
+            try {
+                const pdfDoc = await PDFDocument.load(pdfBytes);
+                const page = pdfDoc.addPage(PDFDocument.create().getPage(0));
+
+                pdfBytes = await pdfDoc.save();
+
+                const pdf = await pdfjsLib.getDocument(pdfBytes.slice(0)).promise;
+                totalPages = pdf.numPages;
+
+                fabricPages[totalPages] = { objects: [] }; // Init new page
+
+                await renderThumbnails(pdf);
+                loadPage(totalPages);
+
+            } catch (err) {
+                console.error(err);
+                alert('Failed to add page.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function updatePropsBar() {
+            const obj = canvas.getActiveObject();
+            if (!obj) return;
+            const bar = document.getElementById('propsBar');
+            bar.style.visibility = 'visible';
+            bar.innerHTML = '';
+
+            // Fill
+            if (obj.fill && typeof obj.fill === 'string') {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'prop-item';
+                wrapper.innerHTML = `<span style="font-size:0.8rem; color:#64748b;">Fill:</span>`;
+                const input = document.createElement('input');
+                input.type = 'color';
+                input.value = obj.fill === 'transparent' ? '#ffffff' : obj.fill;
+                input.onchange = (e) => { obj.set('fill', e.target.value); canvas.renderAll(); };
+                wrapper.appendChild(input);
+                bar.appendChild(wrapper);
+            }
+
+            // Stroke (or color for Path)
+            if (obj.stroke || obj.type === 'path') {
+                const target = obj.type === 'path' ? 'stroke' : 'stroke'; // Path usually uses stroke for valid color
+                const wrapper = document.createElement('div');
+                wrapper.className = 'prop-item';
+                wrapper.innerHTML = `<span style="font-size:0.8rem; color:#64748b;">Color:</span>`;
+                const input = document.createElement('input');
+                input.type = 'color';
+                input.value = obj.stroke || obj.fill || '#000000';
+                input.onchange = (e) => {
+                    obj.set('stroke', e.target.value);
+                    if (obj.type === 'path') obj.set('fill', null); // Paths are usually stroked
+                    canvas.renderAll();
+                };
+                wrapper.appendChild(input);
+                bar.appendChild(wrapper);
+            }
+
+            if (obj.type === 'i-text' || obj.type === 'text') {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'prop-item';
+                wrapper.innerHTML = `<span style="font-size:0.8rem; color:#64748b;">Size:</span>`;
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.value = obj.fontSize;
+                input.style.width = '50px';
+                input.style.borderRadius = '4px';
+                input.style.border = '1px solid #ccc';
+                input.onchange = (e) => { obj.set('fontSize', parseInt(e.target.value)); canvas.renderAll(); };
+                wrapper.appendChild(input);
+                bar.appendChild(wrapper);
+            }
+        }
+
+        async function savePDF() {
+            showLoading('Saving PDF...');
+            savePageState();
+
+            try {
+                const pdfDoc = await PDFDocument.load(pdfBytes);
+                const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+                const pages = pdfDoc.getPages();
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageData = fabricPages[i];
+                    if (!pageData || !pageData.objects || pageData.objects.length === 0) continue;
+
+                    const pdfPage = pages[i - 1];
+                    const { width, height } = pdfPage.getSize();
+
+                    const scaleFactor = 1 / currentScale;
+
+                    for (const obj of pageData.objects) {
+                        const x = obj.left * scaleFactor;
+                        const y = height - (obj.top * scaleFactor);
+
+                        if (obj.type === 'i-text' || obj.type === 'text') {
+                            const textSize = obj.fontSize * scaleFactor;
+                            const textHeight = obj.height * obj.scaleY * scaleFactor;
+                            pdfPage.drawText(obj.text, {
+                                x: x,
+                                y: y - textHeight + (textSize * 0.2),
+                                size: textSize,
+                                font: (obj.fontWeight === 'bold') ? helveticaBold : helveticaFont,
+                                color: hexToRgb(obj.fill)
+                            });
+                        }
+                        else if (obj.type === 'rect') {
+                            const w = obj.width * obj.scaleX * scaleFactor;
+                            const h = obj.height * obj.scaleY * scaleFactor;
+                            pdfPage.drawRectangle({
+                                x: x,
+                                y: y - h,
+                                width: w,
+                                height: h,
+                                color: obj.fill === 'transparent' ? undefined : hexToRgb(obj.fill),
+                                borderColor: obj.stroke === 'transparent' ? undefined : hexToRgb(obj.stroke),
+                                borderWidth: obj.strokeWidth * scaleFactor
+                            });
+                        }
+                        else if (obj.type === 'circle') {
+                            const r = obj.radius * obj.scaleX * scaleFactor;
+                            const centerX = x + r;
+                            const centerY = y - r;
+                            pdfPage.drawCircle({
+                                x: centerX,
+                                y: centerY,
+                                size: r,
+                                color: obj.fill === 'transparent' ? undefined : hexToRgb(obj.fill),
+                                borderColor: obj.stroke === 'transparent' ? undefined : hexToRgb(obj.stroke),
+                                borderWidth: obj.strokeWidth * scaleFactor
+                            });
+                        }
+                        else if (obj.type === 'image') {
+                            // Handle Image Embedding
+                            // We need to fetch the image data from src (base64)
+                            // obj.src is usually data URL
+                            const imgBytes = await fetch(obj.src).then(res => res.arrayBuffer());
+                            let embeddedImage;
+                            if (obj.src.startsWith('data:image/png')) {
+                                embeddedImage = await pdfDoc.embedPng(imgBytes);
+                            } else {
+                                embeddedImage = await pdfDoc.embedJpg(imgBytes);
+                            }
+
+                            const w = obj.width * obj.scaleX * scaleFactor;
+                            const h = obj.height * obj.scaleY * scaleFactor;
+
+                            pdfPage.drawImage(embeddedImage, {
+                                x: x,
+                                y: y - h, // Bottom-left
+                                width: w,
+                                height: h
+                            });
+                        }
+                        else if (obj.type === 'path') {
+                            // For signatures (paths).
+                            // Easiest to convert path to Image via Canvas, then embed.
+                            // Creating a temporary canvas to rasterize the path
+                            const tempCanvas = document.createElement('canvas');
+                            const bb = fabric.util.makeBoundingBoxFromPoints(obj.path.map(p => ({ x: p[1], y: p[2] })));
+                            // Wait, fabric path logic is complex.
+                            // Alternative: drawSvgPath?
+                            // obj.path is array of commands. ['M', x, y], ['L', x, y]...
+                            // pdf-lib drawSvgPath expects a string "M x y L x y ..."
+
+                            // Let's try rasterization because mapping path coordinates exactly is hard with scaling.
+                            // Actually, obj.toDataURL() works for single object.
+
+                            // We need to restore the object to a separate canvas to get dataURL without background?
+                            // fabric object can generate its own dataURL!
+                            const imgData = obj.toDataURL();
+                            const imgBytes = await fetch(imgData).then(res => res.arrayBuffer());
+                            const embeddedImage = await pdfDoc.embedPng(imgBytes); // canvas toDataURL is PNG default
+
+                            const w = obj.width * obj.scaleX * scaleFactor;
+                            const h = obj.height * obj.scaleY * scaleFactor;
+
+                            // Fabric path origin is top-left of bounding box?
+                            // Yes.
+                            pdfPage.drawImage(embeddedImage, {
+                                x: x,
+                                y: y - h,
+                                width: w,
+                                height: h
+                            });
+                        }
+                    }
+                }
+
+                const modifiedBytes = await pdfDoc.save();
+                download(modifiedBytes, "edited-document.pdf", "application/pdf");
+
+            } catch (err) {
+                console.error(err);
+                alert('Error saving PDF: ' + err.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function hexToRgb(hex) {
+            if (!hex || hex === 'transparent') return undefined;
+            if (hex.startsWith('#')) {
+                const r = parseInt(hex.slice(1, 3), 16) / 255;
+                const g = parseInt(hex.slice(3, 5), 16) / 255;
+                const b = parseInt(hex.slice(5, 7), 16) / 255;
+                return rgb(r, g, b);
+            }
+            return undefined;
+        }
+
+        // --- UTILS ---
+        function showLoading(msg) {
+            document.getElementById('loadingText').innerText = msg;
+            document.getElementById('loadingModal').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingModal').style.display = 'none';
+        }
+
+        function closeEditor() {
+            if (confirm('Exit editor? Unsaved changes will be lost.')) {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+
+</html>

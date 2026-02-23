@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - RocketPDF | Frequently Asked Questions</title>
+    <meta name="description"
+        content="Find answers to common questions about RocketPDF's PDF tools. Learn how to use our free online PDF converter, compressor, and editor.">
+    <link rel="canonical" href="https://RocketPDF.web.app/faq.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="FAQ - RocketPDF">
+    <meta property="og:description" content="Frequently asked questions about RocketPDF PDF tools.">
+    <meta property="og:url" content="https://RocketPDF.web.app/faq.html">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="FAQ - RocketPDF">
+    <meta name="twitter:description" content="Frequently asked questions about RocketPDF PDF tools.">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .faq-search {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+
+        .faq-search input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .faq-search input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .faq-search i {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+
+        .faq-category h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1e293b;
+            user-select: none;
+        }
+
+        .faq-question:hover {
+            color: #667eea;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+            color: #667eea;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: #475569;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-wrapper">
+                    <a href="index.html" class="logo" aria-label="RocketPDF Home">RocketPDF</a>
+                    <p class="tagline" style="color: #475569;">Power Your PDFs</p>
+                </div>
+                <nav class="nav-menu" aria-label="Main Navigation">
+                    <a href="index.html#tools">TOOLS</a>
+                    <a href="about.html">ABOUT</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="contact.html">CONTACT</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn-login" aria-label="Login">Login</button>
+                    <button class="btn-signup" aria-label="Sign up">Sign up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div style="padding: 4rem 0; min-height: 70vh;">
+        <div class="container" style="max-width: 900px;">
+            <h1
+                style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; text-align: center;">
+                <i class="fas fa-question-circle" aria-hidden="true"></i> Frequently Asked Questions
+            </h1>
+            <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 3rem; text-align: center;">Find answers to
+                common questions about RocketPDF</p>
+
+            <div class="faq-search">
+                <input type="text" id="faqSearch" placeholder="Search for answers..." aria-label="Search FAQ">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <div class="faq-category">
+                <h2><i class="fas fa-shield-alt" style="color: #667eea;"></i> Security & Privacy</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Are my files safe and secure?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! Your files are processed entirely in your browser using client-side JavaScript. We
+                            never upload your files to our servers, ensuring complete privacy and security. All
+                            processing happens on your device.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you store my files?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            No, we do not store any of your files. All PDF processing happens locally in your browser.
+                            Once you close the page, all data is automatically cleared from your browser's memory.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is RocketPDF GDPR compliant?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes, RocketPDF is fully GDPR compliant. We collect minimal data (only anonymous analytics),
+                            never store your files, and respect your privacy rights. See our <a href="gdpr.html"
+                                style="color: #667eea;">GDPR page</a> for more details.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <h2><i class="fas fa-tools" style="color: #667eea;"></i> Using RocketPDF Tools</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is RocketPDF really free?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! All RocketPDF tools are completely free to use with no hidden fees, subscriptions, or
+                            limitations. We believe everyone should have access to quality PDF tools.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do I need to create an account?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            No account is required! You can use all RocketPDF tools instantly without signing up. Simply
+                            select your tool, upload your file, and start working.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What file size limit do you have?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Since all processing happens in your browser, the file size limit depends on your device's
+                            memory. Most modern devices can handle files up to 100MB without issues. For very large
+                            files, we recommend using a desktop computer.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I use RocketPDF on mobile devices?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! RocketPDF is fully responsive and works on smartphones and tablets. However, for the best
+                            experience with large files, we recommend using a desktop or laptop computer.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <h2><i class="fas fa-file-pdf" style="color: #667eea;"></i> PDF Tools</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I compress a PDF without losing quality?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Use our Compress PDF tool and select the "High Quality" option. This will reduce file size
+                            while maintaining visual quality. For maximum compression, choose "Maximum Compression" but
+                            note that some quality loss may occur.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I merge multiple PDFs at once?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! Our Merge PDF tool supports multiple file uploads. Simply drag and drop all your PDF
+                            files, arrange them in the desired order, and click merge.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How accurate is the PDF to Word conversion?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Our PDF to Word converter maintains formatting, fonts, and layout with high accuracy.
+                            However, complex layouts or scanned PDFs may require some manual adjustments after
+                            conversion.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I password protect my PDFs?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! Use our Lock PDF tool to add password protection to your documents. Note that true
+                            encryption requires server-side processing, so our current version provides a demo
+                            interface.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <h2><i class="fas fa-life-ring" style="color: #667eea;"></i> Support</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>I'm having trouble with a tool. What should I do?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            First, try refreshing the page and uploading your file again. If the problem persists,
+                            please contact us through our <a href="contact.html" style="color: #667eea;">Contact
+                                page</a> with details about the issue.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer customer support?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! We're here to help. Contact us via email at support@RocketPDF.com or use our <a
+                                href="contact.html" style="color: #667eea;">contact form</a>. We typically respond
+                            within 24 hours.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                style="background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 20px; padding: 3rem; text-align: center; color: white; margin-top: 3rem;">
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Still have questions?</h3>
+                <p style="margin-bottom: 2rem; opacity: 0.9;">We're here to help! Contact our support team.</p>
+                <a href="contact.html"
+                    style="display: inline-block; background: white; color: #667eea; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 700;">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background: #1e293b; color: white; padding: 3rem 0;">
+        <div class="container">
+            <div style="text-align: center;">
+                <p>&copy; 2025 RocketPDF. All rights reserved. Made with ❤️ for PDF lovers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                // Close all items
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                // Open clicked item if it wasn't active
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // FAQ Search
+        const searchInput = document.getElementById('faqSearch');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
+
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

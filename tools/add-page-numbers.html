@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>Add Page Numbers to PDF - RocketPDF | Numbering Tool</title>
+    <meta name="description"
+        content="Add numbering to PDF pages. Custom position, alignment, and format (Page X of Y). Free online tool.">
+    <link rel="canonical" href="https://RocketPDF.web.app/tools/add-page-numbers.html">
+
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap&font-display=swap">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            --primary-color: #ec4899;
+            --primary-light: rgba(236, 72, 153, 0.1);
+            --secondary-color: #8b5cf6;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-hover: #f1f5f9;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --bg-hover: #334155;
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #475569;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+
+
+        /* Main Container */
+        .tool-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .tool-title {
+            font-size: 2.5rem;
+            margin: 0.5rem 0 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        .tool-description {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        /* Upload Area */
+        .upload-wrapper {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 2px dashed var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 2rem;
+        }
+
+        .upload-wrapper:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px -10px rgba(236, 72, 153, 0.15);
+        }
+
+        .upload-icon-large {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+            color: #db2777;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 20px -5px rgba(236, 72, 153, 0.2);
+        }
+
+        .dark-mode .upload-icon-large {
+            background: linear-gradient(135deg, #831843 0%, #9d174d 100%);
+            box-shadow: none;
+        }
+
+        /* Buttons */
+        .btn-main {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary-color);
+        }
+
+        /* Editor Stage */
+        .workspace {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* File Info Panel */
+        .file-info-panel {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .file-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .add-more-btn {
+            color: var(--primary-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-details {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            flex: 1;
+            min-width: 320px;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .controls-panel h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--text-color);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        /* Control Groups */
+        .control-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .control-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .control-description {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            line-height: 1.4;
+        }
+
+        /* Radio and Checkbox Groups */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 0.75rem 0;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.75rem 0;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+
+        /* Position Grid */
+        .pos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .pos-btn {
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            padding: 1rem 0.5rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            gap: 0.25rem;
+        }
+
+        .pos-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary-color);
+        }
+
+        .pos-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pos-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Inputs and Selects */
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+        }
+
+        .form-control-sm {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .input-group-item {
+            flex: 1;
+        }
+
+        /* Text Formatting */
+        .text-format-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.75rem 0;
+            flex-wrap: wrap;
+        }
+
+        .format-btn {
+            background: var(--bg-hover);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .format-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary-color);
+        }
+
+        .format-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .font-select {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        /* Preview Panel */
+        .preview-panel {
+            flex: 1.5;
+            min-width: 350px;
+            background: #cbd5e1;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 500px;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .preview-panel {
+            background: #334155;
+        }
+
+        .preview-container {
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 100%;
+            max-height: 100%;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .dark-mode .preview-container {
+            background: #475569;
+        }
+
+        .preview-canvas {
+            display: block;
+            max-width: 100%;
+            max-height: 450px;
+        }
+
+        .number-overlay {
+            position: absolute;
+            background: rgba(236, 72, 153, 0.15);
+            border: 1px solid #ec4899;
+            color: #db2777;
+            padding: 4px 8px;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 4px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 10;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .number-overlay {
+            background: rgba(236, 72, 153, 0.3);
+            color: #f472b6;
+        }
+
+        /* Page Range Controls */
+        .page-range-controls {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1rem;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .range-label {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Progress */
+        .progress-container {
+            display: none;
+            margin-top: 2rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .workspace {
+                flex-direction: column;
+            }
+
+            .preview-panel {
+                min-height: 400px;
+            }
+
+            .tool-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .pos-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .tool-container {
+                padding: 0 0.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer></script>
+</head>
+
+<body class="light-mode">
+    <div class="loading-bar">
+        <div class="loading-bar-fill"></div>
+    </div>
+
+    <!-- Enhanced Header -->
+    <div id="rocket-header"></div>
+    <main id="main-content">
+
+        <div class="container tool-container">
+            <div class="tool-header">
+                <div
+                    style="font-size: 0.9rem; color: #ec4899; font-weight: 600; letter-spacing: 1px; margin-bottom: 0.5rem; text-transform: uppercase;">
+                    Pagination
+                </div>
+                <h1 class="tool-title">Add Page Numbers</h1>
+                <p class="tool-description">
+                    Insert page numbers into your PDF. Customize position, alignment, and formatting styles.
+                </p>
+            </div>
+
+            <!-- UPLOAD SECTION -->
+            <div class="upload-wrapper" id="dropZone">
+                <div class="upload-icon-large">
+                    <i class="fas fa-list-ol"></i>
+                </div>
+                <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Drop PDF here</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or click below to select file</p>
+
+                <button class="btn-main" onclick="document.getElementById('fileInput').click()">
+                    <i class="fas fa-plus-circle"></i> Choose File
+                </button>
+                <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+
+                <div
+                    style="margin-top: 2rem; display: flex; gap: 1.5rem; justify-content: center; font-size: 0.9rem; color: var(--text-muted);">
+                    <span><i class="fas fa-font" style="color: #3b82f6;"></i> Custom Format</span>
+                    <span><i class="fas fa-th-large" style="color: #10b981;"></i> Position Grid</span>
+                    <span><i class="fas fa-sliders-h" style="color: #ec4899;"></i> Advanced Options</span>
+                </div>
+            </div>
+
+            <!-- EDITOR STAGE -->
+            <div id="editorStage" style="display:none;" class="fade-in">
+
+                <!-- File Info -->
+                <div class="file-info-panel">
+                    <div class="file-header">
+                        <div class="file-name" id="fileName">Document.pdf</div>
+                        <button class="add-more-btn" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-plus"></i> Add more files
+                        </button>
+                    </div>
+                    <div class="file-details">
+                        <span><i class="fas fa-file"></i> <span id="fileSize">-- KB</span></span>
+                        <span><i class="fas fa-copy"></i> <span id="pageCount">-- pages</span></span>
+                    </div>
+                </div>
+
+                <div class="workspace">
+
+                    <!-- Controls Panel -->
+                    <div class="controls-panel">
+                        <h2>Page Number Options</h2>
+
+                        <!-- Position Section -->
+                        <div class="section-title">Position</div>
+                        <div class="control-group">
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="position-type" value="single" checked>
+                                    Single page
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="position-type" value="facing">
+                                    Facing pages
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">Select position on page:</div>
+                            <div class="pos-grid">
+                                <button class="pos-btn" data-pos="tl" onclick="setPosition('tl')">
+                                    <i class="fas fa-arrow-up pos-icon"></i>
+                                    <span>Top Left</span>
+                                </button>
+                                <button class="pos-btn" data-pos="tc" onclick="setPosition('tc')">
+                                    <i class="fas fa-arrow-up pos-icon"></i>
+                                    <span>Top Center</span>
+                                </button>
+                                <button class="pos-btn" data-pos="tr" onclick="setPosition('tr')">
+                                    <i class="fas fa-arrow-up pos-icon"></i>
+                                    <span>Top Right</span>
+                                </button>
+                                <button class="pos-btn" data-pos="bl" onclick="setPosition('bl')">
+                                    <i class="fas fa-arrow-down pos-icon"></i>
+                                    <span>Bottom Left</span>
+                                </button>
+                                <button class="pos-btn active" data-pos="bc" onclick="setPosition('bc')">
+                                    <i class="fas fa-arrow-down pos-icon"></i>
+                                    <span>Bottom Center</span>
+                                </button>
+                                <button class="pos-btn" data-pos="br" onclick="setPosition('br')">
+                                    <i class="fas fa-arrow-down pos-icon"></i>
+                                    <span>Bottom Right</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">Margin:</div>
+                            <select class="form-control" id="marginSelect" onchange="updatePreview()">
+                                <option value="small">Small (10px)</option>
+                                <option value="medium" selected>Recommended (20px)</option>
+                                <option value="large">Large (30px)</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                            <div id="customMarginContainer" style="display: none; margin-top: 0.5rem;">
+                                <input type="number" class="form-control" id="customMargin" min="0" value="20"
+                                    oninput="updatePreview()">
+                                <div class="control-description">Margin in pixels from page edge</div>
+                            </div>
+                        </div>
+
+                        <!-- Pages Section -->
+                        <div class="section-title">Pages</div>
+                        <div class="control-group">
+                            <div class="control-label">First number:</div>
+                            <input type="number" class="form-control" id="startNumber" min="1" value="1"
+                                oninput="updatePreview()">
+                            <div class="control-description">The starting page number</div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <div class="control-label">Which pages do you want to number?</div>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="page-range" value="all" checked>
+                                    All pages (1 to <span id="totalPagesSpan">--</span>)
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="page-range" value="custom">
+                                    Custom range
+                                </label>
+                            </div>
+
+                            <div id="customRangeContainer" style="display: none; margin-top: 0.75rem;">
+                                <div class="page-range-controls">
+                                    <span class="range-label">from page</span>
+                                    <input type="number" class="form-control form-control-sm" id="rangeFrom" min="1"
+                                        value="1">
+                                    <span class="range-label">to</span>
+                                    <input type="number" class="form-control form-control-sm" id="rangeTo" min="1"
+                                        value="2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Section -->
+                        <div class="section-title">Text</div>
+                        <div class="control-group">
+                            <div class="control-label">Number format:</div>
+                            <select class="form-control" id="formatSelect" onchange="updatePreview()">
+                                <option value="n">Page 1</option>
+                                <option value="n_of_t" selected>Page 1 of N (recommended)</option>
+                                <option value="just_n">1</option>
+                                <option value="just_n_of_t">1 / N</option>
+                                <option value="custom">Custom text</option>
+                            </select>
+
+                            <div id="customTextContainer" style="display: none; margin-top: 0.5rem;">
+                                <input type="text" class="form-control" id="customText"
+                                    placeholder="e.g., Page {n} of {t}" oninput="updatePreview()">
+                                <div class="control-description">Use {n} for page number, {t} for total pages</div>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">Text format:</div>
+                            <div class="text-format-toolbar">
+                                <select class="form-control font-select" id="fontSelect" onchange="updatePreview()">
+                                    <option value="Helvetica">Arial</option>
+                                    <option value="Times-Roman">Times New Roman</option>
+                                    <option value="Courier">Courier</option>
+                                    <option value="Helvetica-Bold">Arial Bold</option>
+                                </select>
+
+                                <button class="format-btn" data-format="bold" onclick="toggleFormat('bold')">
+                                    <i class="fas fa-bold"></i>
+                                </button>
+                                <button class="format-btn" data-format="italic" onclick="toggleFormat('italic')">
+                                    <i class="fas fa-italic"></i>
+                                </button>
+                                <button class="format-btn" data-format="underline" onclick="toggleFormat('underline')">
+                                    <i class="fas fa-underline"></i>
+                                </button>
+
+                                <input type="number" class="form-control" id="fontSize" min="8" max="72" value="12"
+                                    style="width: 70px;" oninput="updatePreview()">
+                                <span style="color: var(--text-muted); font-size: 0.9rem;">px</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div style="margin-top: 2rem;">
+                            <button class="btn-main" id="btnProcess" onclick="processPDF()" style="width: 100%;">
+                                <i class="fas fa-list-ol"></i> Add Page Numbers
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Preview Panel -->
+                    <div class="preview-panel">
+                        <div class="preview-container" id="previewContainer">
+                            <!-- Canvas will be inserted here -->
+                            <div
+                                style="display: flex; justify-content: center; align-items: center; height: 100%; color: var(--text-muted); padding: 2rem; text-align: center;">
+                                <div>
+                                    <i class="fas fa-file-pdf"
+                                        style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                                    <p>PDF preview will appear here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROGRESS SECTION -->
+            <div class="progress-container" id="progressArea">
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Adding Page Numbers...</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;" id="progressText">Processing document...</p>
+            </div>
+        </div>
+
+        <!-- Libraries -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+        <script>
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        </script>
+        <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+        <script>
+            // DOM Elements
+            const DOM = {
+                dropZone: document.getElementById('dropZone'),
+                fileInput: document.getElementById('fileInput'),
+                editorStage: document.getElementById('editorStage'),
+                previewContainer: document.getElementById('previewContainer'),
+                btnProcess: document.getElementById('btnProcess'),
+                progressArea: document.getElementById('progressArea'),
+                progressBar: document.getElementById('progressBar'),
+                progressText: document.getElementById('progressText'),
+                fileName: document.getElementById('fileName'),
+                fileSize: document.getElementById('fileSize'),
+                pageCount: document.getElementById('pageCount'),
+                totalPagesSpan: document.getElementById('totalPagesSpan')
+            };
+
+            // State Variables
+            let loadedPdf = null;
+            let pdfBytes = null;
+            let originalFileName = '';
+            let fileSizeBytes = 0;
+            let totalPages = 0;
+            let currentPosition = 'bc'; // Default: Bottom Center
+            let textFormats = {
+                bold: false,
+                italic: false,
+                underline: false
+            };
+            let previewViewport = null;
+
+            // Initialize Event Listeners
+            function initEventListeners() {
+                // File Upload
+                DOM.dropZone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    DOM.dropZone.style.borderColor = 'var(--primary-color)';
+                });
+
+                DOM.dropZone.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    DOM.dropZone.style.borderColor = '';
+                });
+
+                DOM.dropZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    DOM.dropZone.style.borderColor = '';
+                    if (e.dataTransfer.files[0]) {
+                        loadPdfFile(e.dataTransfer.files[0]);
+                    }
+                });
+
+                DOM.fileInput.addEventListener('change', (e) => {
+                    if (e.target.files[0]) {
+                        loadPdfFile(e.target.files[0]);
+                    }
+                });
+
+                // Page Range Toggle
+                document.querySelectorAll('input[name="page-range"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        const customContainer = document.getElementById('customRangeContainer');
+                        customContainer.style.display = e.target.value === 'custom' ? 'block' : 'none';
+                        updatePreview();
+                    });
+                });
+
+                // Margin Select
+                document.getElementById('marginSelect').addEventListener('change', (e) => {
+                    const customContainer = document.getElementById('customMarginContainer');
+                    customContainer.style.display = e.target.value === 'custom' ? 'block' : 'none';
+                    updatePreview();
+                });
+
+                // Format Select
+                document.getElementById('formatSelect').addEventListener('change', (e) => {
+                    const customContainer = document.getElementById('customTextContainer');
+                    customContainer.style.display = e.target.value === 'custom' ? 'block' : 'none';
+                    updatePreview();
+                });
+
+                // Range Inputs
+                document.getElementById('rangeFrom').addEventListener('input', updatePreview);
+                document.getElementById('rangeTo').addEventListener('input', updatePreview);
+                document.getElementById('customMargin').addEventListener('input', updatePreview);
+                document.getElementById('customText').addEventListener('input', updatePreview);
+                document.getElementById('startNumber').addEventListener('input', updatePreview);
+                document.getElementById('fontSelect').addEventListener('change', updatePreview);
+                document.getElementById('fontSize').addEventListener('input', updatePreview);
+            }
+
+            // Load PDF File
+            async function loadPdfFile(file) {
+                if (file && file.type === 'application/pdf') {
+                    try {
+                        showProgress('Loading PDF file...', 10);
+
+                        // Store global file references
+                        window.currentFile = file; // Store the original file object
+                        originalFileName = file.name;
+                        fileSizeBytes = file.size;
+
+                        // Get bytes for initial preview
+                        pdfBytes = await file.arrayBuffer();
+
+                        // Load PDF
+                        loadedPdf = await pdfjsLib.getDocument(pdfBytes).promise;
+                        totalPages = loadedPdf.numPages;
+
+                        // Update UI with file info
+                        DOM.fileName.textContent = originalFileName;
+                        DOM.fileSize.textContent = formatFileSize(fileSizeBytes);
+                        DOM.pageCount.textContent = `${totalPages} pages`;
+                        DOM.totalPagesSpan.textContent = totalPages;
+
+                        // Set default range to all pages
+                        document.getElementById('rangeTo').value = totalPages;
+                        document.getElementById('rangeTo').max = totalPages;
+
+                        showProgress('Rendering preview...', 30);
+
+                        // Render preview
+                        await renderPreview();
+
+                        // Show editor
+                        DOM.dropZone.style.display = 'none';
+                        DOM.editorStage.style.display = 'block';
+                        DOM.progressArea.style.display = 'none';
+
+                    } catch (error) {
+                        console.error('Error loading PDF:', error);
+                        alert('Error loading PDF. Please try another file.');
+                        DOM.progressArea.style.display = 'none';
+                    }
+                } else {
+                    alert('Please select a valid PDF file.');
+                }
+            }
+
+            // Render Preview
+            async function renderPreview() {
+                try {
+                    const page = await loadedPdf.getPage(1);
+                    const scale = 0.5; // Preview scale
+                    previewViewport = page.getViewport({ scale });
+
+                    // Create canvas
+                    const canvas = document.createElement('canvas');
+                    canvas.className = 'preview-canvas';
+                    canvas.width = previewViewport.width;
+                    canvas.height = previewViewport.height;
+
+                    // Clear container and add canvas
+                    DOM.previewContainer.innerHTML = '';
+                    DOM.previewContainer.appendChild(canvas);
+
+                    // Render page
+                    await page.render({
+                        canvasContext: canvas.getContext('2d'),
+                        viewport: previewViewport
+                    }).promise;
+
+                    // Add number overlay
+                    updatePreview();
+
+                } catch (error) {
+                    console.error('Error rendering preview:', error);
+                    DOM.previewContainer.innerHTML = `
+                    <div style="display: flex; justify-content: center; align-items: center; height: 100%; color: var(--text-muted); padding: 2rem; text-align: center;">
+                        <div>
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                            <p>Could not load preview</p>
+                        </div>
+                    </div>
+                `;
+                }
+            }
+
+            // Set Position
+            function setPosition(pos) {
+                currentPosition = pos;
+
+                // Update button states
+                document.querySelectorAll('.pos-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`.pos-btn[data-pos="${pos}"]`).classList.add('active');
+
+                updatePreview();
+            }
+
+            // Toggle Text Format
+            function toggleFormat(format) {
+                textFormats[format] = !textFormats[format];
+
+                // Update button state
+                const btn = document.querySelector(`.format-btn[data-format="${format}"]`);
+                btn.classList.toggle('active', textFormats[format]);
+
+                updatePreview();
+            }
+
+            // Update Preview
+            function updatePreview() {
+                const overlay = document.querySelector('.number-overlay');
+                if (!overlay) {
+                    createOverlay();
+                } else {
+                    updateOverlay();
+                }
+            }
+
+            // Create Overlay
+            function createOverlay() {
+                const overlay = document.createElement('div');
+                overlay.className = 'number-overlay';
+                overlay.id = 'numberOverlay';
+                DOM.previewContainer.appendChild(overlay);
+                updateOverlay();
+            }
+
+            // Update Overlay
+            function updateOverlay() {
+                const overlay = document.getElementById('numberOverlay');
+                if (!overlay || !previewViewport) return;
+
+                // Get text
+                const format = document.getElementById('formatSelect').value;
+                const startNum = parseInt(document.getElementById('startNumber').value) || 1;
+                const customText = document.getElementById('customText').value;
+
+                let text = '';
+                switch (format) {
+                    case 'n':
+                        text = `Page ${startNum}`;
+                        break;
+                    case 'n_of_t':
+                        text = `Page ${startNum} of ${totalPages}`;
+                        break;
+                    case 'just_n':
+                        text = `${startNum}`;
+                        break;
+                    case 'just_n_of_t':
+                        text = `${startNum} / ${totalPages}`;
+                        break;
+                    case 'custom':
+                        text = customText.replace(/\{n\}/g, startNum).replace(/\{t\}/g, totalPages);
+                        break;
+                }
+
+                overlay.textContent = text;
+
+                // Apply font styles
+                let fontSize = parseInt(document.getElementById('fontSize').value) || 12;
+                const previewScale = 0.5; // Match renderPreview scale
+                const scaledFontSize = fontSize * previewScale;
+
+                overlay.style.fontSize = `${scaledFontSize}px`;
+                overlay.style.fontWeight = textFormats.bold ? 'bold' : 'normal';
+                overlay.style.fontStyle = textFormats.italic ? 'italic' : 'normal';
+                overlay.style.textDecoration = textFormats.underline ? 'underline' : 'none';
+
+                // Get margin
+                let margin;
+                const marginSelect = document.getElementById('marginSelect').value;
+                switch (marginSelect) {
+                    case 'small': margin = 10; break;
+                    case 'medium': margin = 20; break;
+                    case 'large': margin = 30; break;
+                    case 'custom': margin = parseInt(document.getElementById('customMargin').value) || 20; break;
+                    default: margin = 20;
+                }
+
+                const scaledMargin = margin * previewScale;
+
+                // Position overlay
+                const canvas = DOM.previewContainer.querySelector('canvas');
+                if (!canvas) return;
+
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+
+                // Reset styles
+                overlay.style.top = 'auto';
+                overlay.style.bottom = 'auto';
+                overlay.style.left = 'auto';
+                overlay.style.right = 'auto';
+                overlay.style.transform = 'none';
+
+                // Set position based on currentPosition
+                switch (currentPosition) {
+                    case 'tl': // Top Left
+                        overlay.style.top = `${scaledMargin}px`;
+                        overlay.style.left = `${scaledMargin}px`;
+                        break;
+                    case 'tc': // Top Center
+                        overlay.style.top = `${scaledMargin}px`;
+                        overlay.style.left = '50%';
+                        overlay.style.transform = 'translateX(-50%)';
+                        break;
+                    case 'tr': // Top Right
+                        overlay.style.top = `${scaledMargin}px`;
+                        overlay.style.right = `${scaledMargin}px`;
+                        break;
+                    case 'bl': // Bottom Left
+                        overlay.style.bottom = `${scaledMargin}px`;
+                        overlay.style.left = `${scaledMargin}px`;
+                        break;
+                    case 'bc': // Bottom Center
+                        overlay.style.bottom = `${scaledMargin}px`;
+                        overlay.style.left = '50%';
+                        overlay.style.transform = 'translateX(-50%)';
+                        break;
+                    case 'br': // Bottom Right
+                        overlay.style.bottom = `${scaledMargin}px`;
+                        overlay.style.right = `${scaledMargin}px`;
+                        break;
+                }
+            }
+
+            // Process PDF
+            async function processPDF() {
+                if (!DOM.fileName.textContent || !window.currentFile) {
+                    alert('Please upload a PDF file first.');
+                    return;
+                }
+
+                DOM.btnProcess.disabled = true;
+                DOM.btnProcess.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+                DOM.editorStage.style.display = 'none';
+                DOM.progressArea.style.display = 'block';
+                showProgress('Preparing document...', 10);
+
+                try {
+                    const { PDFDocument, rgb, StandardFonts } = PDFLib;
+
+                    // CRITICAL FIX: Use fresh ArrayBuffer instead of detached one
+                    const freshBytes = await window.currentFile.arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(freshBytes);
+
+                    const pages = pdfDoc.getPages();
+
+                    // Get settings
+                    const format = document.getElementById('formatSelect').value;
+                    const startNum = parseInt(document.getElementById('startNumber').value) || 1;
+                    const customText = document.getElementById('customText').value;
+                    const fontSelect = document.getElementById('fontSelect').value;
+                    const fontSize = parseInt(document.getElementById('fontSize').value) || 12;
+                    const pageRange = document.querySelector('input[name="page-range"]:checked').value;
+                    const rangeFrom = parseInt(document.getElementById('rangeFrom').value) || 1;
+                    const rangeTo = parseInt(document.getElementById('rangeTo').value) || totalPages;
+
+                    // Get margin
+                    let margin;
+                    const marginSelect = document.getElementById('marginSelect').value;
+                    switch (marginSelect) {
+                        case 'small': margin = 10; break;
+                        case 'medium': margin = 20; break;
+                        case 'large': margin = 30; break;
+                        case 'custom': margin = parseInt(document.getElementById('customMargin').value) || 20; break;
+                        default: margin = 20;
+                    }
+
+                    // Embed font
+                    let fontName;
+                    switch (fontSelect) {
+                        case 'Helvetica': fontName = StandardFonts.Helvetica; break;
+                        case 'Times-Roman': fontName = StandardFonts.TimesRoman; break;
+                        case 'Courier': fontName = StandardFonts.Courier; break;
+                        case 'Helvetica-Bold': fontName = StandardFonts.HelveticaBold; break;
+                        default: fontName = StandardFonts.Helvetica;
+                    }
+
+                    const font = await pdfDoc.embedFont(fontName);
+
+                    // Process each page
+                    const totalToProcess = pageRange === 'all' ? totalPages : (rangeTo - rangeFrom + 1);
+                    let processed = 0;
+
+                    for (let i = 0; i < pages.length; i++) {
+                        const pageIndex = i + 1;
+
+                        // Check if this page should be numbered
+                        if (pageRange === 'custom' && (pageIndex < rangeFrom || pageIndex > rangeTo)) {
+                            continue;
+                        }
+
+                        const page = pages[i];
+                        const pageNumber = startNum + (pageIndex - (pageRange === 'custom' ? rangeFrom : 1));
+                        const { width, height } = page.getSize();
+
+                        // Generate text
+                        let text = '';
+                        switch (format) {
+                            case 'n':
+                                text = `Page ${pageNumber}`;
+                                break;
+                            case 'n_of_t':
+                                text = `Page ${pageNumber} of ${totalPages}`;
+                                break;
+                            case 'just_n':
+                                text = `${pageNumber}`;
+                                break;
+                            case 'just_n_of_t':
+                                text = `${pageNumber} / ${totalPages}`;
+                                break;
+                            case 'custom':
+                                text = customText.replace(/\{n\}/g, pageNumber).replace(/\{t\}/g, totalPages);
+                                break;
+                        }
+
+                        // Calculate text width
+                        const textWidth = font.widthOfTextAtSize(text, fontSize);
+
+                        // Determine position
+                        let x, y;
+
+                        // Horizontal position
+                        if (currentPosition.endsWith('l')) {
+                            x = margin;
+                        } else if (currentPosition.endsWith('r')) {
+                            x = width - margin - textWidth;
+                        } else { // center
+                            x = (width - textWidth) / 2;
+                        }
+
+                        // Vertical position
+                        if (currentPosition.startsWith('t')) {
+                            y = height - margin - fontSize;
+                        } else { // bottom
+                            y = margin;
+                        }
+
+                        // Draw text
+                        page.drawText(text, {
+                            x: x,
+                            y: y,
+                            size: fontSize,
+                            font: font,
+                            color: rgb(0, 0, 0)
+                        });
+
+                        // Update progress
+                        processed++;
+                        const progress = 10 + (processed / totalToProcess * 80);
+                        showProgress(`Processing page ${pageIndex} of ${totalPages}...`, progress);
+                    }
+
+                    showProgress('Saving PDF...', 95);
+
+                    // Save and download
+                    const pdfBytesModified = await pdfDoc.save();
+
+                    // Generate filename
+                    const timestamp = new Date().toISOString().slice(0, 19).replace(/[:]/g, '-');
+                    const downloadName = originalFileName.replace('.pdf', '') + '_numbered_' + timestamp + '.pdf';
+
+                    // Download
+                    downloadBlob(pdfBytesModified, downloadName, 'application/pdf');
+
+                    showProgress('Complete!', 100);
+
+                    // Reset after delay
+                    setTimeout(() => {
+                        DOM.progressArea.style.display = 'none';
+                        DOM.editorStage.style.display = 'block';
+                        DOM.btnProcess.disabled = false;
+                        DOM.btnProcess.innerHTML = '<i class="fas fa-list-ol"></i> Add Page Numbers';
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('Error processing PDF:', error);
+                    alert('Error processing PDF: ' + error.message);
+
+                    DOM.progressArea.style.display = 'none';
+                    DOM.editorStage.style.display = 'block';
+                    DOM.btnProcess.disabled = false;
+                    DOM.btnProcess.innerHTML = '<i class="fas fa-list-ol"></i> Add Page Numbers';
+                }
+            }
+
+            // Helper Functions
+            function showProgress(text, percent) {
+                DOM.progressText.textContent = text;
+                DOM.progressBar.style.width = `${percent}%`;
+            }
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            function downloadBlob(data, name, type) {
+                const blob = new Blob([data], { type });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = name;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            // Redundant Dark Mode Toggle removed (handled by header-footer.js)
+
+            // Initialize
+            document.addEventListener('DOMContentLoaded', () => {
+                initEventListeners();
+            });
+        </script>
+    </main>
+    <div id="rocket-footer"></div>
+</body>
+
+</html>

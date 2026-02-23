@@ -2,463 +2,2289 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RINVO – Power Your PDFs | Free Online PDF Tools</title>
-    <meta name="description"
-        content="RINVO - Power Your PDFs with free, fast and secure online tools. Convert, compress, merge and manage PDFs. 100% secure, no file storage.">
-    <meta name="keywords"
-        content="pdf tools, pdf converter, compress pdf, merge pdf, split pdf, pdf to word, word to pdf, free pdf tools">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>RocketPDF - #1 Free Online PDF Tools | Merge, Compress, Edit & Convert PDFs</title>
+  <!-- Resource Hints -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <!-- Meta + SEO (धांसू) -->
+  <meta name="description"
+    content="RocketPDF is the best free online PDF tool to merge, split, compress, convert, and edit PDF files. 100% free, secure, and easy to use. No registration required.">
+  <meta name="keywords"
+    content="pdf tools, free pdf converter, merge pdf, compress pdf, edit pdf, pdf to word, word to pdf, rocketpdf, online pdf tools, hindi pdf tools, split pdf, rotate pdf, unlock pdf, lock pdf, protect pdf, sign pdf, watermark pdf, pdf to excel, excel to pdf, pdf to jpg, jpg to pdf, pdf to png, png to pdf, pdf to ppt, ppt to pdf, pdf to text, ocr pdf, extract text from pdf, delete pdf pages, extract pdf pages, reorder pdf pages, pdf page numbering, add page numbers to pdf, pdf converter online free, best pdf editor, pdf editor free, edit pdf online, annotator, form filler, fill pdf form, create signature, electronic signature, digital signature, repair pdf, fix damaged pdf, recover pdf, flatten pdf, make pdf read only, compare pdf, diff pdf, pdf metadata editor, change pdf title, pdf author, pdf keywords, crop pdf, resize pdf, image resizer, qr code generator, barcode generator, background remover, remove bg, ai tools, free online tools, productivity tools, document management, secure pdf tools, fast pdf processing, client side pdf tools, private pdf tools, no upload pdf tools">
+  <link rel="canonical" href="https://rocketpdf.web.app/">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://unpkg.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "RocketPDF",
+      "url": "https://rocketpdf.web.app/",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "description": "RocketPDF is a free online PDF tool suite to merge, split, compress, convert, and edit PDF files securely.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceUSD": "0"
+      },
+      "featureList": "Merge PDF, Split PDF, Compress PDF, Convert PDF to Word, Convert Word to PDF, Edit PDF"
+    }
+  </script>
+  <!-- Font Awesome 6.4 (लोड तेज) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Font: Inter + fallback -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap&font-display=swap"
+    rel="stylesheet">
+  <!-- AOS Scroll Animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- Splitting.js - word/char split animations -->
+  <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
+  <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css">
+  <script src="https://unpkg.com/splitting/dist/splitting.min.js" defer></script>
+  <!-- GSAP + ScrollTrigger (Deferred) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <!-- Typed.js - typewriter effect (Deferred) -->
+  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js" defer></script>
+  <style>
+    /* ========== रूट वेरिएबल्स - नया गजब डिजाइन ========== */
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --secondary: #7c3aed;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --gradient-super: linear-gradient(145deg, #2563eb, #7c3aed, #db2777);
+      --gradient-card: linear-gradient(145deg, #ffffff, #f8fafc);
+      --gradient-card-dark: linear-gradient(145deg, #0f172a, #1e293b);
+      --dark-bg: #0b1120;
+      --light-bg: #f8fafc;
+      --shadow-xl: 0 30px 60px -15px rgba(37, 99, 235, 0.25);
+      --shadow-hover: 0 40px 70px -15px rgba(37, 99, 235, 0.4);
+      --radius-card: 28px;
+      --radius-btn: 60px;
+      --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
 
-    <!-- Favicon -->
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light-bg);
+      color: #0f172a;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    body.dark-mode {
+      background: var(--dark-bg);
+      color: #f1f5f9;
+    }
 
-    <!-- PDF Libraries -->
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
 
-    <!-- Critical Inline CSS for Immediate Rendering -->
-    <style>
-        /* Ensure immediate styling */
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%) !important;
-            background-attachment: fixed !important;
-            margin: 0;
-            padding: 0;
-        }
+    /* ===== हिंदी/इंग्लिश टॉगल के स्टाइल ===== */
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50px;
+      padding: 0.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      margin-right: 0.5rem;
+    }
 
-        /* Logo gradient */
-        .logo {
-            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #4facfe) !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-            background-clip: text !important;
-            font-weight: 900 !important;
-            font-size: 1.75rem !important;
-        }
+    .lang-btn {
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      border: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: transparent;
+      color: #64748b;
+      transition: 0.2s;
+    }
 
-        /* Ensure buttons are visible */
-        .btn-signup {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-            color: white !important;
-            border: none !important;
-            padding: 0.6rem 1.5rem !important;
-            border-radius: 50px !important;
-            font-weight: 600 !important;
-        }
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
 
-        /* Hero gradient text */
-        .hero h1 {
-            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #4facfe) !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-            background-clip: text !important;
-            font-weight: 900 !important;
-        }
+    body.dark-mode .lang-btn {
+      color: #94a3b8;
+    }
 
-        /* Tool cards */
-        .tool-card {
-            background: white !important;
-            border-radius: 20px !important;
-            padding: 2rem !important;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-            transition: all 0.3s ease !important;
-        }
+    body.dark-mode .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
 
-        .tool-card:hover {
-            transform: translateY(-15px) rotateX(5deg) !important;
-            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.3) !important;
-        }
-    </style>
+    /* ===== ग्लास हेडर ===== */
+    header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 9999;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      transition: 0.3s;
+    }
+
+    body.dark-mode header {
+      background: rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(45deg, #2563eb, #a21caf, #e11d48);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 2.2rem;
+      color: #3b82f6;
+      transition: 0.3s;
+    }
+
+    .logo:hover i {
+      transform: rotate(20deg) scale(1.2);
+      color: #8b5cf6;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #1e293b;
+      position: relative;
+    }
+
+    body.dark-mode .nav-links a {
+      color: #e2e8f0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: var(--gradient-super);
+      border-radius: 6px;
+      transition: 0.25s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .btn-login,
+    .btn-signup {
+      padding: 0.6rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    .btn-login {
+      background: transparent;
+      border: 2px solid #cbd5e1;
+      color: #1e293b;
+    }
+
+    body.dark-mode .btn-login {
+      border-color: #475569;
+      color: #e2e8f0;
+    }
+
+    .btn-login:hover {
+      background: #e2e8f0;
+      border-color: var(--primary);
+    }
+
+    .btn-signup {
+      background: var(--gradient-super);
+      color: white;
+      box-shadow: 0 12px 22px -8px #2563eb80;
+    }
+
+    .btn-signup:hover {
+      transform: scale(1.07);
+      box-shadow: 0 20px 30px -6px #3b82f6;
+    }
+
+    .dark-mode-toggle {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: #475569;
+      cursor: pointer;
+    }
+
+    body.dark-mode .dark-mode-toggle {
+      color: #fcd34d;
+    }
+
+    /* ===== Hero Section - Premium Animated ===== */
+    .hero {
+      padding: 5rem 0 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Floating particles canvas */
+    #hero-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero headline with split animation */
+    .hero-headline {
+      font-size: 4.5rem;
+      font-weight: 900;
+      line-height: 1.08;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .hero-line {
+      display: block;
+      overflow: hidden;
+      padding-bottom: 0.05em;
+    }
+
+    /* Each word wrapper for stagger animation - GSAP controls initial state */
+    .hero-line .word {
+      display: inline-block;
+      will-change: transform, opacity;
+    }
+
+    /* Gradient word - animated shifting gradient */
+    .grad-word {
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      background-size: 200% 200%;
+      animation: gradientShift 4s ease infinite;
+      display: inline-block;
+    }
+
+    @keyframes gradientShift {
+
+      0%,
+      100% {
+        opacity: 0.9;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.02);
+      }
+    }
+
+    /* Glow word highlight - golden pulse */
+    .glow-word {
+      color: #f59e0b;
+      display: inline-block;
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+
+      0%,
+      100% {
+        opacity: 0.8;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Typed subtitle - GSAP controls initial opacity */
+    .hero-typed-wrap {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #475569;
+      min-height: 2.2rem;
+      margin: 0.5rem 0 0.5rem;
+      will-change: opacity, transform;
+    }
+
+    body.dark-mode .hero-typed-wrap {
+      color: #94a3b8;
+    }
+
+    .typed-cursor {
+      color: #2563eb;
+      font-weight: 300;
+    }
+
+    .hero-sub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #e0e7ff;
+      /* Lighter background for better contrast */
+      border: 1px solid #c7d2fe;
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #3730a3;
+      /* Darker text for accessibility */
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.04em;
+      will-change: opacity, transform;
+    }
+
+    body.dark-mode .hero-sub-badge {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+    }
+
+    .hero-sub-badge .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: badgePulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes badgePulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.4);
+        opacity: 0.7;
+      }
+    }
+
+    /* CTA buttons row - GSAP controls initial opacity */
+    .hero-cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 1.5rem;
+      will-change: opacity, transform;
+    }
+
+    .btn-hero-primary {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-hero-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s;
+    }
+
+    .btn-hero-primary:hover::before {
+      transform: translateX(100%);
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(37, 99, 235, 0.45);
+    }
+
+    .btn-hero-secondary {
+      color: #475569;
+      font-weight: 600;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: all 0.3s;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      border: 2px solid #e2e8f0;
+    }
+
+    body.dark-mode .btn-hero-secondary {
+      border-color: #334155;
+      color: #94a3b8;
+    }
+
+    .btn-hero-secondary:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+      transform: translateY(-2px);
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: floatParticle var(--duration, 8s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      opacity: var(--opacity, 0.5);
+    }
+
+    @keyframes floatParticle {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      33% {
+        transform: translateY(-20px) rotate(120deg);
+      }
+
+      66% {
+        transform: translateY(10px) rotate(240deg);
+      }
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      color: #475569;
+      max-width: 750px;
+      margin: 1.5rem 0 2rem;
+    }
+
+    body.dark-mode .hero p {
+      color: #9ca3af;
+    }
+
+    /* ===== सर्च + फिल्टर ===== */
+    .search-section {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(20px);
+      padding: 2rem 2.2rem;
+      border-radius: 100px;
+      box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 3rem 0 1.8rem;
+    }
+
+    body.dark-mode .search-section {
+      background: rgba(15, 23, 42, 0.7);
+      border-color: #1e293b;
+    }
+
+    .search-wrapper {
+      flex: 2;
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 80px;
+      padding: 0.2rem 0.2rem 0.2rem 1.8rem;
+    }
+
+    body.dark-mode .search-wrapper {
+      background: #0f172a;
+      border: 1px solid #334155;
+    }
+
+    .search-wrapper i {
+      color: var(--primary);
+      font-size: 1.4rem;
+    }
+
+    .search-wrapper input {
+      width: 100%;
+      padding: 1.2rem 1rem;
+      border: none;
+      background: transparent;
+      font-size: 1.1rem;
+      outline: none;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .category-btn {
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    body.dark-mode .category-btn {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-color: #475569;
+    }
+
+    .category-btn.active,
+    .category-btn:hover {
+      background: linear-gradient(145deg, #2563eb, #9333ea);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 18px #2563eb70;
+    }
+
+    /* ===== स्टैट्स कार्ड ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(12px);
+      padding: 2rem 1rem;
+      border-radius: 40px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(145deg, #2563eb, #a21caf);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* ===== मोस्ट पॉपुलर टूल्स (नया डिजाइन) ===== */
+    .popular-section {
+      padding: 4rem 0;
+    }
+
+    .popular-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .popular-card {
+      background: white;
+      border-radius: 40px;
+      padding: 2.5rem 1.8rem;
+      box-shadow: var(--shadow-xl);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+      transition: var(--transition-bounce);
+    }
+
+    body.dark-mode .popular-card {
+      background: #1e293b;
+      border-color: #334155;
+    }
+
+    .popular-card:hover {
+      transform: scale(1.05) translateY(-12px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .popular-icon {
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: #2563eb;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ===== टूल्स ग्रिड - सारे टूल्स कॉम्पैक्ट ===== */
+    .tools-section {
+      padding: 4rem 0 6rem;
+      background: linear-gradient(145deg, #f8fafc, #eef2ff);
+    }
+
+    body.dark-mode .tools-section {
+      background: #0f172a;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 1.6rem;
+    }
+
+    @keyframes cardFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(22px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .tool-card {
+      background: var(--gradient-card);
+      padding: 1.5rem 1.2rem;
+      border-radius: 28px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(203, 213, 225, 0.5);
+      transition: var(--transition-bounce);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      animation: cardFadeIn 0.45s ease both;
+    }
+
+    /* Stagger effect via nth-child on grid */
+    .tool-card:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .tool-card:nth-child(2) {
+      animation-delay: 0.10s;
+    }
+
+    .tool-card:nth-child(3) {
+      animation-delay: 0.15s;
+    }
+
+    .tool-card:nth-child(4) {
+      animation-delay: 0.20s;
+    }
+
+    .tool-card:nth-child(5) {
+      animation-delay: 0.25s;
+    }
+
+    .tool-card:nth-child(6) {
+      animation-delay: 0.30s;
+    }
+
+    .tool-card:nth-child(7) {
+      animation-delay: 0.35s;
+    }
+
+    .tool-card:nth-child(8) {
+      animation-delay: 0.38s;
+    }
+
+    .tool-card:nth-child(n+9) {
+      animation-delay: 0.42s;
+    }
+
+    body.dark-mode .tool-card {
+      background: var(--gradient-card-dark);
+      border-color: #1e293b;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary);
+    }
+
+
+    .tool-icon-wrapper {
+      width: 55px;
+      height: 55px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .tool-card h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+
+    .tool-card p {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-bottom: 0.7rem;
+    }
+
+    .tool-arrow {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      gap: 5px;
+    }
+
+    .hide-by-search {
+      display: none !important;
+    }
+
+    /* ===== नया फुटर - पूरा अपडेट, सोशल मीडिया, सब कुछ ===== */
+    footer {
+      background: #0b1120;
+      color: #94a3b8;
+      padding: 5rem 0 2rem;
+      border-radius: 70px 70px 0 0;
+      margin-top: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: "🚀📄⚡";
+      position: absolute;
+      top: -20px;
+      right: 30px;
+      font-size: 12rem;
+      opacity: 0.03;
+      white-space: nowrap;
+      transform: rotate(-5deg);
+      pointer-events: none;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 1.5fr 1.5fr;
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    @media (max-width: 1200px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-section h3,
+    .footer-section h4 {
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.7rem;
+    }
+
+    .footer-section h3::after,
+    .footer-section h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #c084fc);
+      border-radius: 4px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.9rem;
+    }
+
+    .footer-section ul li a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: 0.2s;
+      display: inline-block;
+    }
+
+    .footer-section ul li a:hover {
+      color: white;
+      transform: translateX(8px);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      margin: 1.8rem 0;
+      flex-wrap: wrap;
+    }
+
+    .social-icon {
+      width: 48px;
+      height: 48px;
+      background: #1e293b;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.4rem;
+      transition: 0.25s;
+    }
+
+    .social-icon:hover {
+      background: linear-gradient(45deg, #2563eb, #a21caf);
+      transform: translateY(-8px) scale(1.1);
+    }
+
+    .footer-tagline {
+      font-size: 1rem;
+      margin: 1.2rem 0 1rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2.5rem;
+      border-top: 1px solid #1e293b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .hero-headline {
+        font-size: 2.7rem;
+      }
+
+      .hero-typed-wrap {
+        font-size: 1.1rem;
+      }
+
+      .hero-cta-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-headline {
+        font-size: 2.1rem;
+      }
+
+      .btn-hero-primary,
+      .btn-hero-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/header-footer.css?v=3">
+  <script src="js/header-footer.js?v=2" defer></script>
+  <!-- नया स्टाइल साइड रोबोट और मैसेज बॉक्स के लिए -->
+  <style>
+    /* रोबोट आइकन स्टाइल */
+    .robot-chat-icon {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(145deg, #2563eb, #7c3aed);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+      cursor: pointer;
+      z-index: 99999;
+      transition: all 0.3s ease;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .robot-chat-icon:hover {
+      transform: scale(1.15) rotate(10deg);
+      box-shadow: 0 15px 40px rgba(37, 99, 235, 0.6);
+    }
+
+    /* चैट बॉक्स (मैसेज भेजने का फॉर्म) */
+    .chat-box {
+      position: fixed;
+      bottom: 120px;
+      right: 30px;
+      width: 350px;
+      background: white;
+      border-radius: 25px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      z-index: 99998;
+      display: none;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .dark-mode .chat-box {
+      background: #1e293b;
+      border-color: #334155;
+      color: white;
+    }
+
+    .chat-header {
+      background: linear-gradient(145deg, #2563eb, #7c3aed);
+      color: white;
+      padding: 15px 20px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header i {
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .chat-body {
+      padding: 20px;
+    }
+
+    .chat-body textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      font-family: 'Inter', sans-serif;
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .dark-mode .chat-body textarea {
+      background: #0f172a;
+      border-color: #334155;
+      color: white;
+    }
+
+    .chat-body input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .dark-mode .chat-body input {
+      background: #0f172a;
+      border-color: #334155;
+      color: white;
+    }
+
+    .chat-body button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(145deg, #2563eb, #7c3aed);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .chat-body button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .chat-status {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    /* फुटर में डेवलपर क्रेडिट (आकर्षक) */
+    .developer-credit {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+      background: linear-gradient(145deg, #2563eb20, #7c3aed20);
+      padding: 15px;
+      border-radius: 60px;
+      border: 1px solid #2563eb40;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .developer-credit i {
+      color: #f59e0b;
+      animation: heartBeat 1.5s ease infinite;
+    }
+
+    .developer-credit a {
+      color: white;
+      font-weight: 800;
+      text-decoration: none;
+      background: linear-gradient(145deg, #2563eb, #7c3aed);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .dark-mode .developer-credit a {
+      color: white;
+    }
+
+    @keyframes heartBeat {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Floating Background Shapes -->
-    <div class="bg-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-    </div>
 
-    <!-- Header / Navbar -->
-    <header id="header">
-        <div class="container">
-            <div class="header-content">
-                <!-- Logo -->
-                <div class="logo-wrapper">
-                    <a href="index.html" class="logo">RINVO</a>
-                    <p class="tagline">Power Your PDFs</p>
-                </div>
+  <!-- ===== हेडर - हिंदी/इंग्लिश टॉगल के साथ ===== -->
+  <div id="rocket-header"></div>
 
-                <!-- Navigation -->
-                <nav class="nav-menu">
-                    <a href="#tools">MERGE PDF</a>
-                    <a href="#tools">SPLIT PDF</a>
-                    <a href="#tools">COMPRESS PDF</a>
-                    <a href="#tools">CONVERT PDF</a>
-                    <a href="#tools">ALL TOOLS</a>
-                </nav>
+  <main id="main-content">
+    <!-- ===== हीरो सेक्शन ===== -->
+    <section class="hero" id="home">
+      <!-- Floating particles -->
+      <div id="hero-particles" aria-hidden="true"></div>
 
-                <!-- Header Actions -->
-                <div class="header-actions">
-                    <button class="btn-login">Login</button>
-                    <button class="btn-signup">Sign up</button>
-                </div>
-
-                <!-- Mobile Menu Toggle -->
-                <button class="mobile-menu-toggle" style="display: none;">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+      <div class="container">
+        <!-- Live badge -->
+        <div class="hero-sub-badge" id="heroBadge">
+          <span class="badge-dot"></span>
+          🚀 40+ AI-Powered PDF Tools — 100% Free Forever
         </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <!-- Floating PDF Icons -->
-            <div class="hero-icons">
-                <i class="fas fa-file-pdf hero-icon hero-icon-main"></i>
-                <i class="fas fa-file-word hero-icon hero-icon-1"></i>
-                <i class="fas fa-compress-alt hero-icon hero-icon-2"></i>
-                <i class="fas fa-image hero-icon hero-icon-3"></i>
-            </div>
+        <!-- Animated split headline -->
+        <h1 class="hero-headline" id="heroTitle" data-en-line1="Transform PDFs" data-en-line2="in Seconds, Not Hours."
+          data-hi-line1="PDF को बनाएँ" data-hi-line2="सेकंडों में, घंटों में नहीं।">
+          <span class="hero-line" id="heroLine1">
+            <span class="word grad-word" style="margin-right:0.25em">Transform</span><span class="word">PDFs</span>
+          </span>
+          <span class="hero-line" id="heroLine2">
+            <span class="word">in </span><span class="word glow-word" style="margin-right:0.18em">Seconds,</span><span
+              class="word"> Not </span><span class="word">Hours.</span>
+          </span>
+        </h1>
 
-            <h1>Every Tool You Need to<br>Work with PDFs in One Place</h1>
-            <p>Convert, compress, merge and manage PDFs securely with RINVO. Free, fast and 100% secure.</p>
+        <!-- Typed.js dynamic subtitle -->
+        <p class="hero-typed-wrap" id="heroTyped">
+          <span id="typed-text"></span>
+        </p>
 
-            <button class="btn-primary" onclick="document.getElementById('tools').scrollIntoView({behavior: 'smooth'})">
-                <i class="fas fa-rocket"></i>
-                Explore PDF Tools
-            </button>
+        <!-- CTA row -->
+        <div class="hero-cta-row" id="heroCta">
+          <a href="#tools" class="btn-hero-primary">
+            <i class="fas fa-rocket"></i> Explore All Tools
+          </a>
+          <a href="tools/compress-pdf" class="btn-hero-secondary">
+            <i class="fas fa-compress-alt"></i> Compress PDF Free
+          </a>
         </div>
+      </div>
     </section>
 
-    <!-- Trust Indicators -->
-    <section class="trust-section">
-        <div class="container">
-            <h2>Why Choose RINVO?</h2>
-            <p class="subtitle">Secure, fast and completely free PDF tools for all your needs</p>
-
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <div class="trust-icon"
-                        style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #10b981;">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>100% Secure</h3>
-                    <p>Your files are never stored on our servers</p>
-                    <div class="counter">100%</div>
-                </div>
-
-                <div class="trust-item">
-                    <div class="trust-icon"
-                        style="background: linear-gradient(135deg, #fee2e2, #fecaca); color: #ef4444;">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>No File Saved</h3>
-                    <p>Files are automatically deleted after processing</p>
-                    <div class="counter">0</div>
-                </div>
-
-                <div class="trust-item">
-                    <div class="trust-icon"
-                        style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #3b82f6;">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Free & Fast</h3>
-                    <p>Instant processing with no registration required</p>
-                    <div class="counter">1M+</div>
-                </div>
-            </div>
+    <!-- Search + Filter + Stats (inside hero) -->
+    <section class="hero" style="padding-top:0; padding-bottom:2rem;">
+      <div class="container">
+        <!-- सर्च + फिल्टर -->
+        <div class="search-section" data-aos="zoom-in">
+          <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search tool (e.g. PDF to Word, Compress...)"
+              data-en-placeholder="Search tool (e.g. PDF to Word, Compress...)"
+              data-hi-placeholder="टूल ढूंढें (जैसे PDF to Word, Compress...)">
+          </div>
+          <div class="filter-group">
+            <button class="category-btn active" data-category="all"><i class="fas fa-layer-group"></i> <span
+                data-en="All" data-hi="सब">All</span></button>
+            <button class="category-btn" data-category="convert"><i class="fas fa-exchange-alt"></i> <span
+                data-en="Convert" data-hi="कन्वर्ट">Convert</span></button>
+            <button class="category-btn" data-category="compress"><i class="fas fa-compress"></i> <span
+                data-en="Compress" data-hi="कंप्रेस">Compress</span></button>
+            <button class="category-btn" data-category="organize"><i class="fas fa-object-group"></i> <span
+                data-en="Organize" data-hi="ऑर्गनाइज">Organize</span></button>
+            <button class="category-btn" data-category="secure"><i class="fas fa-lock"></i> <span data-en="Secure"
+                data-hi="सिक्योर">Secure</span></button>
+            <button class="category-btn" data-category="html"><i class="fas fa-code"></i> <span data-en="HTML tools"
+                data-hi="HTML टूल्स">HTML tools</span></button>
+          </div>
         </div>
+
+        <!-- स्टैट्स -->
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number">40+</div>
+            <div id="stat1" data-en="PDF Tools" data-hi="PDF टूल्स">PDF Tools</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3M+</div>
+            <div id="stat2" data-en="Happy users" data-hi="खुश यूजर्स">Happy users</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">0</div>
+            <div id="stat3" data-en="Files stored" data-hi="फाइल स्टोर">Files stored</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">256‑bit</div>
+            <div id="stat4" data-en="Encryption" data-hi="एन्क्रिप्शन">Encryption</div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Tools Section -->
+    <!-- ===== मोस्ट पॉपुलर टूल्स (धमाकेदार) ===== -->
+    <section class="popular-section" id="popular">
+      <div class="container">
+        <div class="section-header"
+          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <h2
+            style="font-size: 2.8rem; font-weight: 800; background: linear-gradient(145deg, #2563eb, #a21caf); -webkit-background-clip: text; background-clip: text; color: transparent;"
+            id="popularTitle" data-en="🔥 Most Popular Tools" data-hi="🔥 मोस्ट पॉपुलर टूल्स">🔥 Most Popular Tools</h2>
+          <span style="background: #f59e0b20; padding: 0.8rem 2rem; border-radius: 60px; font-weight: 700;"
+            id="hotBadge" data-en="HOT TOOLS 🔥" data-hi="हॉट टूल्स 🔥">HOT TOOLS 🔥</span>
+        </div>
+        <div class="popular-grid">
+          <div class="popular-card" data-aos="flip-left">
+            <div class="popular-icon"><i class="fas fa-file-word"></i></div>
+            <h3 style="font-size: 1.8rem;">PDF to Word</h3>
+            <p id="pop1" data-en="Editable DOCX, perfect layout" data-hi="एडिट करें, परफेक्ट लेआउट">Editable DOCX,
+              perfect
+              layout</p>
+            <a href="tools/pdf-to-word"
+              style="margin-top:1.5rem; background:#2563eb; color:white; padding:0.8rem 2rem; border-radius:50px; text-decoration:none; font-weight:700;"
+              id="popBtn1" data-en="Use now →" data-hi="यूज़ करें →" aria-label="Use PDF to Word now">Use now →</a>
+          </div>
+          <div class="popular-card" data-aos="flip-left" data-aos-delay="100">
+            <div class="popular-icon"><i class="fas fa-compress-alt"></i></div>
+            <h3 style="font-size: 1.8rem;">Compress PDF</h3>
+            <p id="pop2" data-en="Reduce size 90%" data-hi="साइज़ 90% तक कम">Reduce size 90%</p>
+            <a href="tools/compress-pdf"
+              style="margin-top:1.5rem; background:#2563eb; color:white; padding:0.8rem 2rem; border-radius:50px; text-decoration:none;"
+              id="popBtn2" data-en="Use now →" data-hi="यूज़ करें →" aria-label="Use Compress PDF now">Use now →</a>
+          </div>
+          <div class="popular-card" data-aos="flip-left" data-aos-delay="200">
+            <div class="popular-icon"><i class="fas fa-code"></i></div>
+            <h3 style="font-size: 1.8rem;">PDF to HTML</h3>
+            <p id="pop3" data-en="Clean markup" data-hi="क्लीन मार्कअप">Clean markup</p>
+            <a href="tools/pdf-to-html"
+              style="margin-top:1.5rem; background:#2563eb; color:white; padding:0.8rem 2rem; border-radius:50px; text-decoration:none;"
+              id="popBtn3" data-en="Use now →" data-hi="यूज़ करें →" aria-label="Use PDF to HTML now">Use now →</a>
+          </div>
+          <div class="popular-card" data-aos="flip-left" data-aos-delay="300">
+            <div class="popular-icon"><i class="fas fa-object-group"></i></div>
+            <h3 style="font-size: 1.8rem;">Merge PDF</h3>
+            <p id="pop4" data-en="Combine files" data-hi="फाइल्स जोड़ें">Combine files</p>
+            <a href="tools/merge-pdf"
+              style="margin-top:1.5rem; background:#2563eb; color:white; padding:0.8rem 2rem; border-radius:50px; text-decoration:none;"
+              id="popBtn4" data-en="Use now →" data-hi="यूज़ करें →" aria-label="Use Merge PDF now">Use now →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== सभी टूल्स ग्रिड (40+ टूल्स) ===== -->
     <section class="tools-section" id="tools">
-        <div class="container">
-            <h2>Most Popular PDF Tools</h2>
-
-            <div class="tools-grid">
-                <!-- PDF to Word -->
-                <a href="tools/pdf-to-word.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-blue">
-                        <i class="fas fa-file-word"></i>
-                    </div>
-                    <h3>PDF to Word</h3>
-                    <p>Easily convert your PDF files into easy to edit DOC and DOCX documents. The converted WORD
-                        document is almost 100% accurate.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- Word to PDF -->
-                <a href="tools/word-to-pdf.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-blue">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <h3>Word to PDF</h3>
-                    <p>Make DOC and DOCX files easy to read by converting them to PDF.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- Compress PDF -->
-                <a href="tools/compress-pdf.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-green">
-                        <i class="fas fa-compress-alt"></i>
-                    </div>
-                    <h3>Compress PDF</h3>
-                    <p>Reduce file size while optimizing for maximal PDF quality.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- Merge PDF -->
-                <a href="tools/merge-pdf.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-red">
-                        <i class="fas fa-object-group"></i>
-                    </div>
-                    <h3>Merge PDF</h3>
-                    <p>Combine PDFs in the order you want with the easiest PDF merger available.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- Split PDF -->
-                <a href="tools/split-pdf.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-orange">
-                        <i class="fas fa-cut"></i>
-                    </div>
-                    <h3>Split PDF</h3>
-                    <p>Separate one page or a whole set for easy conversion into independent PDF files.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- Image to PDF -->
-                <a href="tools/image-to-pdf.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-purple">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <h3>Image to PDF</h3>
-                    <p>Convert JPG, PNG, BMP & more images to PDF in seconds.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- PDF to PowerPoint -->
-                <a href="tools/pdf-to-powerpoint.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-orange">
-                        <i class="fas fa-file-powerpoint"></i>
-                    </div>
-                    <h3>PDF to PowerPoint</h3>
-                    <p>Turn your PDF files into easy to edit PPT and PPTX slideshows.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- PowerPoint to PDF -->
-                <a href="tools/powerpoint-to-pdf.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-orange">
-                        <i class="fas fa-file-powerpoint"></i>
-                    </div>
-                    <h3>PowerPoint to PDF</h3>
-                    <p>Make PPT and PPTX slideshows easy to view by converting them to PDF.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- PDF to Excel -->
-                <a href="tools/pdf-to-excel.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-green">
-                        <i class="fas fa-file-excel"></i>
-                    </div>
-                    <h3>PDF to Excel</h3>
-                    <p>Pull data straight from PDFs into Excel spreadsheets in a few short seconds.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- Excel to PDF -->
-                <a href="tools/excel-to-pdf.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-green">
-                        <i class="fas fa-file-excel"></i>
-                    </div>
-                    <h3>Excel to PDF</h3>
-                    <p>Make EXCEL spreadsheets easy to read by converting them to PDF.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- Edit PDF -->
-                <a href="tools/edit-pdf.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-pink">
-                        <i class="fas fa-edit"></i>
-                    </div>
-                    <h3>Edit PDF</h3>
-                    <p>Add text, images, shapes or freehand annotations to a PDF document.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-
-                <!-- Sign PDF -->
-                <a href="tools/sign-pdf.html" class="tool-card">
-                    <div class="tool-icon-wrapper icon-purple">
-                        <i class="fas fa-signature"></i>
-                    </div>
-                    <h3>Sign PDF</h3>
-                    <p>Sign PDF documents online with your signature.</p>
-                    <span class="tool-arrow">Open Tool <i class="fas fa-arrow-right"></i></span>
-                </a>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2><i class="fas fa-bolt" style="color:#2563eb;"></i> <span id="allToolsTitle" data-en="All Rocket Tools"
+              data-hi="सभी रॉकेट टूल्स">All Rocket Tools</span></h2>
+          <span id="toolCounter"
+            style="background: #2563eb20; padding: 0.7rem 2rem; border-radius: 60px; font-weight: 700;">42 tools</span>
         </div>
+        <div class="tools-grid" id="toolsGrid">
+          <!-- सारे टूल्स (कॉम्पैक्ट) -->
+          <a href="tools/pdf-to-word" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#dbeafe; color:#2563eb;"><i class="fas fa-file-word"></i>
+            </div>
+            <h3>PDF to Word</h3>
+            <p data-en="Editable DOCX" data-hi="एडिट DOCX">Editable DOCX</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/word-to-pdf" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#e0e7ff; color:#4f46e5;"><i class="fas fa-file-pdf"></i>
+            </div>
+            <h3>Word to PDF</h3>
+            <p data-en="DOC, DOCX" data-hi="DOC, DOCX">DOC, DOCX</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/compress-pdf" class="tool-card" data-category="compress">
+            <div class="tool-icon-wrapper" style="background:#dcfce7; color:#16a34a;"><i
+                class="fas fa-compress-alt"></i>
+            </div>
+            <h3>Compress PDF</h3>
+            <p data-en="Reduce size" data-hi="साइज़ कम">Reduce size</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/merge-pdf" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#fee2e2; color:#dc2626;"><i
+                class="fas fa-object-group"></i>
+            </div>
+            <h3>Merge PDF</h3>
+            <p data-en="Combine" data-hi="मर्ज करें">Combine</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/split-pdf" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#ffedd5; color:#c2410c;"><i class="fas fa-cut"></i></div>
+            <h3>Split PDF</h3>
+            <p data-en="Extract pages" data-hi="पेज निकालें">Extract pages</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/image-to-pdf" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#f3e8ff; color:#9333ea;"><i class="fas fa-image"></i></div>
+            <h3>Image to PDF</h3>
+            <p data-en="JPG, PNG" data-hi="JPG, PNG">JPG, PNG</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-to-powerpoint" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#fff3cd; color:#b45309;"><i
+                class="fas fa-file-powerpoint"></i></div>
+            <h3>PDF to PPT</h3>
+            <p data-en="Slides" data-hi="स्लाइड्स">Slides</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/powerpoint-to-pdf" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#fde68a; color:#b45309;"><i
+                class="fas fa-file-powerpoint"></i></div>
+            <h3>PPT to PDF</h3>
+            <p data-en="Presentation" data-hi="प्रेजेंटेशन">Presentation</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-to-excel" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#dcfce7; color:#15803d;"><i class="fas fa-file-excel"></i>
+            </div>
+            <h3>PDF to Excel</h3>
+            <p data-en="Tables" data-hi="टेबल">Tables</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/excel-to-pdf" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#bbf7d0; color:#166534;"><i class="fas fa-file-excel"></i>
+            </div>
+            <h3>Excel to PDF</h3>
+            <p data-en="XLS, XLSX" data-hi="XLS, XLSX">XLS, XLSX</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/sign-pdf" class="tool-card" data-category="secure">
+            <div class="tool-icon-wrapper" style="background:#ede9fe; color:#6d28d9;"><i class="fas fa-signature"></i>
+            </div>
+            <h3>Sign PDF</h3>
+            <p data-en="Digital signature" data-hi="डिजिटल हस्ताक्षर">Digital signature</p><span
+              class="tool-arrow"><span data-en="Open" data-hi="ओपन">Open</span> <i
+                class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-to-html" class="tool-card" data-category="html convert">
+            <div class="tool-icon-wrapper" style="background:#dbeafe; color:#2563eb;"><i class="fas fa-code"></i></div>
+            <h3>PDF to HTML</h3>
+            <p data-en="Responsive" data-hi="रेस्पॉन्सिव">Responsive</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/html-to-pdf" class="tool-card" data-category="html convert">
+            <div class="tool-icon-wrapper" style="background:#cffafe; color:#0891b2;"><i class="fas fa-file-code"></i>
+            </div>
+            <h3>HTML to PDF</h3>
+            <p data-en="Webpage" data-hi="वेबपेज">Webpage</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/watermark-pdf" class="tool-card" data-category="secure">
+            <div class="tool-icon-wrapper" style="background:#e0f2fe; color:#0369a1;"><i class="fas fa-stamp"></i></div>
+            <h3>Watermark</h3>
+            <p data-en="Text/logo" data-hi="टेक्स्ट/लोगो">Text/logo</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/rotate-pdf" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#fef9c3; color:#a16207;"><i class="fas fa-redo"></i></div>
+            <h3>Rotate PDF</h3>
+            <p data-en="Fix orientation" data-hi="घुमाएँ">Fix orientation</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/lock-pdf" class="tool-card" data-category="secure">
+            <div class="tool-icon-wrapper" style="background:#fee2e2; color:#b91c1c;"><i class="fas fa-lock"></i></div>
+            <h3>Lock PDF</h3>
+            <p data-en="Password" data-hi="पासवर्ड">Password</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/unlock-pdf" class="tool-card" data-category="secure">
+            <div class="tool-icon-wrapper" style="background:#fef3c7; color:#b45309;"><i class="fas fa-unlock"></i>
+            </div>
+            <h3>Unlock PDF</h3>
+            <p data-en="Remove password" data-hi="पासवर्ड हटाएँ">Remove password</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-repair" class="tool-card" data-category="secure">
+            <div class="tool-icon-wrapper" style="background:#fecaca; color:#7f1d1d;"><i class="fas fa-tools"></i></div>
+            <h3>PDF Repair</h3>
+            <p data-en="Fix corrupted" data-hi="करप्ट फिक्स">Fix corrupted</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/extract-pages" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#d1fae5; color:#10b981;"><i class="fas fa-file-export"></i>
+            </div>
+            <h3>Extract Pages</h3>
+            <p data-en="Specific pages" data-hi="खास पेज">Specific pages</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-to-image" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#fbcfe8; color:#be185d;"><i class="fas fa-images"></i>
+            </div>
+            <h3>PDF to Image</h3>
+            <p data-en="PNG, JPEG" data-hi="PNG, JPEG">PNG, JPEG</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/add-page-numbers" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#cbd5e1; color:#334155;"><i class="fas fa-list-ol"></i>
+            </div>
+            <h3>Page Numbers</h3>
+            <p data-en="Custom" data-hi="नंबर डालें">Custom</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/compare-pdf" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#bae6fd; color:#075985;"><i class="fas fa-columns"></i>
+            </div>
+            <h3>Compare PDFs</h3>
+            <p data-en="Diff checker" data-hi="अंतर देखें">Diff checker</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/fill-form" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#eef2ff; color:#4361ee;"><i class="fas fa-edit"></i></div>
+            <h3>Fill Form</h3>
+            <p data-en="Interactive" data-hi="फॉर्म भरें">Interactive</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/bookmark-pdf" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#ffe4e6; color:#f43f5e;"><i class="fas fa-bookmark"></i>
+            </div>
+            <h3>Bookmarks</h3>
+            <p data-en="Navigation" data-hi="बुकमार्क">Navigation</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-repair" class="tool-card" data-category="secure">
+            <div class="tool-icon-wrapper" style="background:#fecaca; color:#7f1d1d;"><i class="fas fa-tools"></i></div>
+            <h3>PDF Repair</h3>
+            <p data-en="Fix corrupted" data-hi="करप्ट फिक्स">Fix corrupted</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-metadata" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#e2e3e5; color:#1f2937;"><i class="fas fa-info-circle"></i>
+            </div>
+            <h3>Metadata</h3>
+            <p data-en="Edit properties" data-hi="प्रॉपर्टी">Edit properties</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-ocr" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#c7d2fe; color:#4f46e5;"><i class="fas fa-eye"></i></div>
+            <h3>PDF OCR</h3>
+            <p data-en="Scanned text" data-hi="स्कैन टेक्स्ट">Scanned text</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/reverse-pdf" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#d4d4d8; color:#18181b;"><i
+                class="fas fa-arrows-alt-h"></i>
+            </div>
+            <h3>Reverse PDF</h3>
+            <p data-en="Flip order" data-hi="पेज उलटें">Flip order</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/flatten-pdf" class="tool-card" data-category="secure">
+            <div class="tool-icon-wrapper" style="background:#e4e4e7; color:#3f3f46;"><i class="fas fa-layer-group"></i>
+            </div>
+            <h3>Flatten PDF</h3>
+            <p data-en="Merge layers" data-hi="लेयर मर्ज">Merge layers</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-to-jpg" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#ffe4e6; color:#e11d48;"><i class="fas fa-file-image"></i>
+            </div>
+            <h3>PDF to JPG</h3>
+            <p data-en="Images" data-hi="JPG इमेज">Images</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/background-remover" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#fff1f2; color:#be123c;"><i class="fas fa-magic"></i></div>
+            <h3>Remove BG</h3>
+            <p data-en="Remove Background" data-hi="बैकग्राउंड हटाएँ">Remove Background</p><span
+              class="tool-arrow"><span data-en="Open" data-hi="ओपन">Open</span> <i
+                class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/jpg-to-pdf" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#fff4de; color:#b45309;"><i class="fas fa-file-pdf"></i>
+            </div>
+            <h3>JPG to PDF</h3>
+            <p data-en="Photo to PDF" data-hi="फोटो से PDF">Photo to PDF</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/delete-pages" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:#ffe4e6; color:#f43f5e;"><i class="fas fa-trash"></i></div>
+            <h3>Delete Pages</h3>
+            <p data-en="Remove pages" data-hi="पेज हटाएँ">Remove pages</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/image-resizer" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#fce7f3; color:#db2777;"><i
+                class="fas fa-expand-arrows-alt"></i></div>
+            <h3>Image Resizer</h3>
+            <p data-en="Resize/Crop" data-hi="साइज बदलें">Resize/Crop</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-to-text" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#f1f0ff; color:#4338ca;"><i class="fas fa-file-alt"></i>
+            </div>
+            <h3>PDF to Text</h3>
+            <p data-en="Extract text" data-hi="टेक्स्ट निकालें">Extract text</p><span class="tool-arrow"><span
+                data-en="Open" data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/qr-generator" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#fed7aa; color:#9a3412;"><i class="fas fa-qrcode"></i>
+            </div>
+            <h3>QR Generator</h3>
+            <p data-en="Create QR" data-hi="QR बनाएँ">Create QR</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-qr-code" class="tool-card" data-category="convert">
+            <div class="tool-icon-wrapper" style="background:#e9d5ff; color:#6b21a8;"><i class="fas fa-qrcode"></i>
+            </div>
+            <h3>PDF to QR</h3>
+            <p data-en="Share via QR" data-hi="QR से शेयर">Share via QR</p><span class="tool-arrow"><span data-en="Open"
+                data-hi="ओपन">Open</span> <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <a href="tools/pdf-editor" class="tool-card" data-category="organize">
+            <div class="tool-icon-wrapper" style="background:linear-gradient(135deg, #667eea, #764ba2); color:white;"><i
+                class="fas fa-edit"></i></div>
+            <h3>PDF Editor</h3>
+            <p data-en="Edit text, images, shapes" data-hi="टेक्स्ट, इमेज, शेप एडिट">Edit text, images, shapes</p><span
+              class="tool-arrow"><span data-en="Open" data-hi="ओपन">Open</span> <i
+                class="fas fa-arrow-right"></i></span>
+          </a>
+        </div>
+      </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section class="trust-section">
-        <div class="container">
-            <h2>How It Works</h2>
-            <p class="subtitle">Simple 3-step process to transform your PDFs</p>
-
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <div class="trust-icon"
-                        style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #3b82f6;">
-                        <i class="fas fa-upload"></i>
-                    </div>
-                    <h3>1. Upload</h3>
-                    <p>Select your PDF file or drag & drop it</p>
-                </div>
-
-                <div class="trust-item">
-                    <div class="trust-icon"
-                        style="background: linear-gradient(135deg, #e9d5ff, #d8b4fe); color: #8b5cf6;">
-                        <i class="fas fa-cog fa-spin"></i>
-                    </div>
-                    <h3>2. Process</h3>
-                    <p>We process your file instantly</p>
-                </div>
-
-                <div class="trust-item">
-                    <div class="trust-icon"
-                        style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #10b981;">
-                        <i class="fas fa-download"></i>
-                    </div>
-                    <h3>3. Download</h3>
-                    <p>Get your converted file immediately</p>
-                </div>
-            </div>
-        </div>
+    <!-- ===== CTA सेक्शन ===== -->
+    <section style="padding: 4rem 0;">
+      <div class="container"
+        style="text-align: center; background: linear-gradient(145deg, #2563eb, #7c3aed, #db2777); border-radius: 80px; padding: 4rem 2rem; color: white;">
+        <h2 style="font-size: 3rem; font-weight: 800;" id="ctaTitle" data-en="Join 3M+ PDF heroes"
+          data-hi="3M+ PDF हीरोज बनें">Join 3M+ PDF heroes</h2>
+        <p style="font-size: 1.3rem;" id="ctaSub" data-en="No registration, instant processing"
+          data-hi="बिना रजिस्ट्रेशन, तुरंत प्रोसेस">No registration, instant processing</p>
+        <button class="btn-signup"
+          style="margin-top: 2rem; background: white; color: #1e293b; font-size: 1.3rem; padding: 1rem 3rem;"
+          id="ctaBtn" data-en="🚀 Launch RocketPDF" data-hi="🚀 RocketPDF शुरू करें">🚀 Launch RocketPDF</button>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <!-- Brand Section -->
-                <div class="footer-section">
-                    <h3>RINVO</h3>
-                    <p style="color: #94a3b8; margin-bottom: 1rem;">Power Your PDFs with the best online tools</p>
-                    <div class="social-icons">
-                        <a href="https://www.facebook.com/share/1BduDXvL6n/" target="_blank" rel="noopener noreferrer"
-                            class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/rinku__y7275?igsh=MTlib245Yjc2cXB6aw==" target="_blank"
-                            rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.linkedin.com/in/rinku-yadav-6ba755330" target="_blank"
-                            rel="noopener noreferrer" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
+  </main>
+  <!-- ===== नया फुटर - पूरा अपडेट, सोशल मीडिया, के बारे में, मोस्ट पॉपुलर टूल्स ===== -->
+  <div id="rocket-footer"></div>
 
-                <!-- PDF Tools -->
-                <div class="footer-section">
-                    <h3>PDF Tools</h3>
-                    <ul>
-                        <li><a href="tools/pdf-to-word.html">PDF to Word</a></li>
-                        <li><a href="tools/word-to-pdf.html">Word to PDF</a></li>
-                        <li><a href="tools/compress-pdf.html">Compress PDF</a></li>
-                        <li><a href="tools/merge-pdf.html">Merge PDF</a></li>
-                        <li><a href="tools/split-pdf.html">Split PDF</a></li>
-                        <li><a href="tools/image-to-pdf.html">Image to PDF</a></li>
-                    </ul>
-                </div>
+  <!-- ===== साइड रोबोट आइकन और चैट बॉक्स ===== -->
+  <div class="robot-chat-icon" id="robotIcon">
+    <i class="fas fa-robot"></i>
+  </div>
 
-                <!-- Company -->
-                <div class="footer-section">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#">About RINVO</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                    </ul>
-                </div>
+  <div class="chat-box" id="chatBox">
+    <div class="chat-header">
+      <span><i class="fas fa-robot" style="margin-right: 8px;"></i>RocketPDF Assistant</span>
+      <i class="fas fa-times" id="closeChat"></i>
+    </div>
+    <div class="chat-body">
+      <textarea id="userMessage" placeholder="Type your message..."></textarea>
+      <input type="email" id="userEmail" placeholder="Your email (optional)">
+      <button id="sendMessageBtn">Send Message</button>
+      <div class="chat-status" id="chatStatus"></div>
+    </div>
+  </div>
 
-                <!-- Legal -->
-                <div class="footer-section">
-                    <h3>Legal</h3>
-                    <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                        <li><a href="#">GDPR</a></li>
-                    </ul>
-                </div>
-            </div>
+  <!-- ===== फुटर में डेवलपर क्रेडिट (आकर्षक) ===== -->
+  <div style="background: #0b1120; padding: 20px 0 30px; text-align: center; border-top: 1px solid #1e293b;">
+    <div class="container">
+      <div class="developer-credit">
+        <i class="fas fa-code"></i> Developed with <i class="fas fa-heart" style="color: #f59e0b;"></i> by
+        <a href="#" style="font-weight: 800; font-size: 1.3rem;">Rinku Yadav</a>
+        <span style="display: block; font-size: 0.9rem; color: #94a3b8; margin-top: 5px;">Passionate Developer & Creator of RocketPDF</span>
+      </div>
+      <p style="color: #94a3b8; margin-top: 20px;">© 2024 RocketPDF. All rights reserved.</p>
+    </div>
+  </div>
 
-            <div class="footer-bottom">
-                <p>&copy; 2025 RINVO. All rights reserved. Made with ❤️ for PDF lovers.</p>
-            </div>
-        </div>
-    </footer>
+  <!-- SCRIPTS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // EmailJS initialization (यहाँ सिमुलेशन के लिए - असल में आपको EmailJS सेटअप करना होगा)
+    // अभी के लिए हम console.log और alert से दिखा रहे हैं कि मेल जाएगा
 
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script>
-        // Header scroll effect
-        window.addEventListener('scroll', function () {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+    // रोबोट चैट फंक्शनैलिटी
+    const robotIcon = document.getElementById('robotIcon');
+    const chatBox = document.getElementById('chatBox');
+    const closeChat = document.getElementById('closeChat');
+    const sendBtn = document.getElementById('sendMessageBtn');
+    const userMessage = document.getElementById('userMessage');
+    const userEmail = document.getElementById('userEmail');
+    const chatStatus = document.getElementById('chatStatus');
+
+    robotIcon.addEventListener('click', () => {
+      chatBox.style.display = 'block';
+    });
+
+    closeChat.addEventListener('click', () => {
+      chatBox.style.display = 'none';
+    });
+
+    sendBtn.addEventListener('click', () => {
+      const message = userMessage.value.trim();
+      const email = userEmail.value.trim();
+
+      if (message === '') {
+        chatStatus.innerHTML = '❌ Please enter a message.';
+        chatStatus.style.color = 'red';
+        return;
+      }
+
+      // यहाँ पर असल में आप EmailJS या किसी API से मेल भेजेंगे
+      // अभी हम सिर्फ दिखा रहे हैं कि मेल send हो गया
+
+      // सिमुलेशन: कंसोल में दिखाएँ
+      console.log('📧 Message sent to developer:');
+      console.log('Message:', message);
+      console.log('Email:', email || 'Not provided');
+
+      // यूजर को स्टेटस दिखाएँ
+      chatStatus.innerHTML = '✅ Message sent! (Demo - actual email not sent)';
+      chatStatus.style.color = '#10b981';
+      userMessage.value = '';
+      userEmail.value = '';
+
+      // 3 सेकंड बाद स्टेटस हटाएँ
+      setTimeout(() => {
+        chatStatus.innerHTML = '';
+      }, 3000);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // AOS init
+      if (typeof AOS !== 'undefined') {
+        AOS.init({ duration: 900, once: true, offset: 20 });
+      }
+
+      // DARK MODE logic is handled in header-footer.js
+
+      // ===== हिंदी/इंग्लिश टॉगल फंक्शन =====
+      const langEn = document.getElementById('langEn');
+      const langHi = document.getElementById('langHi');
+      let currentLang = 'en';
+
+      function setLanguage(lang) {
+        currentLang = lang;
+        // सभी elements जिनमें data-en और data-hi है उन्हें अपडेट करो
+        document.querySelectorAll('[data-en]').forEach(el => {
+          if (el.tagName === 'INPUT') {
+            // placeholder बदलने के लिए
+            const placeholder = el.getAttribute(`data-${lang}-placeholder`);
+            if (placeholder) el.placeholder = placeholder;
+          } else {
+            const text = el.getAttribute(`data-${lang}`);
+            if (text) {
+              if (el.children.length === 0 || el.tagName === 'BUTTON' || el.classList.contains('tool-arrow') ||
+                el.classList.contains('category-btn') || el.tagName === 'SPAN' || el.tagName === 'H1' || el.tagName === 'H2' ||
+                el.tagName === 'H3' || el.tagName === 'H4' || el.tagName === 'P' || el.tagName === 'A') {
+                el.innerHTML = text;
+              }
             }
+          }
         });
 
-        // Smooth scroll for all anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // नेविगेशन लिंक्स अपडेट करो
+        document.querySelectorAll('.nav-links a').forEach(el => {
+          const txt = el.getAttribute(`data-${lang}`);
+          if (txt) el.innerText = txt;
+        });
+
+        // कैटेगरी बटन के स्पैन अपडेट करो
+        document.querySelectorAll('.category-btn span').forEach(el => {
+          const txt = el.getAttribute(`data-${lang}`);
+          if (txt) el.innerText = txt;
+        });
+
+        // टूल कार्ड के p और .tool-arrow span अपडेट करो
+        document.querySelectorAll('.tool-card p').forEach(el => {
+          const txt = el.getAttribute(`data-${lang}`);
+          if (txt) el.innerText = txt;
+        });
+        document.querySelectorAll('.tool-arrow span').forEach(el => {
+          const txt = el.getAttribute(`data-${lang}`);
+          if (txt) el.innerText = txt;
+        });
+
+        // लैंग्वेज बटन एक्टिव स्विच
+        if (langEn) langEn.classList.toggle('active', lang === 'en');
+        if (langHi) langHi.classList.toggle('active', lang === 'hi');
+      }
+
+      // Language toggle event listeners are handled in header-footer.js
+
+      // ===== सर्च + फिल्टर =====
+      const searchInput = document.getElementById('searchInput');
+      const categoryBtns = document.querySelectorAll('.category-btn');
+      const toolCards = document.querySelectorAll('.tool-card');
+      const toolCounter = document.getElementById('toolCounter');
+      let activeCategory = 'all';
+
+      // Search suggestions data
+      const searchSuggestions = [
+        'PDF to Word', 'Word to PDF', 'Merge PDF', 'Split PDF',
+        'Compress PDF', 'Sign PDF', 'Watermark', 'Lock PDF',
+        'Unlock PDF', 'PDF Repair', 'Image to PDF',
+        'PDF to Image', 'PDF to Excel', 'Excel to PDF', 'PDF to HTML',
+        'HTML to PDF', 'Rotate PDF', 'Delete Pages', 'Extract Pages',
+        'Add Page Numbers', 'Background Remover', 'Image Resizer',
+        'QR Code', 'QR Generator', 'Fill Form', 'Flatten PDF'
+      ];
+
+      // Create search suggestions dropdown
+      function createSuggestionsDropdown() {
+        const suggestionsContainer = document.createElement('div');
+        suggestionsContainer.id = 'search-suggestions';
+        suggestionsContainer.className = 'search-suggestions-dropdown';
+
+        // Insert after search input
+        const searchWrapper = document.querySelector('.search-wrapper');
+        searchWrapper.style.position = 'relative';
+        searchWrapper.appendChild(suggestionsContainer);
+
+        return suggestionsContainer;
+      }
+
+      const suggestionsContainer = createSuggestionsDropdown();
+
+      // Show suggestions
+      function showSuggestions(searchTerm) {
+        suggestionsContainer.innerHTML = '';
+
+        if (searchTerm.length < 2) { suggestionsContainer.style.display = 'none'; return; } const
+          matchingSuggestions = searchSuggestions.filter(suggestion =>
+            suggestion.toLowerCase().includes(searchTerm.toLowerCase()))
+            .slice(0, 6); // Show max 6 suggestions
+
+        if (matchingSuggestions.length === 0) {
+          suggestionsContainer.style.display = 'none';
+          return;
+        }
+
+        matchingSuggestions.forEach(suggestion => {
+          const suggestionItem = document.createElement('div');
+          suggestionItem.className = 'suggestion-item';
+          suggestionItem.textContent = suggestion;
+
+          suggestionItem.addEventListener('click', () => {
+            searchInput.value = suggestion;
+            suggestionsContainer.style.display = 'none';
+            filterTools();
+            searchInput.focus();
+          });
+
+          suggestionsContainer.appendChild(suggestionItem);
+        });
+
+        suggestionsContainer.style.display = 'block';
+      }
+
+      // Hide suggestions when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-wrapper')) {
+          suggestionsContainer.style.display = 'none';
+        }
+      });
+
+
+      searchInput.addEventListener('focus', (e) => {
+        showSuggestions(e.target.value);
+      });
+
+      // Store original order on load
+      toolCards.forEach((card, index) => {
+        card.dataset.originalIndex = index;
+      });
+
+      const toolsGrid = document.getElementById('toolsGrid');
+
+      // Enhanced search with fuzzy matching and better relevance
+      function calculateRelevance(title, desc, categories, searchTerm, activeCategory) {
+        const titleLower = title.toLowerCase();
+        const descLower = desc.toLowerCase();
+        const searchLower = searchTerm.toLowerCase();
+
+        let relevance = 0;
+        let matches = [];
+
+        // Category matching boost
+        const catMatch = (activeCategory === 'all') || categories.split(' ').includes(activeCategory);
+        if (!catMatch) return { score: 0, matches: [] };
+
+        if (searchTerm === '') {
+          return { score: 1, matches: [] }; // Show all in category
+        }
+
+        // Exact match (highest priority)
+        if (titleLower === searchLower) {
+          relevance += 1000;
+          matches.push({ text: title, type: 'title', exact: true });
+        }
+
+        // Exact word match in title
+        const titleWords = titleLower.split(' ');
+        const searchWords = searchLower.split(' ');
+
+        searchWords.forEach(searchWord => {
+          if (searchWord.length < 2) return; // Skip very short words
+
+          // Exact word match
+          if (titleWords.includes(searchWord)) {
+            relevance += 200;
+            const startPos = titleLower.indexOf(searchWord);
+            matches.push({
+              text: title,
+              type: 'title',
+              start: startPos,
+              end: startPos + searchWord.length,
+              exact: true
             });
+          }
+          // Partial word match
+          else {
+            const foundIndex = titleLower.indexOf(searchWord);
+            if (foundIndex !== -1) {
+              relevance += 100;
+              matches.push({
+                text: title,
+                type: 'title',
+                start: foundIndex,
+                end: foundIndex + searchWord.length,
+                exact: false
+              });
+            }
+          }
         });
 
-        // Animate elements on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Fuzzy matching (Levenshtein distance approach)
+        if (searchLower.length >= 3) {
+          const titleSimilarity = calculateSimilarity(titleLower, searchLower);
+          if (titleSimilarity > 0.7) {
+            relevance += Math.floor(50 * titleSimilarity);
+          }
+        }
 
-        const observer = new IntersectionObserver(function (entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+        // Description matching (lower priority)
+        if (descLower.includes(searchLower)) {
+          relevance += 30;
+          const startPos = descLower.indexOf(searchLower);
+          matches.push({
+            text: desc,
+            type: 'desc',
+            start: startPos,
+            end: startPos + searchLower.length,
+            exact: true
+          });
+        }
 
-        // Observe all tool cards
-        document.querySelectorAll('.tool-card, .trust-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
+        // Partial description match
+        searchWords.forEach(searchWord => {
+          if (searchWord.length >= 3 && descLower.includes(searchWord)) {
+            relevance += 15;
+          }
         });
-    </script>
+
+        return { score: relevance, matches: matches };
+      }
+
+      // Simple similarity calculation
+      function calculateSimilarity(str1, str2) {
+        const longer = str1.length > str2.length ? str1 : str2;
+        const shorter = str1.length > str2.length ? str2 : str1;
+
+        if (longer.length === 0) return 1.0;
+
+        const editDistance = levenshteinDistance(longer, shorter);
+        return (longer.length - editDistance) / longer.length;
+      }
+
+      // Levenshtein distance algorithm
+      function levenshteinDistance(str1, str2) {
+        const matrix = Array(str2.length + 1).fill().map(() => Array(str1.length + 1).fill(0));
+
+        for (let i = 0; i <= str1.length; i++) matrix[0][i] = i;
+        for (let j = 0; j <= str2.length; j++) matrix[j][0] = j;
+
+        for (let j = 1; j <= str2.length; j++) {
+          for (let i = 1; i <= str1.length; i++) {
+            const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+            matrix[j][i] = Math.min(
+              matrix[j][i - 1] + 1,     // deletion
+              matrix[j - 1][i] + 1,     // insertion
+              matrix[j - 1][i - 1] + cost // substitution
+            );
+          }
+        }
+
+        return matrix[str2.length][str1.length];
+      }
+
+      // Highlight search terms in results
+      function highlightMatches(card, matches) {
+        // Remove previous highlights
+        const titleEl = card.querySelector('h3');
+        const descEl = card.querySelector('p');
+
+        if (titleEl) {
+          titleEl.innerHTML = titleEl.textContent;
+        }
+        if (descEl) {
+          descEl.innerHTML = descEl.textContent;
+        }
+
+        // Apply new highlights
+        matches.forEach(match => {
+          if (match.exact && match.type === 'title' && titleEl) {
+            const text = titleEl.textContent;
+            const before = text.substring(0, match.start);
+            const highlight = text.substring(match.start, match.end);
+            const after = text.substring(match.end);
+            titleEl.innerHTML = `${before}<mark class="search-highlight">${highlight}</mark>${after}`;
+          }
+          if (match.exact && match.type === 'desc' && descEl) {
+            const text = descEl.textContent;
+            const before = text.substring(0, match.start);
+            const highlight = text.substring(match.start, match.end);
+            const after = text.substring(match.end);
+            descEl.innerHTML = `${before}<mark class="search-highlight">${highlight}</mark>${after}`;
+          }
+        });
+      }
+
+      // Enhanced filtering with better sorting
+      function filterTools() {
+        // Always query fresh - stale NodeList breaks after sort/re-append
+        const cards = Array.from(document.querySelectorAll('#toolsGrid .tool-card'));
+        const searchTerm = searchInput ? searchInput.value.trim() : '';
+        let visibleCount = 0;
+
+        // Clear previous highlights
+        document.querySelectorAll('.search-highlight').forEach(el => {
+          el.outerHTML = el.innerHTML;
+        });
+
+        cards.forEach(card => {
+          // Always read data-en for consistent bilingual matching
+          const titleEl = card.querySelector('h3');
+          const descEl = card.querySelector('p');
+          const title = (titleEl?.getAttribute('data-en') || titleEl?.textContent || '').trim();
+          const desc = (descEl?.getAttribute('data-en') || descEl?.textContent || '').trim();
+          const catAttr = card.dataset.category || '';
+
+          const { score, matches } = calculateRelevance(title, desc, catAttr, searchTerm, activeCategory);
+          card.dataset.relevance = score;
+
+          if (score > 0) {
+            card.classList.remove('hide-by-search');
+            visibleCount++;
+            if (searchTerm && matches.length > 0) {
+              highlightMatches(card, matches);
+            }
+          } else {
+            card.classList.add('hide-by-search');
+          }
+        });
+
+        // Sort by relevance
+        cards.sort((a, b) => {
+          const scoreA = parseInt(a.dataset.relevance || 0);
+          const scoreB = parseInt(b.dataset.relevance || 0);
+          if (scoreA !== scoreB) return scoreB - scoreA;
+
+          const categoryOrder = { 'convert': 5, 'organize': 4, 'secure': 3, 'compress': 2, 'html': 1, 'all': 0 };
+          const catA = a.dataset.category || 'all';
+          const catB = b.dataset.category || 'all';
+          const catScoreA = catA.split(' ').map(c => categoryOrder[c] || 0).reduce((s, v) => s + v, 0);
+          const catScoreB = catB.split(' ').map(c => categoryOrder[c] || 0).reduce((s, v) => s + v, 0);
+          if (catScoreA !== catScoreB) return catScoreB - catScoreA;
+
+          return parseInt(a.dataset.originalIndex || 0) - parseInt(b.dataset.originalIndex || 0);
+        });
+
+        // Re-append sorted cards
+        const grid = document.getElementById('toolsGrid');
+        if (grid) cards.forEach(card => grid.appendChild(card));
+
+        // Update counter
+        if (toolCounter) {
+          toolCounter.innerText = searchTerm
+            ? `${visibleCount} results for "${searchTerm}"`
+            : `${visibleCount} tools`;
+        }
+      }
+
+      categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          categoryBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeCategory = btn.dataset.category;
+          filterTools();
+        });
+      });
+
+      filterTools();
+    });
+  </script>
+
+  <!-- ===== GSAP HERO ANIMATION ===== -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    window.addEventListener('load', function () {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // ── 1. Floating background particles ──────────────────────────────
+      (function spawnParticles() {
+        const container = document.getElementById('hero-particles');
+        if (!container) return;
+        const colors = ['#2563eb', '#7c3aed', '#db2777', '#10b981', '#f59e0b'];
+        for (let i = 0; i < 40; i++) {
+          const el = document.createElement('div');
+          const size = Math.random() * 14 + 4;
+          const dur = (Math.random() * 10 + 6).toFixed(1);
+          const delay = -(Math.random() * 10).toFixed(1);
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          const opacity = (Math.random() * 0.18 + 0.04).toFixed(2);
+          el.className = 'particle';
+          el.style.cssText = `
+            width:${size}px; height:${size}px;
+            left:${(Math.random() * 100).toFixed(1)}%;
+            top:${(Math.random() * 100).toFixed(1)}%;
+            background:${color};
+            --duration:${dur}s; --delay:${delay}s; --opacity:${opacity};
+          `;
+          container.appendChild(el);
+        }
+      })();
+
+      if (prefersReduced) {
+        // Skip hero animations for accessibility — show everything immediately
+        gsap.set(['#heroBadge', '#heroLine1 .word', '#heroLine2 .word', '#heroTyped', '#heroCta'], {
+          opacity: 1, y: 0, scale: 1
+        });
+        startTyped();
+        return;
+      }
+
+      // ── 2. Set initial states — HERO ELEMENTS ONLY (tool-cards NOT touched by GSAP) ──
+      gsap.set('#heroBadge', { opacity: 0, y: -18 });
+      gsap.set('#heroLine1 .word', { opacity: 0, y: '110%' });
+      gsap.set('#heroLine2 .word', { opacity: 0, y: '110%' });
+      gsap.set('#heroTyped', { opacity: 0, y: 20 });
+      gsap.set('#heroCta', { opacity: 0, y: 22 });
+
+      // ── 3. Hero entrance timeline ──────────────────────────────────────
+      const tl = gsap.timeline({ delay: 0.15 });
+
+      // Badge drops in from top
+      tl.to('#heroBadge', {
+        opacity: 1, y: 0,
+        duration: 0.7, ease: 'back.out(1.4)'
+      });
+
+      // "Transform PDFs" — word by word from below, with slight overshoot
+      tl.to('#heroLine1 .word', {
+        opacity: 1, y: 0,
+        duration: 0.7, stagger: 0.14,
+        ease: 'power4.out'
+      }, '-=0.25');
+
+      // "in Seconds, Not Hours." — second line follows
+      tl.to('#heroLine2 .word', {
+        opacity: 1, y: 0,
+        duration: 0.7, stagger: 0.10,
+        ease: 'power4.out'
+      }, '-=0.4');
+
+      // Typed subtitle slides up
+      tl.to('#heroTyped', {
+        opacity: 1, y: 0,
+        duration: 0.5, ease: 'power2.out'
+      }, '-=0.15');
+
+      // CTA row slides up
+      tl.to('#heroCta', {
+        opacity: 1, y: 0,
+        duration: 0.55, ease: 'power2.out'
+      }, '-=0.2');
+
+      // Start Typed.js when hero animation finishes
+      tl.call(startTyped);
+
+      // ── 4. Typed.js rotating subtitle ─────────────────────────────────
+      function startTyped() {
+        if (document.getElementById('typed-text')) {
+          new Typed('#typed-text', {
+            strings: [
+              '✨ Convert Word to PDF in one click',
+              '🗜️ Compress PDF — reduce size by 80%',
+              '🔒 Lock &amp; Unlock PDFs instantly',
+              '📄 Merge unlimited PDFs for free',
+              '🖼️ Remove image background with AI',
+              '✍️ Sign PDFs digitally — no account needed'
+            ],
+            typeSpeed: 40,
+            backSpeed: 22,
+            backDelay: 2400,
+            loop: true,
+            smartBackspace: true,
+            cursorChar: '|'
+          });
+        }
+      }
+
+      // ── 5. Popular cards — GSAP hover bounce ─────────────────────────
+      document.querySelectorAll('.popular-card').forEach(card => {
+        card.addEventListener('mouseenter', () =>
+          gsap.to(card, { y: -8, scale: 1.03, duration: 0.28, ease: 'power2.out' }));
+        card.addEventListener('mouseleave', () =>
+          gsap.to(card, { y: 0, scale: 1, duration: 0.32, ease: 'power2.inOut' }));
+      });
+
+      // ── 7. Stats numbers fade in on scroll ───────────────────────────
+      ScrollTrigger.create({
+        trigger: '.stats-grid',
+        start: 'top 82%',
+        once: true,
+        onEnter: () => {
+          gsap.from('.stat-number', {
+            opacity: 0, y: 18, duration: 0.6,
+            stagger: 0.1, ease: 'power2.out'
+          });
+        }
+      });
+    }); // end window.load
+  </script>
+
+
+  <style>
+    .hide-by-search {
+      display: none !important;
+    }
+
+    /* Search highlight styling */
+    .search-highlight {
+      background-color: #ffeb3b;
+      color: #333;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .dark-mode .search-highlight {
+      background-color: #ffd600;
+      color: #000;
+    }
+
+    /* Search suggestions dropdown */
+    .search-suggestions-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: none;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .dark-mode .search-suggestions-dropdown {
+      background: #1e293b;
+      border-color: #334155;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .suggestion-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #f1f5f9;
+      transition: all 0.2s ease;
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .suggestion-item:hover {
+      background-color: #f8fafc;
+    }
+
+    .dark-mode .suggestion-item {
+      border-bottom-color: #334155;
+      color: #e2e8f0;
+    }
+
+    .dark-mode .suggestion-item:hover {
+      background-color: #334155;
+    }
+
+    .suggestion-item:first-child {
+      border-radius: 8px 8px 0 0;
+    }
+
+    /* Enhanced search input styling */
+    #searchInput {
+      transition: all 0.3s ease;
+    }
+
+    #searchInput:focus {
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+      border-color: #2563eb;
+    }
+
+    .dark-mode #searchInput:focus {
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+      border-color: #3b82f6;
+    }
+
+    /* Tool card hover effect for search results */
+    .tool-card:hover {
+      transform: translateY(-2px);
+      transition: transform 0.2s ease;
+    }
+
+    .dark-mode .category-btn {
+      background: #1e293b;
+      color: white;
+    }
+
+    .dark-mode .category-btn.active {
+      background: linear-gradient(145deg, #3b82f6, #8b5cf6);
+      color: white;
+    }
+  </style>
+
 </body>
 
 </html>

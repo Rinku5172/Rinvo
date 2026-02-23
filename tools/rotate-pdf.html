@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>Rotate PDF Online - Rotate PDF Pages Permanently | RocketPDF</title>
+    <meta name="description"
+        content="Rotate PDF pages permanently. Save your PDF with the new orientation. Free, fast, and secure.">
+    <meta name="keywords"
+        content="rotate pdf, rotate pdf pages, turn pdf, flip pdf, rocketpdf, free online pdf tools, pdf tools, online pdf converter, secure pdf tools, no watermarks, best pdf editor, fast pdf processing, privacy focused pdf">
+    <link rel="canonical" href="https://rocketpdf.web.app/tools/rotate-pdf.html">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Rotate PDF - RocketPDF",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "description": "Rotate PDF pages permanently. Save your PDF with the new orientation.",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.6",
+                "ratingCount": "850"
+            }
+        }
+    </script>
+
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap&font-display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap&font-display=swap">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>↻</text></svg>">
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- Styles -->
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --primary-light: #e0f2fe;
+            --secondary: #06b6d4;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --border: #cbd5e1;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+
+        .dark-mode {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #f1f5f9;
+        }
+
+        .dark-mode .container,
+        .dark-mode .tool-container,
+        .dark-mode header {
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .tool-container {
+            padding-bottom: 4rem;
+        }
+
+        /* Tool Header */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tool-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        .tool-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .dark-mode .tool-title {
+            background: linear-gradient(135deg, #f1f5f9, var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .tool-description {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .dark-mode .tool-description {
+            color: #cbd5e1;
+        }
+
+        /* Upload Area */
+        .upload-wrapper {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 4rem 3rem;
+            text-align: center;
+            border: 3px dashed var(--border);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out 0.3s both;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dark-mode .upload-wrapper {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #475569;
+        }
+
+        .upload-wrapper.drag-over {
+            border-color: var(--primary);
+            background: rgba(14, 165, 233, 0.05);
+            transform: translateY(-5px);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                border-color: var(--primary);
+            }
+
+            50% {
+                border-color: var(--secondary);
+            }
+        }
+
+        .upload-icon-large {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-light), #e0f2fe);
+            color: var(--primary);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 15px 30px -10px rgba(14, 165, 233, 0.2);
+            transition: var(--transition);
+        }
+
+        .upload-wrapper:hover .upload-icon-large {
+            transform: scale(1.05) rotate(15deg);
+        }
+
+        .dark-mode .upload-icon-large {
+            background: linear-gradient(135deg, #0c4a6e, #075985);
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: var(--transition);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-main:hover::before {
+            left: 100%;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(14, 165, 233, 0.4);
+        }
+
+        .btn-main:active {
+            transform: translateY(-1px);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .dark-mode .feature-item {
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-light), #e0f2fe);
+            color: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .dark-mode .feature-icon {
+            background: linear-gradient(135deg, #0c4a6e, #075985);
+        }
+
+        /* Processing Stage */
+        .processing-stage {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* File Info Card */
+        .file-info-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--primary-light);
+        }
+
+        .dark-mode .file-info-card {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #0c4a6e;
+        }
+
+        .file-info-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .file-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-light), #e0f2fe);
+            color: var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .dark-mode .file-icon {
+            background: linear-gradient(135deg, #0c4a6e, #075985);
+        }
+
+        .file-details h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+        }
+
+        .file-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            color: var(--gray);
+        }
+
+        .dark-mode .file-stats {
+            color: #94a3b8;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .dark-mode .control-panel {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #475569;
+        }
+
+        .control-panel-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dark-mode .control-panel-title {
+            color: #f1f5f9;
+        }
+
+        .bulk-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: var(--dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .dark-mode .btn-secondary {
+            background: #334155;
+            color: #f1f5f9;
+            border-color: #475569;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .dark-mode .btn-secondary:hover {
+            background: rgba(14, 165, 233, 0.2);
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Pages Grid */
+        .pages-grid-container {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .dark-mode .pages-grid-container {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #475569;
+        }
+
+        .pages-grid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .page-card {
+            position: relative;
+            background: #f8fafc;
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border: 2px solid transparent;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .dark-mode .page-card {
+            background: #334155;
+        }
+
+        .page-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .page-card.selected {
+            border-color: var(--primary);
+            background: rgba(14, 165, 233, 0.05);
+        }
+
+        .dark-mode .page-card.selected {
+            background: rgba(14, 165, 233, 0.2);
+        }
+
+        .page-thumb {
+            position: relative;
+            aspect-ratio: 1/1.414;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .dark-mode .page-thumb {
+            background: #1e293b;
+            border-color: #475569;
+        }
+
+        .page-thumb canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .page-number {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .rotation-indicator {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .page-card.selected .rotation-indicator {
+            opacity: 1;
+            animation: pulse 2s infinite;
+        }
+
+        .page-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rotation-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .dark-mode .btn-icon {
+            background: #1e293b;
+            color: #f1f5f9;
+            border-color: #475569;
+        }
+
+        .btn-icon:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .rotation-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            width: 40px;
+            text-align: center;
+        }
+
+        /* Convert Section */
+        .convert-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        #btn-process {
+            width: 100%;
+            max-width: 400px;
+            justify-content: center;
+            padding: 1.25rem 2.5rem;
+            font-size: 1.2rem;
+            border-radius: var(--radius);
+        }
+
+        #btn-process:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Progress */
+        .progress-container {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--primary-light);
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+            margin-top: 2rem;
+        }
+
+        .dark-mode .progress-container {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #0c4a6e;
+        }
+
+        .progress-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-light), #e0f2fe);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 1.5rem;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .dark-mode .progress-icon {
+            background: linear-gradient(135deg, #0c4a6e, #075985);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--gray-light);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .dark-mode .progress-bar {
+            background: #475569;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .progress-text {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-top: 1rem;
+        }
+
+        .dark-mode .progress-text {
+            color: #94a3b8;
+        }
+
+
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(120%);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 9999;
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .notification.success .notification-icon {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--success);
+        }
+
+        .notification.error .notification-icon {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--danger);
+        }
+
+        .notification-content h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-content p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tool-title {
+                font-size: 2.2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .upload-wrapper {
+                padding: 2rem 1rem;
+            }
+
+            .pages-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bulk-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .file-info-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+
+    <style>
+        .logo img {
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover img {
+            transform: scale(1.1) rotate(-5deg);
+        }
+    </style>
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer></script>
+</head>
+
+<body>
+    <!-- Notification System -->
+    <div id="notification" class="notification">
+        <div class="notification-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="notification-content">
+            <h4>Success!</h4>
+            <p>Operation completed successfully.</p>
+        </div>
+    </div>
+
+    <div id="rocket-header"></div>
+
+    <div class="container tool-container">
+        <!-- Tool Header -->
+        <div class="tool-header">
+            <div class="tool-badge">
+                <i class="fas fa-sync-alt"></i> ROTATE PDF PAGES
+            </div>
+            <h1 class="tool-title">Rotate PDF Pages</h1>
+            <p class="tool-description">
+                Fix orientation issues in your PDF documents. Rotate individual pages or batch rotate all pages with one
+                click.
+            </p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-wrapper" id="dropZone">
+            <div class="upload-icon-large">
+                <i class="fas fa-sync-alt"></i>
+            </div>
+            <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Drop Your PDF File Here</h2>
+            <p style="color: var(--gray); margin-bottom: 2rem; font-size: 1.1rem;">
+                Or click the button below to select a PDF file from your computer
+            </p>
+
+            <button class="btn-main" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-cloud-upload-alt"></i> Choose PDF File
+            </button>
+            <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+
+            <!-- Features -->
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-undo"></i>
+                    </div>
+                    <div>
+                        <h4>Rotate Clockwise</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray);">90° clockwise rotation</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-redo"></i>
+                    </div>
+                    <div>
+                        <h4>Rotate Counterclockwise</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray);">90° counterclockwise</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div>
+                        <h4>180° Rotation</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray);">Flip pages upside down</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div>
+                        <h4>Secure</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray);">No server upload needed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing Stage -->
+        <div id="processingStage" class="hidden processing-stage">
+            <!-- File Info -->
+            <div class="file-info-card" id="fileInfoCard">
+                <!-- Content will be added by JavaScript -->
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <h3 class="control-panel-title">
+                    <i class="fas fa-sliders-h"></i> Bulk Actions
+                </h3>
+
+                <div class="bulk-actions">
+                    <button class="btn-secondary" onclick="rotateAll('left')">
+                        <i class="fas fa-undo"></i> Rotate All Left
+                    </button>
+                    <button class="btn-secondary" onclick="rotateAll('right')">
+                        <i class="fas fa-redo"></i> Rotate All Right
+                    </button>
+                    <button class="btn-secondary" onclick="rotateAll('180')">
+                        <i class="fas fa-sync-alt"></i> Rotate All 180°
+                    </button>
+                    <button class="btn-secondary" onclick="resetAllRotations()">
+                        <i class="fas fa-history"></i> Reset All Rotations
+                    </button>
+                </div>
+
+                <div class="bulk-actions">
+                    <button class="btn-secondary" onclick="selectAllPages()">
+                        <i class="fas fa-check-square"></i> Select All Pages
+                    </button>
+                    <button class="btn-secondary" onclick="deselectAllPages()">
+                        <i class="fas fa-square"></i> Deselect All Pages
+                    </button>
+                    <button class="btn-secondary" onclick="selectEvenPages()">
+                        <i class="fas fa-layer-group"></i> Select Even Pages
+                    </button>
+                    <button class="btn-secondary" onclick="selectOddPages()">
+                        <i class="fas fa-layer-group"></i> Select Odd Pages
+                    </button>
+                </div>
+
+                <div
+                    style="margin-top: 1.5rem; padding: 1rem; background: #f8fafc; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 600;">
+                            <i class="fas fa-info-circle" style="color: var(--primary);"></i>
+                            <span id="selectionCount">0</span> pages selected
+                        </span>
+                        <span style="color: var(--gray); font-size: 0.9rem;">
+                            <span id="rotationCount">0</span> pages rotated
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pages Grid -->
+            <div class="pages-grid-container">
+                <div class="pages-grid-header">
+                    <h3 class="control-panel-title">
+                        <i class="fas fa-file-alt"></i> PDF Pages (<span id="totalPages">0</span>)
+                    </h3>
+                    <span style="color: var(--gray); font-size: 0.9rem;">
+                        Click page thumbnails to select/deselect
+                    </span>
+                </div>
+                <div class="pages-grid" id="pagesGrid">
+                    <!-- Pages will be added here dynamically -->
+                </div>
+            </div>
+
+            <!-- Convert Button -->
+            <div class="convert-section">
+                <button class="btn-main" id="btn-process">
+                    <i class="fas fa-file-pdf"></i> Apply Rotations & Download PDF
+                </button>
+                <p style="margin-top: 1rem; color: var(--gray); font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> Your modified PDF will download automatically
+                </p>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-container hidden" id="progressArea">
+            <div class="progress-icon">
+                <i class="fas fa-sync-alt"></i>
+            </div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Applying Rotations</h3>
+            <p style="color: var(--gray); margin-bottom: 1.5rem;" id="progressMessage">
+                Processing PDF pages...
+            </p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <div class="progress-text">
+                <span id="progressText">0%</span>
+            </div>
+
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--gray);">
+                <i class="fas fa-lightbulb"></i> Processing should complete quickly for most documents
+            </p>
+        </div>
+    </div>
+
+    <div id="rocket-footer"></div>
+
+    <script>
+        // Global Variables
+        let loadedPdf = null;
+        let pdfBytes = null;
+        let pageRotations = []; // Array of rotation angles in degrees
+        let selectedPages = new Set(); // Set of selected page indices
+        let isProcessing = false;
+
+        // DOM Elements
+        const DOM = {
+            dropZone: document.getElementById('dropZone'),
+            fileInput: document.getElementById('fileInput'),
+            processingStage: document.getElementById('processingStage'),
+            fileInfoCard: document.getElementById('fileInfoCard'),
+            pagesGrid: document.getElementById('pagesGrid'),
+            totalPages: document.getElementById('totalPages'),
+            btnProcess: document.getElementById('btn-process'),
+            progressArea: document.getElementById('progressArea'),
+            progressBar: document.getElementById('progressBar'),
+            progressText: document.getElementById('progressText'),
+            progressMessage: document.getElementById('progressMessage'),
+            selectionCount: document.getElementById('selectionCount'),
+            rotationCount: document.getElementById('rotationCount'),
+            notification: document.getElementById('notification')
+        };
+
+        // Initialize
+        function init() {
+            setupEventListeners();
+            setupThemeToggle();
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Drag and Drop
+            DOM.dropZone.addEventListener('dragover', handleDragOver);
+            DOM.dropZone.addEventListener('dragleave', handleDragLeave);
+            DOM.dropZone.addEventListener('drop', handleDrop);
+
+            // File Input
+            DOM.fileInput.addEventListener('change', handleFileSelect);
+
+            // Process Button
+            DOM.btnProcess.addEventListener('click', processPDF);
+        }
+
+        // Drag and Drop Handlers
+        function handleDragOver(e) {
+            e.preventDefault();
+            DOM.dropZone.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            DOM.dropZone.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            DOM.dropZone.classList.remove('drag-over');
+
+            const files = Array.from(e.dataTransfer.files);
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                    handlePDFFile(file);
+                } else {
+                    showNotification('Please select a PDF file', 'error');
+                }
+            }
+        }
+
+        // File Selection Handler
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file && (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) {
+                handlePDFFile(file);
+            } else if (file) {
+                showNotification('Please select a PDF file', 'error');
+            }
+        }
+
+        // Handle PDF File
+        async function handlePDFFile(file) {
+            try {
+                showNotification('Loading PDF document...', 'success');
+
+                pdfBytes = await file.arrayBuffer();
+                loadedPdf = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+
+                // Initialize rotations array
+                pageRotations = new Array(loadedPdf.numPages).fill(0);
+                selectedPages.clear();
+
+                // Update file info
+                updateFileInfo(file);
+
+                // Update UI
+                DOM.dropZone.style.display = 'none';
+                DOM.processingStage.classList.remove('hidden');
+                DOM.totalPages.textContent = loadedPdf.numPages;
+
+                // Render page thumbnails
+                await renderPageThumbnails();
+
+                // Update selection and rotation counts
+                updateCounts();
+
+                showNotification(`PDF loaded successfully (${loadedPdf.numPages} pages)`, 'success');
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                showNotification('Error loading PDF file. Please try again.', 'error');
+            }
+        }
+
+        // Update File Information
+        function updateFileInfo(file) {
+            DOM.fileInfoCard.innerHTML = `
+                <div class="file-info-content">
+                    <div class="file-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div>
+                        <h3>${file.name}</h3>
+                        <div class="file-stats">
+                            <span><i class="fas fa-layer-group"></i> ${loadedPdf.numPages} Pages</span>
+                            <span><i class="fas fa-weight"></i> ${formatFileSize(file.size)}</span>
+                            <span><i class="fas fa-calendar"></i> Modified: ${new Date(file.lastModified).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Format File Size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Render Page Thumbnails
+        async function renderPageThumbnails() {
+            DOM.pagesGrid.innerHTML = '';
+
+            for (let i = 0; i < loadedPdf.numPages; i++) {
+                try {
+                    const page = await loadedPdf.getPage(i + 1);
+                    const viewport = page.getViewport({ scale: 0.15 }); // Small scale for thumbnails
+
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+
+                    // Render page to canvas
+                    await page.render({
+                        canvasContext: context,
+                        viewport: viewport,
+                        background: 'white'
+                    }).promise;
+
+                    // Create page card
+                    const pageCard = document.createElement('div');
+                    pageCard.className = 'page-card';
+                    if (selectedPages.has(i)) {
+                        pageCard.classList.add('selected');
+                    }
+                    pageCard.dataset.pageIndex = i;
+                    pageCard.innerHTML = `
+                        <div class="page-thumb">
+                            <canvas id="thumb-${i}" width="${canvas.width}" height="${canvas.height}"></canvas>
+                            <div class="page-number">${i + 1}</div>
+                            <div class="rotation-indicator">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                        </div>
+                        <div class="page-actions">
+                            <div class="rotation-controls">
+                                <button class="btn-icon" onclick="rotateSinglePage(${i}, -90, event)">
+                                    <i class="fas fa-undo"></i>
+                                </button>
+                                <span class="rotation-value" id="rotation-${i}">0°</span>
+                                <button class="btn-icon" onclick="rotateSinglePage(${i}, 90, event)">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                            </div>
+                            <button class="btn-icon" onclick="rotateSinglePage(${i}, 180, event)">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    // Add click handler for selection
+                    pageCard.addEventListener('click', (e) => {
+                        if (!e.target.closest('.btn-icon')) {
+                            togglePageSelection(i);
+                        }
+                    });
+
+                    DOM.pagesGrid.appendChild(pageCard);
+
+                    // Copy canvas content to the thumbnail canvas
+                    const thumbCanvas = document.getElementById(`thumb-${i}`);
+                    const thumbContext = thumbCanvas.getContext('2d');
+                    thumbContext.drawImage(canvas, 0, 0);
+
+                    // Apply current rotation to thumbnail
+                    updateThumbnailRotation(i);
+
+                } catch (error) {
+                    console.error(`Error rendering thumbnail for page ${i + 1}:`, error);
+
+                    // Create placeholder for failed preview
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'page-card';
+                    placeholder.dataset.pageIndex = i;
+                    placeholder.innerHTML = `
+                        <div class="page-thumb" style="display:flex; align-items:center; justify-content:center;">
+                            <i class="fas fa-file-alt" style="font-size:2rem; color:#64748b;"></i>
+                            <div class="page-number">${i + 1}</div>
+                        </div>
+                        <div class="page-actions">
+                            <div class="rotation-controls">
+                                <button class="btn-icon" onclick="rotateSinglePage(${i}, -90, event)">
+                                    <i class="fas fa-undo"></i>
+                                </button>
+                                <span class="rotation-value" id="rotation-${i}">0°</span>
+                                <button class="btn-icon" onclick="rotateSinglePage(${i}, 90, event)">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                            </div>
+                            <button class="btn-icon" onclick="rotateSinglePage(${i}, 180, event)">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    placeholder.addEventListener('click', (e) => {
+                        if (!e.target.closest('.btn-icon')) {
+                            togglePageSelection(i);
+                        }
+                    });
+
+                    DOM.pagesGrid.appendChild(placeholder);
+                }
+            }
+        }
+
+        // Rotate Single Page
+        function rotateSinglePage(pageIndex, degrees, event) {
+            if (event) event.stopPropagation();
+
+            // Update rotation value
+            pageRotations[pageIndex] = (pageRotations[pageIndex] + degrees) % 360;
+
+            // Update display
+            updateRotationDisplay(pageIndex);
+            updateThumbnailRotation(pageIndex);
+
+            // Select page if not already selected
+            if (!selectedPages.has(pageIndex)) {
+                selectedPages.add(pageIndex);
+                updatePageSelectionUI(pageIndex);
+            }
+
+            updateCounts();
+        }
+
+        // Update Thumbnail Rotation
+        function updateThumbnailRotation(pageIndex) {
+            const thumbCanvas = document.getElementById(`thumb-${pageIndex}`);
+            if (thumbCanvas) {
+                thumbCanvas.style.transform = `rotate(${pageRotations[pageIndex]}deg)`;
+            }
+        }
+
+        // Update Rotation Display
+        function updateRotationDisplay(pageIndex) {
+            const rotationElement = document.getElementById(`rotation-${pageIndex}`);
+            if (rotationElement) {
+                let rotation = pageRotations[pageIndex];
+                if (rotation < 0) rotation += 360;
+                rotationElement.textContent = `${rotation}°`;
+
+                // Update rotation indicator color based on rotation value
+                const pageCard = document.querySelector(`[data-page-index="${pageIndex}"]`);
+                const rotationIndicator = pageCard.querySelector('.rotation-indicator');
+                if (rotation !== 0) {
+                    rotationIndicator.style.opacity = '1';
+                } else {
+                    rotationIndicator.style.opacity = '0';
+                }
+            }
+        }
+
+        // Toggle Page Selection
+        function togglePageSelection(pageIndex) {
+            if (selectedPages.has(pageIndex)) {
+                selectedPages.delete(pageIndex);
+            } else {
+                selectedPages.add(pageIndex);
+            }
+            updatePageSelectionUI(pageIndex);
+            updateCounts();
+        }
+
+        // Update Page Selection UI
+        function updatePageSelectionUI(pageIndex) {
+            const pageCard = document.querySelector(`[data-page-index="${pageIndex}"]`);
+            if (pageCard) {
+                if (selectedPages.has(pageIndex)) {
+                    pageCard.classList.add('selected');
+                } else {
+                    pageCard.classList.remove('selected');
+                }
+            }
+        }
+
+        // Update Selection and Rotation Counts
+        function updateCounts() {
+            DOM.selectionCount.textContent = selectedPages.size;
+
+            const rotatedCount = pageRotations.filter(rotation => rotation !== 0).length;
+            DOM.rotationCount.textContent = rotatedCount;
+
+            // Update process button text
+            if (rotatedCount > 0) {
+                DOM.btnProcess.innerHTML = `<i class="fas fa-file-pdf"></i> Apply ${rotatedCount} Rotation${rotatedCount !== 1 ? 's' : ''} & Download PDF`;
+            } else {
+                DOM.btnProcess.innerHTML = `<i class="fas fa-file-pdf"></i> Apply Rotations & Download PDF`;
+            }
+        }
+
+        // Bulk Rotation Functions
+        function rotateAll(direction) {
+            let degrees = 0;
+            switch (direction) {
+                case 'left': degrees = -90; break;
+                case 'right': degrees = 90; break;
+                case '180': degrees = 180; break;
+            }
+
+            // Rotate all pages
+            for (let i = 0; i < loadedPdf.numPages; i++) {
+                pageRotations[i] = (pageRotations[i] + degrees) % 360;
+                updateRotationDisplay(i);
+                updateThumbnailRotation(i);
+                selectedPages.add(i);
+                updatePageSelectionUI(i);
+            }
+
+            updateCounts();
+        }
+
+        function resetAllRotations() {
+            for (let i = 0; i < loadedPdf.numPages; i++) {
+                pageRotations[i] = 0;
+                updateRotationDisplay(i);
+                updateThumbnailRotation(i);
+            }
+            selectedPages.clear();
+            document.querySelectorAll('.page-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            updateCounts();
+        }
+
+        function selectAllPages() {
+            for (let i = 0; i < loadedPdf.numPages; i++) {
+                selectedPages.add(i);
+                updatePageSelectionUI(i);
+            }
+            updateCounts();
+        }
+
+        function deselectAllPages() {
+            selectedPages.clear();
+            document.querySelectorAll('.page-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            updateCounts();
+        }
+
+        function selectEvenPages() {
+            for (let i = 0; i < loadedPdf.numPages; i++) {
+                if (i % 2 === 0) { // 0-indexed, so even numbers are actually odd pages (1, 3, 5...)
+                    selectedPages.add(i);
+                    updatePageSelectionUI(i);
+                }
+            }
+            updateCounts();
+        }
+
+        function selectOddPages() {
+            for (let i = 0; i < loadedPdf.numPages; i++) {
+                if (i % 2 === 1) { // 0-indexed, so odd numbers are actually even pages (2, 4, 6...)
+                    selectedPages.add(i);
+                    updatePageSelectionUI(i);
+                }
+            }
+            updateCounts();
+        }
+
+        // Process PDF
+        async function processPDF() {
+            if (isProcessing) return;
+
+            // Check if any pages are rotated
+            const hasRotations = pageRotations.some(rotation => rotation !== 0);
+            if (!hasRotations) {
+                showNotification('No rotations applied. Please rotate some pages first.', 'error');
+                return;
+            }
+
+            isProcessing = true;
+            DOM.processingStage.classList.add('hidden');
+            DOM.progressArea.classList.remove('hidden');
+            DOM.btnProcess.disabled = true;
+
+            try {
+                updateProgress(0, 'Loading PDF document...');
+
+                const { PDFDocument, degrees } = PDFLib;
+                const pdfDoc = await PDFDocument.load(pdfBytes);
+                const pages = pdfDoc.getPages();
+
+                updateProgress(20, 'Applying rotations...');
+
+                // Apply rotations to pages
+                for (let i = 0; i < pages.length; i++) {
+                    if (pageRotations[i] !== 0) {
+                        // Get current rotation
+                        const currentRot = pages[i].getRotation().angle;
+                        // Apply new rotation
+                        const newRotation = currentRot + pageRotations[i];
+                        pages[i].setRotation(degrees(newRotation));
+                    }
+
+                    // Update progress
+                    const progress = 20 + ((i + 1) / pages.length * 60);
+                    updateProgress(progress, `Processing page ${i + 1} of ${pages.length}...`);
+                }
+
+                updateProgress(85, 'Saving PDF...');
+
+                // Save the PDF
+                const pdfBytesModified = await pdfDoc.save();
+
+                updateProgress(95, 'Preparing download...');
+
+                // Create and download the file
+                const blob = new Blob([pdfBytesModified], { type: 'application/pdf' });
+                const fileName = `rotated_${new Date().getTime()}.pdf`;
+                saveAs(blob, fileName);
+
+                updateProgress(100, 'Download complete!');
+
+                showNotification('PDF successfully rotated and downloaded', 'success');
+
+                // Reset after a delay
+                setTimeout(() => {
+                    DOM.progressArea.classList.add('hidden');
+                    DOM.processingStage.classList.remove('hidden');
+                    DOM.btnProcess.disabled = false;
+                    DOM.progressBar.style.width = '0%';
+                }, 2000);
+
+            } catch (error) {
+                console.error('PDF processing error:', error);
+                showNotification('Error processing PDF. Please try again.', 'error');
+
+                // Reset UI
+                DOM.progressArea.classList.add('hidden');
+                DOM.processingStage.classList.remove('hidden');
+                DOM.btnProcess.disabled = false;
+            } finally {
+                isProcessing = false;
+            }
+        }
+
+        // Update Progress
+        function updateProgress(percent, message) {
+            DOM.progressBar.style.width = `${percent}%`;
+            DOM.progressText.textContent = `${Math.round(percent)}%`;
+
+            if (message) {
+                DOM.progressMessage.textContent = message;
+            }
+        }
+
+        // Notification System
+        function showNotification(message, type = 'success') {
+            DOM.notification.className = `notification ${type}`;
+            DOM.notification.querySelector('h4').textContent =
+                type === 'success' ? 'Success!' : 'Error!';
+            DOM.notification.querySelector('p').textContent = message;
+            DOM.notification.querySelector('.notification-icon i').className =
+                type === 'success' ? 'fas fa-check' : 'fas fa-exclamation-triangle';
+
+            DOM.notification.classList.add('show');
+
+            setTimeout(() => {
+                DOM.notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Theme Toggle
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
+
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                themeToggle.innerHTML = isDark
+                    ? '<i class="fas fa-sun"></i>'
+                    : '<i class="fas fa-moon"></i>';
+            });
+        }
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Make functions available globally
+        window.rotateSinglePage = rotateSinglePage;
+        window.rotateAll = rotateAll;
+        window.resetAllRotations = resetAllRotations;
+        window.selectAllPages = selectAllPages;
+        window.deselectAllPages = deselectAllPages;
+        window.selectEvenPages = selectEvenPages;
+        window.selectOddPages = selectOddPages;
+    </script>
+</body>
+
+</html>

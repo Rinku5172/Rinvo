@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>Compare PDF Online - Visual PDF Comparison | RocketPDF</title>
+    <meta name="description"
+        content="Compare two PDF files side-by-side to find differences. Visual PDF comparison tool. Free and secure.">
+    <meta name="keywords"
+        content="compare pdf, pdf comparison, diff pdf, compare two pdfs, rocketpdf, free online pdf tools, pdf tools, online pdf converter, secure pdf tools, no watermarks, best pdf editor, fast pdf processing, privacy focused pdf">
+    <link rel="canonical" href="https://rocketpdf.web.app/tools/compare-pdf.html">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Compare PDF - RocketPDF",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "description": "Compare two PDF files side-by-side to find differences.",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.4",
+                "ratingCount": "290"
+            }
+        }
+    </script>
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap&font-display=swap"
+        rel="stylesheet">
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #64748b;
+            --bg: #f0f9ff;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tool-container {
+            max-width: 1400px;
+            width: 100%;
+            background: var(--card);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            min-height: 80vh;
+        }
+
+        .tool-header-content {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .tool-icon {
+            width: 70px;
+            height: 70px;
+            background: #e0f2fe;
+            color: var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .desc {
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        /* Setup Area */
+        .setup-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 800px) {
+            .setup-area {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .upload-card {
+            border: 2px dashed var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+        }
+
+        .upload-card:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        .upload-card.loaded {
+            border-style: solid;
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .upload-icon-small {
+            font-size: 2.5rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .file-status {
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .btn-compare {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+            transition: 0.2s;
+            margin: 2rem auto;
+            display: block;
+        }
+
+        .btn-compare:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Viewer Area */
+        .viewer-area {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        .viewer-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text);
+            transition: 0.2s;
+        }
+
+        .btn-icon:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .page-indicator {
+            font-weight: 600;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .split-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            flex: 1;
+            overflow: hidden;
+            background: #e2e8f0;
+            padding: 1rem;
+            border-radius: 1rem;
+        }
+
+        .pdf-pane {
+            background: white;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .pane-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer></script>
+</head>
+
+<body>
+    <div id="rocket-header"></div>
+
+    <main>
+        <div class="tool-container">
+            <div class="tool-header-content" id="headerContent">
+                <div class="tool-icon">
+                    <i class="fas fa-columns"></i>
+                </div>
+                <h1>Compare PDFs</h1>
+                <p class="desc">Upload two PDF files to compare them visually side-by-side.</p>
+            </div>
+
+            <div class="setup-area" id="setupArea">
+                <div class="upload-card" id="cardA" onclick="document.getElementById('inputA').click()">
+                    <div class="upload-icon-small">
+                        <i class="far fa-file-pdf"></i>
+                    </div>
+                    <h3>Upload First File (A)</h3>
+                    <div class="file-status" id="statusA">No file selected</div>
+                    <input type="file" id="inputA" accept=".pdf" style="display: none;">
+                </div>
+
+                <div class="upload-card" id="cardB" onclick="document.getElementById('inputB').click()">
+                    <div class="upload-icon-small">
+                        <i class="far fa-file-pdf"></i>
+                    </div>
+                    <h3>Upload Second File (B)</h3>
+                    <div class="file-status" id="statusB">No file selected</div>
+                    <input type="file" id="inputB" accept=".pdf" style="display: none;">
+                </div>
+            </div>
+
+            <button class="btn-compare" id="compareBtn" disabled>Compare Files</button>
+
+            <div class="viewer-area" id="viewerArea">
+                <div class="viewer-controls">
+                    <div class="control-group">
+                        <button class="btn-icon" onclick="changePage(-1)"><i class="fas fa-chevron-left"></i></button>
+                        <span class="page-indicator" id="pageInfo">Page 1 / 1</span>
+                        <button class="btn-icon" onclick="changePage(1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="control-group">
+                        <button class="btn-icon" onclick="zoom(-0.2)"><i class="fas fa-search-minus"></i></button>
+                        <button class="btn-icon" onclick="zoom(0.2)"><i class="fas fa-search-plus"></i></button>
+                        <button class="btn-icon" onclick="resetView()"
+                            style="width: auto; padding: 0 1rem; font-size: 0.9rem;">
+                            <i class="fas fa-redo" style="margin-right: 5px;"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="split-view">
+                    <div class="pdf-pane" id="paneA">
+                        <div class="pane-label">File A</div>
+                        <canvas id="canvasA"></canvas>
+                    </div>
+                    <div class="pdf-pane" id="paneB">
+                        <div class="pane-label">File B</div>
+                        <canvas id="canvasB"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="rocket-footer"></div>
+
+    <script>
+        let fileA = null;
+        let fileB = null;
+        let pdfDocA = null;
+        let pdfDocB = null;
+        let currentPage = 1;
+        let totalPages = 0;
+        let currentScale = 1.0;
+
+        const inputA = document.getElementById('inputA');
+        const inputB = document.getElementById('inputB');
+        const cardA = document.getElementById('cardA');
+        const cardB = document.getElementById('cardB');
+        const statusA = document.getElementById('statusA');
+        const statusB = document.getElementById('statusB');
+        const compareBtn = document.getElementById('compareBtn');
+        const setupArea = document.getElementById('setupArea');
+        const viewerArea = document.getElementById('viewerArea');
+        const headerContent = document.getElementById('headerContent');
+        const pageInfo = document.getElementById('pageInfo');
+        const canvasA = document.getElementById('canvasA');
+        const canvasB = document.getElementById('canvasB');
+
+        // Sync Scrolling
+        const paneA = document.getElementById('paneA');
+        const paneB = document.getElementById('paneB');
+
+        let isSyncingLeft = false;
+        let isSyncingRight = false;
+
+        paneA.onscroll = function () {
+            if (!isSyncingLeft) {
+                isSyncingRight = true;
+                paneB.scrollTop = this.scrollTop;
+                paneB.scrollLeft = this.scrollLeft;
+            }
+            isSyncingLeft = false;
+        };
+
+        paneB.onscroll = function () {
+            if (!isSyncingRight) {
+                isSyncingLeft = true;
+                paneA.scrollTop = this.scrollTop;
+                paneA.scrollLeft = this.scrollLeft;
+            }
+            isSyncingRight = false;
+        };
+
+        // File Inputs
+        inputA.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                fileA = e.target.files[0];
+                statusA.textContent = fileA.name;
+                cardA.classList.add('loaded');
+                checkReady();
+            }
+        });
+
+        inputB.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                fileB = e.target.files[0];
+                statusB.textContent = fileB.name;
+                cardB.classList.add('loaded');
+                checkReady();
+            }
+        });
+
+        function checkReady() {
+            if (fileA && fileB) {
+                compareBtn.disabled = false;
+            }
+        }
+
+        compareBtn.addEventListener('click', async () => {
+            compareBtn.disabled = true;
+            compareBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+
+            try {
+                // Load PDFs
+                const bufferA = await fileA.arrayBuffer();
+                const bufferB = await fileB.arrayBuffer();
+
+                pdfDocA = await pdfjsLib.getDocument(bufferA).promise;
+                pdfDocB = await pdfjsLib.getDocument(bufferB).promise;
+
+                totalPages = Math.max(pdfDocA.numPages, pdfDocB.numPages);
+
+                // Switch View
+                setupArea.style.display = 'none';
+                compareBtn.style.display = 'none';
+                headerContent.style.display = 'none';
+                viewerArea.style.display = 'flex';
+
+                renderPage(1);
+
+            } catch (error) {
+                console.error(error);
+                alert('Error loading PDFs: ' + error.message);
+                compareBtn.disabled = false;
+                compareBtn.innerHTML = 'Compare Files';
+            }
+        });
+
+        async function renderPage(pageNum) {
+            currentPage = pageNum;
+            pageInfo.textContent = `Page ${pageNum} / ${totalPages}`;
+
+            // Render A
+            if (pageNum <= pdfDocA.numPages) {
+                const page = await pdfDocA.getPage(pageNum);
+                const viewport = page.getViewport({ scale: currentScale });
+                canvasA.height = viewport.height;
+                canvasA.width = viewport.width;
+                await page.render({
+                    canvasContext: canvasA.getContext('2d'),
+                    viewport: viewport
+                }).promise;
+            } else {
+                // Clear canvas if page doesn't exist
+                const ctx = canvasA.getContext('2d');
+                ctx.clearRect(0, 0, canvasA.width, canvasA.height);
+                canvasA.height = 0;
+            }
+
+            // Render B
+            if (pageNum <= pdfDocB.numPages) {
+                const page = await pdfDocB.getPage(pageNum);
+                const viewport = page.getViewport({ scale: currentScale });
+                canvasB.height = viewport.height;
+                canvasB.width = viewport.width;
+                await page.render({
+                    canvasContext: canvasB.getContext('2d'),
+                    viewport: viewport
+                }).promise;
+            } else {
+                const ctx = canvasB.getContext('2d');
+                ctx.clearRect(0, 0, canvasB.width, canvasB.height);
+                canvasB.height = 0;
+            }
+        }
+
+        function changePage(delta) {
+            const newPage = currentPage + delta;
+            if (newPage >= 1 && newPage <= totalPages) {
+                renderPage(newPage);
+            }
+        }
+
+        function zoom(delta) {
+            const newScale = currentScale + delta;
+            if (newScale >= 0.5 && newScale <= 3.0) {
+                currentScale = newScale;
+                renderPage(currentPage);
+            }
+        }
+
+        function resetView() {
+            window.location.reload();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-# Railway Deployment Guide for RINVO Backend
+# Railway Deployment Guide for RocketPDF Backend
 
 ## Quick Deploy to Railway
 

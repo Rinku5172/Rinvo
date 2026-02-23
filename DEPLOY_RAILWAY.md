@@ -25,7 +25,7 @@ git init
 git add .
 
 # Commit
-git commit -m "Backend for RINVO PDF tools"
+git commit -m "Backend for RocketPDF PDF tools"
 
 # Create repo on GitHub and push
 git remote add origin https://github.com/YOUR_USERNAME/rinvo-backend.git

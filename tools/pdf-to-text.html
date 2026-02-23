@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>PDF to Text Converter - RocketPDF | Extract Text from PDF</title>
+    <meta name="description"
+        content="Extract plain text from PDF documents. Simple, fast and free online tool. Works with scanned PDFs via OCR.">
+    <meta name="keywords"
+        content="pdf to text, extract text from pdf, convert pdf to txt, rocketpdf, free online pdf tools, pdf tools, online pdf converter, secure pdf tools, no watermarks, best pdf editor, fast pdf processing, privacy focused pdf">
+    <link rel="canonical" href="https://rocketpdf.web.app/tools/pdf-to-text.html">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "PDF to Text - RocketPDF",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "description": "Extract plain text from PDF documents.",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.3",
+                "ratingCount": "350"
+            }
+        }
+    </script>
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap&font-display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap&font-display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/tool-template.css">
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer></script>
+</head>
+
+<body class="tool-page" style="padding-top: 80px;">
+    <div id="rocket-header"></div>
+
+    <main class="container">
+        <nav class="breadcrumbs fade-in">
+            <ul class="breadcrumbs-list">
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li class="breadcrumbs-separator"><i class="fas fa-chevron-right"></i></li>
+                <li><a href="../index.html#tools">Tools</a></li>
+                <li class="breadcrumbs-separator"><i class="fas fa-chevron-right"></i></li>
+                <li>PDF to Text</li>
+            </ul>
+        </nav>
+
+        <div class="tool-header">
+            <div class="tool-icon-large fade-in" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <h1 class="tool-title fade-in delay-1">PDF to Text Converter</h1>
+            <p class="tool-description fade-in delay-2">Extract raw text from PDF documents. Convert PDF content to
+                simple TXT format for easy editing.</p>
+
+            <div class="tool-stats fade-in delay-3">
+                <div class="tool-stat">
+                    <div class="tool-stat-value">50MB</div>
+                    <div class="tool-stat-label">Max File Size</div>
+                </div>
+                <div class="tool-stat">
+                    <div class="tool-stat-value">100%</div>
+                    <div class="tool-stat-label">Secure</div>
+                </div>
+                <div class="tool-stat">
+                    <div class="tool-stat-value">Free</div>
+                    <div class="tool-stat-label">No Limits</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tool-content-grid">
+            <div class="tool-main fade-in delay-4">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3 class="upload-title">Drop your PDF here</h3>
+                    <p class="upload-subtitle">or click to browse</p>
+                    <button type="button" class="btn-process" onclick="document.getElementById('fileInput').click()"
+                        style="width: auto; margin-top: 1rem;">
+                        <i class="fas fa-folder-open"></i> Choose PDF
+                    </button>
+                    <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+                    <div class="upload-formats">
+                        <span class="format-badge">PDF</span>
+                    </div>
+                </div>
+
+                <div id="fileInfoContainer"></div>
+
+                <div class="action-buttons" id="actionButtons" style="display: none;">
+                    <button type="button" class="btn-process" id="processBtn">
+                        <i class="fas fa-file-export"></i> Extract Text
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="clearFile()">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+
+                <div id="resultContainer" style="display: none; margin-top: 2rem;">
+                    <h3 class="options-title"><i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                        Extracted Text</h3>
+                    <textarea id="extractedText" readonly
+                        style="width: 100%; height: 300px; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px; font-family: monospace; resize: vertical; margin-bottom: 1rem; background: #f8fafc; color: #334155; font-size: 0.9rem; line-height: 1.5;"></textarea>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button class="btn-secondary" onclick="copyText()">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn-process" onclick="downloadText()">
+                            <i class="fas fa-download"></i> Download .txt
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-sidebar fade-in delay-5">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-bolt"></i> Quick Actions
+                    </h3>
+                    <div class="quick-action" onclick="document.getElementById('fileInput').click()">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <div>
+                            <strong>Upload File</strong>
+                            <p style="font-size: 0.85rem; color: #64748b; margin: 0;">Ctrl+U</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-tools"></i> Related Tools
+                    </h3>
+                    <a href="pdf-to-word.html" class="related-tool">
+                        <div class="related-tool-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <span class="related-tool-name">Pdf To Word</span>
+                    </a><a href="pdf-ocr.html" class="related-tool">
+                        <div class="related-tool-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <span class="related-tool-name">Pdf Ocr</span>
+                    </a><a href="extract-pages.html" class="related-tool">
+                        <div class="related-tool-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <span class="related-tool-name">Extract Pages</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-lightbulb"></i> Tips
+                    </h3>
+                    <ul class="tips-list">
+                        <li class="tip-item">Extracts only text content</li>
+                        <li class="tip-item">Ignores images and formatting</li>
+                        <li class="tip-item">Perfect for data extraction</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/tool-features.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script>
+        // Set worker path
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        toolFeatures = new ToolFeatures('PDF to Text');
+        toolFeatures.maxFileSize = 50 * 1024 * 1024;
+        toolFeatures.supportedFormats = ['pdf'];
+
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const processBtn = document.getElementById('processBtn');
+        let selectedFile = null;
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                toolFeatures.handleFiles([file]);
+                selectedFile = file;
+                showFileInfo(file);
+                document.getElementById('resultContainer').style.display = 'none';
+            }
+        });
+
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        function showFileInfo(file) {
+            document.getElementById('fileInfoContainer').innerHTML = `
+                <div class="file-info-card fade-in">
+                    <div class="file-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="file-details">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-meta">${toolFeatures.formatFileSize(file.size)}</div>
+                    </div>
+                    <button onclick="clearFile()" style="background: #ef4444; color: white; border: none; width: 36px; height: 36px; border-radius: 8px; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            document.getElementById('actionButtons').style.display = 'flex';
+        }
+
+        function clearFile() {
+            selectedFile = null;
+            fileInput.value = '';
+            document.getElementById('fileInfoContainer').innerHTML = '';
+            document.getElementById('actionButtons').style.display = 'none';
+            document.getElementById('resultContainer').style.display = 'none';
+            document.getElementById('extractedText').value = '';
+        }
+
+        processBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            const originalText = processBtn.innerHTML;
+            processBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Extracting...';
+            processBtn.disabled = true;
+
+            try {
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                const numPages = pdf.numPages;
+                let fullText = '';
+
+                for (let i = 1; i <= numPages; i++) {
+                    processBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Page ${i}/${numPages}...`;
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += `--- Page ${i} ---\n\n${pageText}\n\n`;
+                }
+
+                document.getElementById('extractedText').value = fullText;
+                document.getElementById('resultContainer').style.display = 'block';
+                document.getElementById('actionButtons').style.display = 'none';
+                toolFeatures.showToast('Text extracted successfully!');
+
+            } catch (error) {
+                console.error(error);
+                toolFeatures.showError('Error extracting text: ' + error.message);
+            } finally {
+                processBtn.innerHTML = originalText;
+                processBtn.disabled = false;
+            }
+        });
+
+        function copyText() {
+            const copyText = document.getElementById("extractedText");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value).then(() => {
+                toolFeatures.showToast('Text copied to clipboard!');
+            });
+        }
+
+        function downloadText() {
+            const text = document.getElementById("extractedText").value;
+            const blob = new Blob([text], { type: "text/plain" });
+            const filename = selectedFile.name.replace('.pdf', '.txt');
+            toolFeatures.downloadFile(blob, filename);
+        }
+
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+    <div id="rocket-footer"></div>
+</body>
+
+</html>

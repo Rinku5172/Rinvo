@@ -1,23 +1,20 @@
-# RINVO - Smart Online PDF Tools
+# RocketPDF - Smart Online PDF Tools
 
-![RINVO Logo](https://img.shields.io/badge/RINVO-PDF%20Tools-blue)
+![RocketPDF Logo](https://img.shields.io/badge/RocketPDF-PDF%20Tools-blue)
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## 🚀 Live Demo
 
 **Frontend:** https://portfolio-5aafe.web.app
-**GitHub:** https://github.com/Rinku5172/Rinvo
 
 ## 📋 Features
 
-### Client-Side Tools (6) - Fully Working ✅
+### Client-Side Tools (4) - Fully Working ✅
 1. **Image to PDF** - Convert JPG, PNG to PDF
-2. **Merge PDF** - Combine multiple PDFs
-3. **Split PDF** - Extract pages from PDF
-4. **Compress PDF** - Reduce PDF file size
-5. **Edit PDF** - Add text to PDF
-6. **Sign PDF** - Add signature to PDF
+2. **Organize PDFs**: Merge, Split, Rotate, Extract Pages.
+3. **Compress PDF** - Reduce PDF file size
+4. **Sign PDF** - Add signature to PDF
 
 ### Backend-Powered Tools (6) - Requires Server 🔧
 7. **PDF to Word** - Convert PDF to DOCX
@@ -46,8 +43,8 @@
 ### Frontend Only (6 Tools)
 ```bash
 # Clone repository
-git clone https://github.com/Rinkuyadav1600/Rinvo.git
-cd Rinvo
+git clone https://github.com/Rinkuyadav1600/RocketPDF.git
+cd RocketPDF
 
 # Deploy to Firebase
 firebase deploy --only hosting
@@ -125,7 +122,7 @@ firebase deploy --only hosting --project portfolio-5aafe
 ## 📁 Project Structure
 
 ```
-Rinvo/
+RocketPDF/
 ├── index.html              # Main landing page
 ├── 404.html                # Custom error page
 ├── css/
@@ -139,7 +136,7 @@ Rinvo/
 │   ├── merge-pdf.html
 │   ├── split-pdf.html
 │   ├── compress-pdf.html
-│   ├── edit-pdf.html
+│   ├── pdf-editor.html
 │   ├── sign-pdf.html
 │   ├── pdf-to-word.html
 │   ├── word-to-pdf.html
@@ -176,7 +173,7 @@ git init
 git add .
 git commit -m "Initial commit"
 git branch -M main
-git remote add origin https://github.com/<your-username>/Rinvo.git
+git remote add origin https://github.com/<your-username>/RocketPDF.git
 git push -u origin main
 ```
 
@@ -224,7 +221,7 @@ This project is licensed under the MIT License.
 ## 📞 Support
 
 For issues and questions:
-- GitHub Issues: https://github.com/Rinkuyadav1600/Rinvo/issues
+- GitHub Issues: https://github.com/Rinkuyadav1600/RocketPDF/issues
 - Email: yarmy653@gmail.com
 
 ---

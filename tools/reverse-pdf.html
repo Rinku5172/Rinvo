@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <title>Reverse PDF Online - RocketPDF | Change Page Order</title>
+    <meta name="description"
+        content="Reverse the order of pages in your PDF file instantly. Free online tool to flip PDF pages.">
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap&font-display=swap"
+        rel="stylesheet">
+    <!-- PDF Lib -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <!-- Download JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --primary-dark: #d97706;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 4rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tool-container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .tool-icon {
+            width: 80px;
+            height: 80px;
+            background: #fef3c7;
+            color: var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .desc {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Upload Area */
+        .upload-box {
+            border: 2px dashed var(--border);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #f8fafc;
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary);
+            background: #fffbeb;
+            transform: translateY(-2px);
+        }
+
+        .upload-icon-small {
+            font-size: 3rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .btn-select {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            transition: 0.2s;
+        }
+
+        .btn-select:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Process Section */
+        .process-section {
+            display: none;
+            margin-top: 2rem;
+            text-align: center;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f1f5f9;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+            color: #ef4444;
+        }
+
+        .file-details h3 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .file-details p {
+            font-size: 0.85rem;
+            color: var(--secondary);
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(245, 158, 11, 0.4);
+        }
+
+        .action-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .status-msg {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .success {
+            color: #10b981;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/header-footer.css">
+    <script src="../js/header-footer.js" defer></script>
+</head>
+
+<body>
+    <div id="rocket-header"></div>
+
+    <main>
+        <div class="tool-container">
+            <div class="tool-icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <h1>Reverse PDF</h1>
+            <p class="desc">Reverse the order of pages in your PDF document.</p>
+
+            <div class="upload-box" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon-small">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3>Click to upload or drag and drop</h3>
+                <p style="color: #64748b; margin-top: 0.5rem;">Supported format: PDF</p>
+                <button class="btn-select">Select PDF File</button>
+                <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+            </div>
+
+            <div class="process-section" id="processSection">
+                <div class="file-info">
+                    <div class="file-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="file-details">
+                        <h3 id="fileName">document.pdf</h3>
+                        <p id="fileSize">1.2 MB</p>
+                    </div>
+                </div>
+
+                <div class="preview-area" style="margin-bottom: 1.5rem; color: var(--secondary);">
+                    <i class="fas fa-sort-numeric-down-alt"></i> Original Order: 1, 2, 3... <br>
+                    <i class="fas fa-sort-numeric-up-alt" style="margin-top: 5px;"></i> Reversed Order: ...3, 2, 1
+                </div>
+
+                <button class="action-btn" id="reverseBtn">
+                    <i class="fas fa-exchange-alt" style="transform: rotate(90deg);"></i> Reverse Pages
+                </button>
+
+                <div class="status-msg" id="statusMsg"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="rocket-footer"></div>
+
+    <script>
+        const { PDFDocument } = PDFLib;
+        let pFile = null;
+
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const processSection = document.getElementById('processSection');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const reverseBtn = document.getElementById('reverseBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        // Drag & Drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.background = '#fffbeb';
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = '#f8fafc';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = '#f8fafc';
+            const files = e.dataTransfer.files;
+            if (files.length) handleFile(files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) handleFile(e.target.files[0]);
+        });
+
+        function handleFile(file) {
+            if (file.type !== 'application/pdf') {
+                alert('Please upload a valid PDF file.');
+                return;
+            }
+            pFile = file;
+            fileName.textContent = file.name;
+            fileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+
+            dropZone.style.display = 'none';
+            processSection.style.display = 'block';
+            statusMsg.textContent = '';
+        }
+
+        reverseBtn.addEventListener('click', async () => {
+            reverseBtn.disabled = true;
+            reverseBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            statusMsg.textContent = 'Reversing pages...';
+
+            try {
+                const arrayBuffer = await pFile.arrayBuffer();
+                const pdfDoc = await PDFDocument.load(arrayBuffer);
+                const pageCount = pdfDoc.getPageCount();
+
+                const newPdfDoc = await PDFDocument.create();
+
+                // Copy pages in reverse order
+                for (let i = pageCount - 1; i >= 0; i--) {
+                    const [page] = await newPdfDoc.copyPages(pdfDoc, [i]);
+                    newPdfDoc.addPage(page);
+                }
+
+                const pdfBytes = await newPdfDoc.save();
+
+                const newFileName = 'Reversed_' + pFile.name;
+                download(pdfBytes, newFileName, "application/pdf");
+
+                statusMsg.textContent = 'Success! Download started.';
+                statusMsg.className = 'status-msg success';
+                reverseBtn.innerHTML = '<i class="fas fa-check"></i> Reversed';
+
+            } catch (error) {
+                console.error(error);
+                statusMsg.textContent = 'Error processing PDF: ' + error.message;
+                statusMsg.className = 'status-msg error';
+                reverseBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Reverse Pages';
+                reverseBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

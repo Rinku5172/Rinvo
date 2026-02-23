@@ -1,4 +1,4 @@
-# RINVO - Complete Project Summary
+# RocketPDF - Complete Project Summary
 
 ## 🎯 Current Status
 
@@ -14,7 +14,7 @@
 2. Merge PDF - pdf-lib library
 3. Split PDF - pdf-lib library
 4. Compress PDF - pdf-lib library
-5. Edit PDF - pdf-lib library
+5. PDF Editor - pdf-lib library
 6. Sign PDF - pdf-lib + Canvas
 
 **Backend (Local Only):**
@@ -50,7 +50,6 @@ Call PDF.co API directly from the browser (not recommended for security - expose
 | Merge PDF | ✅ Working | Client-side (pdf-lib) |
 | Split PDF | ✅ Working | Client-side (pdf-lib) |
 | Compress PDF | ✅ Working | Client-side (pdf-lib) |
-| Edit PDF | ✅ Working | Client-side (pdf-lib) |
 | Sign PDF | ✅ Working | Client-side (pdf-lib) |
 | PDF to Word | ⚠️ Needs Backend | PDF.co API |
 | Word to PDF | ⚠️ Needs Backend | PDF.co API |
@@ -104,7 +103,7 @@ Rinvo/
 │   ├── merge-pdf.html
 │   ├── split-pdf.html
 │   ├── compress-pdf.html
-│   ├── edit-pdf.html
+│   ├── pdf-editor.html
 │   ├── sign-pdf.html
 │   ├── pdf-to-word.html
 │   ├── word-to-pdf.html

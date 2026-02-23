@@ -1,11 +1,12 @@
 {
-  "name": "rinvo-pdf-tools",
+  "name": "rocketpdf-pdf-tools",
   "version": "1.0.0",
-  "description": "RINVO - Smart Online PDF Tools for converting, compressing, merging and managing PDFs securely",
+  "description": "RocketPDF - Smart Online PDF Tools for converting, compressing, merging and managing PDFs securely",
   "main": "index.html",
   "scripts": {
-    "start": "npx serve .",
-    "serve": "npx serve .",
+    "start": "node backend/server.js",
+    "serve": "node backend/server.js",
+    "dev": "node backend/server.js",
     "deploy": "firebase deploy"
   },
   "keywords": [
@@ -17,9 +18,11 @@
     "online-tools",
     "firebase"
   ],
-  "author": "RINVO",
+  "author": "RocketPDF",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@imgly/background-removal": "^1.7.0"
+  },
   "devDependencies": {
     "serve": "^14.2.1"
   },
@@ -28,6 +31,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/rinvo-pdf-tools.git"
+    "url": "https://github.com/your-username/rocketpdf-pdf-tools.git"
   }
 }

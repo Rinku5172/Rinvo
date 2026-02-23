@@ -19,7 +19,7 @@
 2. Click "uploading an existing file"
 3. Drag and drop `Rinvo.zip`
 4. Or click "choose your files" and select the ZIP
-5. Add commit message: "Complete RINVO PDF Tools"
+5. Add commit message: "Complete RocketPDF PDF Tools"
 6. Click "Commit changes"
 
 ### Step 3: Extract on GitHub

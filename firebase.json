@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "rocketpdf",
     "public": ".",
     "ignore": [
       "firebase.json",
@@ -37,6 +38,16 @@
       {
         "source": "/compress-pdf.html",
         "destination": "/tools/compress-pdf",
+        "type": 301
+      },
+      {
+        "source": "/pdf-editor.html",
+        "destination": "/tools/pdf-editor",
+        "type": 301
+      },
+      {
+        "source": "/edit-pdf.html",
+        "destination": "/tools/pdf-editor",
         "type": 301
       }
     ]
