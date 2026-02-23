@@ -19,7 +19,7 @@ class PDFEditorIntegration {
     getApiBaseUrl() {
         // Check if we're in production or development
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            return 'http://localhost:8002/api';
+            return '/api';
         } else {
             // Production - use relative URL or configured API
             return '/api';
@@ -29,13 +29,13 @@ class PDFEditorIntegration {
     // Initialize the editor integration
     init() {
         if (this.isInitialized) return;
-        
+
         console.log('📝 Initializing PDF Editor Integration...');
         this.addEditButton();
         this.addEditorModal();
         this.setupEventListeners();
         this.checkForExistingPDF();
-        
+
         this.isInitialized = true;
         console.log('✅ PDF Editor Integration initialized');
     }
@@ -62,7 +62,7 @@ class PDFEditorIntegration {
             '.file-upload-area', '.pdf-upload-area',
             '.upload-container', '.file-input-container'
         ];
-        
+
         let uploadAreas = [];
         selectors.forEach(selector => {
             const elements = document.querySelectorAll(selector);
@@ -81,7 +81,7 @@ class PDFEditorIntegration {
                 }
             });
         }
-        
+
         uploadAreas.forEach(uploadArea => {
             // Check if button already exists
             if (uploadArea.querySelector('.pdf-edit-btn')) return;
@@ -253,7 +253,7 @@ class PDFEditorIntegration {
             if (event.origin !== window.location.origin) return;
 
             if (event.data && event.data.type) {
-                switch(event.data.type) {
+                switch (event.data.type) {
                     case 'PDF_EDIT_COMPLETE':
                         this.handleEditComplete(event.data);
                         break;
@@ -289,11 +289,11 @@ class PDFEditorIntegration {
     // Handle PDF file upload
     handlePDFUpload(file) {
         this.currentFile = file;
-        
+
         // Show edit button for PDF files
         this.editButtons.forEach(btn => {
             btn.style.display = 'inline-flex';
-            
+
             // Update button text with filename
             const span = btn.querySelector('span');
             if (span) {
@@ -336,29 +336,29 @@ class PDFEditorIntegration {
                 const data = await response.json();
                 this.fileId = data.file_id;
                 console.log('✅ PDF uploaded for editing:', data);
-                
+
                 // Restore button
                 this.editButtons.forEach(btn => {
                     btn.innerHTML = '<i class="fas fa-edit"></i> <span>Edit PDF</span>';
                     btn.disabled = false;
                 });
-                
+
                 this.showNotification('PDF ready for editing!', 'success');
             } else {
                 throw new Error(`Upload failed: ${response.status}`);
             }
         } catch (error) {
             console.error('Upload for editing failed:', error);
-            
+
             // Restore button
             this.editButtons.forEach(btn => {
                 btn.innerHTML = '<i class="fas fa-edit"></i> <span>Edit PDF (Offline)</span>';
                 btn.disabled = false;
             });
-            
+
             // Use client-side editing as fallback
             this.showNotification('Using client-side PDF editor (offline mode)', 'info');
-            
+
             // For client-side, we'll use the file directly
             this.fileId = 'client-side';
         }
@@ -377,7 +377,7 @@ class PDFEditorIntegration {
 
         // Reset iframe
         this.iframe.src = this.editorUrl;
-        
+
         // Show modal
         this.modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -396,7 +396,7 @@ class PDFEditorIntegration {
         if (this.modal) {
             this.modal.style.display = 'none';
             document.body.style.overflow = 'auto';
-            
+
             // Clear iframe src to stop any ongoing processes
             setTimeout(() => {
                 if (this.iframe) {
@@ -409,13 +409,13 @@ class PDFEditorIntegration {
     // Handle edit completion
     handleEditComplete(data) {
         console.log('✅ PDF edit completed:', data);
-        
+
         // Show success message
         this.showNotification('PDF edited successfully!', 'success');
-        
+
         // Close editor
         this.closeEditor();
-        
+
         // If we have download URL, offer download
         if (data.download_url) {
             setTimeout(() => {
@@ -424,7 +424,7 @@ class PDFEditorIntegration {
                 }
             }, 500);
         }
-        
+
         // Reload the current page to show updated file? Optional
         // window.location.reload();
     }
@@ -440,13 +440,13 @@ class PDFEditorIntegration {
     async downloadFile(downloadUrl) {
         try {
             this.showNotification('Downloading...', 'info');
-            
+
             const response = await fetch(downloadUrl);
             if (!response.ok) throw new Error('Download failed');
-            
+
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
-            
+
             const a = document.createElement('a');
             a.href = url;
             a.download = this.currentFile ? `edited_${this.currentFile.name}` : 'edited-document.pdf';
@@ -454,7 +454,7 @@ class PDFEditorIntegration {
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
-            
+
             this.showNotification('Download complete!', 'success');
         } catch (error) {
             console.error('Download failed:', error);
@@ -472,16 +472,16 @@ class PDFEditorIntegration {
 
         const notification = document.createElement('div');
         notification.className = `pdf-editor-notification ${type}`;
-        
+
         const icon = document.createElement('i');
         icon.className = this.getNotificationIcon(type);
-        
+
         const text = document.createElement('span');
         text.textContent = message;
-        
+
         notification.appendChild(icon);
         notification.appendChild(text);
-        
+
         notification.style.cssText = `
             position: fixed;
             top: 20px;
@@ -502,14 +502,14 @@ class PDFEditorIntegration {
             background: ${this.getNotificationColor(type)};
             border-left: 5px solid ${this.getNotificationBorder(type)};
         `;
-        
+
         document.body.appendChild(notification);
-        
+
         // Show notification
         setTimeout(() => {
             notification.style.transform = 'translateX(0)';
         }, 100);
-        
+
         // Hide after 4 seconds
         setTimeout(() => {
             notification.style.transform = 'translateX(400px)';
@@ -522,7 +522,7 @@ class PDFEditorIntegration {
     }
 
     getNotificationIcon(type) {
-        switch(type) {
+        switch (type) {
             case 'success': return 'fas fa-check-circle';
             case 'error': return 'fas fa-exclamation-circle';
             case 'warning': return 'fas fa-exclamation-triangle';
@@ -531,7 +531,7 @@ class PDFEditorIntegration {
     }
 
     getNotificationColor(type) {
-        switch(type) {
+        switch (type) {
             case 'success': return '#10b981';
             case 'error': return '#ef4444';
             case 'warning': return '#f59e0b';
@@ -540,7 +540,7 @@ class PDFEditorIntegration {
     }
 
     getNotificationBorder(type) {
-        switch(type) {
+        switch (type) {
             case 'success': return '#059669';
             case 'error': return '#dc2626';
             case 'warning': return '#d97706';
@@ -551,8 +551,8 @@ class PDFEditorIntegration {
     // Add editing capabilities to specific tools
     integrateWithTool(toolName) {
         console.log(`🔧 Integrating with tool: ${toolName}`);
-        
-        switch(toolName) {
+
+        switch (toolName) {
             case 'compress-pdf':
                 this.addEditBeforeCompress();
                 break;
@@ -587,14 +587,14 @@ class PDFEditorIntegration {
                     <span style="color: #1e293b; font-weight: 500;">Edit PDF before compressing (opens professional editor)</span>
                 </label>
             `;
-            
+
             const checkbox = editFirstOption.querySelector('#editBeforeCompress');
             checkbox.addEventListener('change', (e) => {
                 if (e.target.checked && this.currentFile) {
                     this.openEditor();
                 }
             });
-            
+
             compressButton.parentNode.insertBefore(editFirstOption, compressButton);
         }
     }
@@ -620,7 +620,7 @@ class PDFEditorIntegration {
                 align-items: center;
                 gap: 0.5rem;
             `;
-            
+
             editOption.addEventListener('mouseenter', () => {
                 editOption.style.transform = 'translateY(-2px)';
                 editOption.style.boxShadow = '0 6px 12px rgba(102, 126, 234, 0.4)';
@@ -635,7 +635,7 @@ class PDFEditorIntegration {
                 e.preventDefault();
                 this.openEditor();
             };
-            
+
             watermarkButton.parentNode.insertBefore(editOption, watermarkButton);
         }
     }
@@ -651,10 +651,10 @@ class PDFEditorIntegration {
                 gap: 0.5rem;
                 margin-top: 0.5rem;
             `;
-            
+
             input.parentNode.insertBefore(container, input.nextSibling);
             container.appendChild(input);
-            
+
             const editBtn = document.createElement('button');
             editBtn.className = 'btn-small pdf-edit-file-btn';
             editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit';
@@ -672,7 +672,7 @@ class PDFEditorIntegration {
                 transition: all 0.2s ease;
                 white-space: nowrap;
             `;
-            
+
             editBtn.addEventListener('mouseenter', () => {
                 editBtn.style.background = '#764ba2';
                 editBtn.style.transform = 'translateY(-1px)';
@@ -697,7 +697,7 @@ class PDFEditorIntegration {
                     this.showNotification('Please select a PDF file first', 'warning');
                 }
             };
-            
+
             container.appendChild(editBtn);
         });
     }
@@ -723,7 +723,7 @@ class PDFEditorIntegration {
                 align-items: center;
                 gap: 0.5rem;
             `;
-            
+
             editBtn.addEventListener('mouseenter', () => {
                 editBtn.style.transform = 'translateY(-2px)';
                 editBtn.style.boxShadow = '0 6px 12px rgba(102, 126, 234, 0.4)';
@@ -738,7 +738,7 @@ class PDFEditorIntegration {
                 e.preventDefault();
                 this.openEditor();
             };
-            
+
             button.parentNode.insertBefore(editBtn, button);
         });
     }
@@ -748,14 +748,14 @@ class PDFEditorIntegration {
         this.currentFile = null;
         this.fileId = null;
         this.editButtons = [];
-        
+
         // Remove modal
         if (this.modal && this.modal.parentNode) {
             this.modal.parentNode.removeChild(this.modal);
             this.modal = null;
             this.iframe = null;
         }
-        
+
         // Re-initialize
         this.isInitialized = false;
         this.init();
@@ -769,10 +769,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const pdfEditor = new PDFEditorIntegration();
             pdfEditor.init();
-            
+
             // Store in window for global access
             window.pdfEditor = pdfEditor;
-            
+
             // Auto-integrate based on current page
             const currentPage = window.location.pathname;
             if (currentPage.includes('compress-pdf')) {
@@ -786,7 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (currentPage.includes('rotate-pdf')) {
                 pdfEditor.integrateWithTool('rotate-pdf');
             }
-            
+
             console.log('📚 PDF Editor Integration ready');
         } catch (error) {
             console.error('Failed to initialize PDF Editor Integration:', error);

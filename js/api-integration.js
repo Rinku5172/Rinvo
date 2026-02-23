@@ -5,7 +5,11 @@
 
 const ROCKETPDF_API = {
     // Environment-aware API URLs
-    baseURL: '', // Empty means use the same domain/port as the frontend
+    get baseURL() {
+        return (window.ROCKETPDF_CONFIG && window.ROCKETPDF_CONFIG.api)
+            ? window.ROCKETPDF_CONFIG.api.baseUrl
+            : '';
+    },
     activeURL: '',
     isProduction: window.location.protocol === 'https:' && !window.location.hostname.includes('localhost'),
 

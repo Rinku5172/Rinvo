@@ -21,11 +21,14 @@ const CONFIG = {
     // API Configuration (Only used when mode is 'SERVER')
     api: {
         // Local backend URL for testing
-        local: 'http://localhost:3000/api',
+        local: '/api',
 
-        // Production backend URL (Replace with your Railway/Render URL)
-        // Example: 'https://rocketpdf-backend.railway.app/api'
-        production: 'https://YOUR-BACKEND-URL.railway.app/api',
+        // Production backend URL
+        // If your frontend and backend are on the same domain (e.g. Railway), use '/api'
+        // If you are using Firebase for frontend, replace this with your full Railway/Render URL
+        production: window.location.hostname.includes('web.app') || window.location.hostname.includes('firebaseapp.com')
+            ? 'https://your-backend-name.railway.app/api' // <-- REPLACE THIS FOR FIREBASE
+            : '/api',
 
         // Helper to get the correct URL based on hostname
         get baseUrl() {

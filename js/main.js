@@ -6,7 +6,7 @@
 // ==================== GLOBAL VARIABLES ====================
 const RocketPDF = {
     config: {
-        apiUrl: window.location.hostname === 'localhost' ? 'http://localhost:8002/api' : '/api',
+        apiUrl: '/api',
         maxFileSize: 50 * 1024 * 1024, // 50MB
         allowedTypes: [
             'application/pdf',
@@ -31,7 +31,7 @@ const RocketPDF = {
 // Console logger with debug flag
 function log(message, type = 'log', data = null) {
     if (!RocketPDF.config.debug) return;
-    
+
     const prefix = '🚀 RocketPDF:';
     if (type === 'error') {
         console.error(prefix, message, data || '');
@@ -98,7 +98,7 @@ function readFileAsDataURL(file) {
 
 // ==================== MODAL FUNCTIONS ====================
 
-window.showSuccessModal = function(title, message, downloadUrl, downloadFilename) {
+window.showSuccessModal = function (title, message, downloadUrl, downloadFilename) {
     // Remove existing modal if any
     const existingModal = document.getElementById('successModalOverlay');
     if (existingModal) existingModal.remove();
@@ -152,7 +152,7 @@ window.showSuccessModal = function(title, message, downloadUrl, downloadFilename
     log('Success modal shown', 'log', { title, downloadFilename });
 };
 
-window.closeSuccessModal = function() {
+window.closeSuccessModal = function () {
     const modal = document.getElementById('successModalOverlay');
     if (modal) {
         modal.classList.remove('active');
@@ -170,7 +170,7 @@ function showNotification(message, type = 'info', duration = 5000) {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
-    
+
     // Icons based on type
     const icons = {
         success: 'fa-check-circle',
@@ -178,7 +178,7 @@ function showNotification(message, type = 'info', duration = 5000) {
         warning: 'fa-exclamation-triangle',
         info: 'fa-info-circle'
     };
-    
+
     notification.innerHTML = `
         <div class="notification-content">
             <i class="fas ${icons[type] || icons.info} notification-icon"></i>
@@ -292,7 +292,7 @@ function showNotification(message, type = 'info', duration = 5000) {
             }
         }
     `;
-    
+
     document.head.appendChild(style);
     document.body.appendChild(notification);
 
@@ -303,7 +303,7 @@ function showNotification(message, type = 'info', duration = 5000) {
             setTimeout(() => notification.remove(), 300);
         }
     }, duration);
-    
+
     log('Notification shown', 'log', { message, type });
 }
 
@@ -336,7 +336,7 @@ function showError(area, message) {
         actionBtn.classList.add('opacity-50', 'cursor-not-allowed');
         actionBtn.classList.remove('hover:opacity-90');
     }
-    
+
     log('Error shown', 'error', message);
 }
 
@@ -397,7 +397,7 @@ function initGSAPAnimations() {
 
         // Animate counters
         gsap.to('.counter', {
-            innerHTML: function(index, target) {
+            innerHTML: function (index, target) {
                 const targetValue = target.getAttribute('data-target') || target.textContent;
                 return parseInt(targetValue) || 0;
             },
@@ -438,11 +438,11 @@ function initBasicAnimations() {
 
     // Simple hover effects
     document.querySelectorAll('.tool-card, .btn-primary, .btn-secondary').forEach(el => {
-        el.addEventListener('mouseenter', function() {
+        el.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-5px)';
             this.style.transition = 'transform 0.3s ease';
         });
-        el.addEventListener('mouseleave', function() {
+        el.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0)';
         });
     });
@@ -543,7 +543,7 @@ function initHeader() {
             }
         });
     }
-    
+
     log('Header initialized');
 }
 
@@ -551,7 +551,7 @@ function initHeader() {
 
 function initHeroSection() {
     const heroElements = document.querySelectorAll('.hero > *');
-    
+
     heroElements.forEach((element, index) => {
         element.style.opacity = '0';
         element.style.transform = 'translateY(20px)';
@@ -569,7 +569,7 @@ function initHeroSection() {
             window.location.href = '/tools/';
         });
     }
-    
+
     log('Hero section initialized');
 }
 
@@ -577,18 +577,18 @@ function initHeroSection() {
 
 function initToolCards() {
     document.querySelectorAll('.tool-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
+        card.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-5px)';
             this.style.boxShadow = '0 20px 30px -10px rgba(37, 99, 235, 0.2)';
             this.style.transition = 'all 0.3s ease';
         });
 
-        card.addEventListener('mouseleave', function() {
+        card.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0)';
             this.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.1)';
         });
     });
-    
+
     log('Tool cards initialized');
 }
 
@@ -596,7 +596,7 @@ function initToolCards() {
 
 function initTrustSection() {
     document.querySelectorAll('.trust-item').forEach(item => {
-        item.addEventListener('mouseenter', function() {
+        item.addEventListener('mouseenter', function () {
             const icon = this.querySelector('.trust-icon');
             if (icon) {
                 icon.style.transform = 'scale(1.1)';
@@ -604,14 +604,14 @@ function initTrustSection() {
             }
         });
 
-        item.addEventListener('mouseleave', function() {
+        item.addEventListener('mouseleave', function () {
             const icon = this.querySelector('.trust-icon');
             if (icon) {
                 icon.style.transform = 'scale(1)';
             }
         });
     });
-    
+
     log('Trust section initialized');
 }
 
@@ -631,7 +631,7 @@ function initFooter() {
             }
         });
     });
-    
+
     log('Footer initialized');
 }
 
@@ -690,7 +690,7 @@ function initFileUploads() {
         e.preventDefault();
         e.stopPropagation();
     }
-    
+
     log('File upload initialized');
 }
 
@@ -743,7 +743,7 @@ function handleFileSelection(file, area) {
     // Clear errors
     const errorDiv = area.parentElement?.querySelector('.alert-error');
     if (errorDiv) errorDiv.remove();
-    
+
     log('File selected', 'log', { name: file.name, size: file.size });
 }
 
@@ -760,7 +760,7 @@ function initFormSubmissions() {
     document.querySelectorAll('.tool-form').forEach(form => {
         form.addEventListener('submit', handleToolFormSubmit);
     });
-    
+
     log('Form submissions initialized');
 }
 
@@ -851,7 +851,7 @@ function handleToolFormSubmit(e) {
 
             actionBtn.innerHTML = originalText;
             actionBtn.disabled = false;
-            
+
             log('Tool processed successfully', 'log', { tool, filename });
         })
         .catch(error => {
@@ -866,7 +866,7 @@ function handleToolFormSubmit(e) {
 
 async function processTool(tool, file) {
     // Client-side processing for tools
-    switch(tool) {
+    switch (tool) {
         case 'compress-pdf':
             return await compressPDF(file);
         case 'merge-pdf':
@@ -957,14 +957,14 @@ async function convertImageToPDF(file) {
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    
+
     const imageData = await readFileAsDataURL(file);
     const imgProps = doc.getImageProperties(imageData);
     const pdfWidth = doc.internal.pageSize.getWidth();
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    
+
     doc.addImage(imageData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-    
+
     return doc.output('blob');
 }
 

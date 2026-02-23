@@ -21,7 +21,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // PDF.co API Key - from environment variable
-const PDFCO_API_KEY = process.env.PDFCO_API_KEY || 'yarmy653@gmail.com_hCxwjzQTIn6SzE7wWo7PIRciF7XmhFkazNdDFCAsTaigy1FpKmd8cxRcTIC0zy1j';
+const PDFCO_API_KEY = process.env.PDFCO_API_KEY || ''; // Provide via .env file
 
 // Python Backend Configuration
 const PYTHON_PORT = process.env.PYTHON_PORT || 8000;
@@ -855,6 +855,20 @@ app.post('/api/pdf-to-text', upload.single('file'), async (req, res) => {
 
 // Serve static files from the project root
 const projectRoot = path.join(__dirname, '..');
+
+// Clean URLs middleware (e.g., /tools/merge-pdf -> /tools/merge-pdf.html)
+app.use((req, res, next) => {
+    if (req.path.includes('.') || req.path.endsWith('/')) {
+        return next();
+    }
+
+    const htmlPath = path.join(projectRoot, req.path + '.html');
+    if (fs.existsSync(htmlPath)) {
+        return res.sendFile(htmlPath);
+    }
+    next();
+});
+
 app.use(express.static(projectRoot));
 
 // Root route - serve index.html if exists

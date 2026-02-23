@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Editor Test</title>
 </head>
+
 <body>
     <h1>PDF Editor Test Page</h1>
     <p>Testing PDF editor integration...</p>
-    
+
     <script>
         // Test PDF editor integration
         console.log('Testing PDF editor integration...');
-        
+
         // Check if PDFLib is available
         if (typeof PDFLib !== 'undefined') {
             console.log('✅ PDFLib loaded successfully');
         } else {
             console.log('❌ PDFLib not found');
         }
-        
+
         // Check if Fabric.js is available
         if (typeof fabric !== 'undefined') {
             console.log('✅ Fabric.js loaded successfully');
         } else {
             console.log('❌ Fabric.js not found');
         }
-        
+
         // Check if PDF.js is available
         if (typeof pdfjsLib !== 'undefined') {
             console.log('✅ PDF.js loaded successfully');
         } else {
             console.log('❌ PDF.js not found');
         }
-        
+
         // Test API connection
-        fetch('http://localhost:8002/api/health')
+        fetch('/api/health')
             .then(response => response.json())
             .then(data => {
                 console.log('✅ API Health Check:', data);
@@ -43,8 +45,9 @@
             .catch(error => {
                 console.log('❌ API Connection Error:', error);
             });
-            
+
         console.log('PDF Editor test completed');
     </script>
 </body>
+
 </html>
